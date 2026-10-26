@@ -1,5 +1,5 @@
 export const people = [
-  {id:'jaeyul',name:'후재율',label:'10년의 연인',group:'가까운 사람',birth:'1993.10.25',detail:'프로그래머 출신 정보보안 기업 대표. 다정하고 능글맞지만 자기 원칙과 고집이 뚜렷하다.',spoiler:false},
+  {id:'jaeyul',name:'후재율 ❤️',label:'10년의 연인',group:'가까운 사람',birth:'1993.10.25',detail:'프로그래머 출신 정보보안 기업 대표. 다정하고 능글맞지만 자기 원칙과 고집이 뚜렷하다.',spoiler:false},
   {id:'iheon',name:'황보이헌',label:'황보가 후계자',group:'황보가',birth:'1997.02.08',detail:'2027년 한여름 후계자로 공식 등장. 과거 서이헌이라는 이름으로 흥신소를 운영했다.',spoiler:true},
   {id:'ijeong',name:'박이정',label:'전담 수행비서',group:'가까운 사람',birth:'미정 (2027년 기준 35세)',detail:'침착하고 유능한 남성 수행비서. 경호 실무에 익숙하고 특이하게 건조한 유머 감각을 가졌다.',spoiler:false},
   {id:'jinpyo',name:'설진표',label:'설가 가주',group:'설가',birth:'1958.08.03',detail:'계산과 질서를 중시하는 엄격한 가주.',spoiler:false},
@@ -48,13 +48,41 @@ export const events = [
  {date:'2027-07-23',title:'황보가 후계자 공식 등장',type:'기준안'},
  {date:'2027-09-18',title:'초가을 별 보기 · 예정',type:'제안'}
 ];
+// Fictional sample correspondence and a two-week call log (2027-09-05 — 2027-09-18).
+// They convey character dynamics; these are not fixed player choices.
 export const conversations = [
- {id:'jaeyul',name:'후재율',preview:'오늘도 무리하지 말고.',messages:[{from:'them',text:'오늘도 무리하지 말고.'},{from:'me',text:'응, 알겠어.'},{from:'them',text:'그 대답, 10년째 듣는 것 같은데.'}],sample:true},
- {id:'ijeong',name:'박이정',preview:'일정표를 전달드렸습니다.',messages:[{from:'them',text:'오늘 일정표를 전달드렸습니다.'},{from:'them',text:'빈 시간이 없습니다. 일정표가 매우 성실합니다.'}],sample:true},
- {id:'unknown',name:'발신인 미표시',preview:'이 번호, 기억합니까?',messages:[{from:'them',text:'이 번호, 기억합니까?'}],sample:true,spoiler:true}
+ {id:'iheon',name:'황보이헌',preview:'받아.',time:'오늘 21:08',messages:[{from:'them',text:'받아.'}],sample:true},
+ {id:'jaeyul',name:'후재율 ❤️',preview:'끝나면 연락해. 무리하지 말고.',time:'오늘 18:42',messages:[{from:'them',text:'끝나면 연락해. 무리하지 말고.'},{from:'them',text:'저녁은 먹었어?'}],sample:true},
+ {id:'ijeong',name:'박이정',preview:'일정 조정 완료했습니다.',time:'오늘 16:35',messages:[{from:'them',text:'일정 조정 완료했습니다.'},{from:'them',text:'오늘 남은 일정은 세 건입니다. 달력도 한숨 돌리겠습니다.'}],sample:true},
+ {id:'sohwa',name:'민소화',preview:'시간 날 때 잠깐 연락해줄래?',time:'09.14 11:12',messages:[{from:'them',text:'시간 날 때 잠깐 연락해줄래?'}],sample:true},
 ];
-export const calls=[
- {id:'jaeyul',name:'후재율',time:'어제 21:14',kind:'받은 통화'},
- {id:'ijeong',name:'박이정',time:'어제 16:30',kind:'발신'},
- {id:'unknown',name:'발신인 미표시',time:'07.21 19:02',kind:'부재중',spoiler:true}
+export const calls = [
+ {id:'iheon',name:'황보이헌',time:'오늘 21:07',date:'2027-09-18',kind:'부재중'},
+ {id:'jaeyul',name:'후재율 ❤️',time:'오늘 20:53',date:'2027-09-18',kind:'부재중'},
+ {id:'ijeong',name:'박이정',time:'오늘 18:26',date:'2027-09-18',kind:'수신',duration:'01:43'},
+ {id:'jaeyul',name:'후재율 ❤️',time:'오늘 12:07',date:'2027-09-18',kind:'발신',duration:'11:24'},
+ {id:'iheon',name:'황보이헌',time:'어제 23:14',date:'2027-09-17',kind:'거절'},
+ {id:'ijeong',name:'박이정',time:'어제 17:28',date:'2027-09-17',kind:'발신',duration:'02:16'},
+ {id:'jaeyul',name:'후재율 ❤️',time:'어제 09:33',date:'2027-09-17',kind:'수신',duration:'18:09'},
+ {id:'iheon',name:'황보이헌',time:'09.16 22:40',date:'2027-09-16',kind:'부재중'},
+ {id:'jaeyul',name:'후재율 ❤️',time:'09.16 19:17',date:'2027-09-16',kind:'발신',duration:'07:53'},
+ {id:'ijeong',name:'박이정',time:'09.16 14:06',date:'2027-09-16',kind:'수신',duration:'00:57'},
+ {id:'other',name:'설가 비서실',time:'09.15 13:10',date:'2027-09-15',kind:'수신',duration:'02:49'},
+ {id:'jaeyul',name:'후재율 ❤️',time:'09.15 08:52',date:'2027-09-15',kind:'수신',duration:'06:25'},
+ {id:'iheon',name:'황보이헌',time:'09.14 23:08',date:'2027-09-14',kind:'거절'},
+ {id:'sohwa',name:'민소화',time:'09.14 11:03',date:'2027-09-14',kind:'수신',duration:'04:38'},
+ {id:'ijeong',name:'박이정',time:'09.13 16:44',date:'2027-09-13',kind:'발신',duration:'03:29'},
+ {id:'jaeyul',name:'후재율 ❤️',time:'09.13 09:15',date:'2027-09-13',kind:'발신',duration:'14:11'},
+ {id:'iheon',name:'황보이헌',time:'09.12 21:38',date:'2027-09-12',kind:'부재중'},
+ {id:'taerin',name:'권태린',time:'09.12 16:08',date:'2027-09-12',kind:'부재중'},
+ {id:'ijeong',name:'박이정',time:'09.11 10:19',date:'2027-09-11',kind:'수신',duration:'01:20'},
+ {id:'jaeyul',name:'후재율 ❤️',time:'09.10 20:06',date:'2027-09-10',kind:'수신',duration:'23:01'},
+ {id:'iheon',name:'황보이헌',time:'09.10 00:12',date:'2027-09-10',kind:'거절'},
+ {id:'other',name:'업무 연락',time:'09.09 14:36',date:'2027-09-09',kind:'발신',duration:'08:34'},
+ {id:'ijeong',name:'박이정',time:'09.09 08:29',date:'2027-09-09',kind:'수신',duration:'02:05'},
+ {id:'jaeyul',name:'후재율 ❤️',time:'09.08 22:16',date:'2027-09-08',kind:'발신',duration:'19:14'},
+ {id:'jiwan',name:'설지완',time:'09.07 15:42',date:'2027-09-07',kind:'거절'},
+ {id:'ijeong',name:'박이정',time:'09.07 11:36',date:'2027-09-07',kind:'수신',duration:'03:03'},
+ {id:'jaeyul',name:'후재율 ❤️',time:'09.06 19:25',date:'2027-09-06',kind:'수신',duration:'32:27'},
+ {id:'other',name:'업무 연락',time:'09.05 15:01',date:'2027-09-05',kind:'수신',duration:'00:51'},
 ];
