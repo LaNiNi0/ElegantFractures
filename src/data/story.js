@@ -532,10 +532,16 @@ export const conversations = [
     "preview": "정말 미안해… 우리 딸…"
   },
   {
-    "id": "taerin",
-    "name": "권태린",
+    "id": "riwon",
+    "name": "설리원",
     "time": "09.12 23:16",
     "messages": [
+      {
+        "date": "2027-09-09",
+        "time": "12:27",
+        "from": "them",
+        "text": "언니 이거 봤어?? 😭😭"
+      },
       {
         "date": "2027-09-09",
         "time": "12:27",
@@ -546,45 +552,63 @@ export const conversations = [
           "title": "설가 후계 구도 재검토? 설지완 재부상론",
           "source": "한성경제 · 재계"
         }
-      },      
-      {
-        "date": "2027-09-09",
-        "time": "12:27",
-        "from": "them",
-        "text": "오늘 이런 기사 떴던데 괜찮아? 😭😭"
       },
       {
         "date": "2027-09-09",
         "time": "12:28",
         "from": "them",
-        "text": "왜자꾸 이런기사가 나는지 속상하게 댓글들도 너무하더라"
+        "text": "아 진짜 왜 이런 기사는 맨날 뜨는 거야 ㅠㅠ"
       },
       {
         "date": "2027-09-09",
         "time": "12:29",
         "from": "them",
-        "text": "우리 언니가 얼마나 열심히하는데 다들 그건모르고 막말이야 🤬"
+        "text": "댓글은 보지 마 나 읽다가 열받아서 폰 던질 뻔 🤬"
       },
       {
         "date": "2027-09-09",
-        "time": "12:29",
+        "time": "12:30",
         "from": "them",
-        "text": "이딴거 신경쓰지말고 너무무리하지마 🩷"
+        "text": "근데 지완 오빠가 더 낫다는 얘기까지 나오더라 어이없지?"
+      },
+      {
+        "date": "2027-09-09",
+        "time": "12:31",
+        "from": "them",
+        "text": "언니가 얼마나 열심히 하는데 사람들이 그걸 몰라"
+      },
+      {
+        "date": "2027-09-09",
+        "time": "12:33",
+        "from": "them",
+        "text": "아무튼 너무 신경 쓰지 마 🩷 언니 멘탈은 내가 지킨다 ㅎㅎ"
+      },
+      {
+        "date": "2027-09-12",
+        "time": "23:13",
+        "from": "them",
+        "text": "언니 내일 차가 행사 가지? 👀"
       },
       {
         "date": "2027-09-12",
         "time": "23:14",
         "from": "them",
-        "text": "내일 차가 행사 가지?"
+        "text": "나 거기서 꼭 만나고 싶은 사람이 있거든 ㅎㅎ"
       },
       {
         "date": "2027-09-12",
         "time": "23:15",
         "from": "them",
-        "text": "나 부탁할 거 있는데에 들어주라아 🥺🩷"
+        "text": "혹시 나도 데려가 주면 안 돼? 🥺🩷"
+      },
+      {
+        "date": "2027-09-12",
+        "time": "23:16",
+        "from": "them",
+        "text": "언니한텐 어려운 부탁 아니잖아아 💗"
       }
     ],
-    "preview": "나 부탁할 거 있는데에 들어주라아 🥺🩷"
+    "preview": "언니한텐 어려운 부탁 아니잖아아 💗"
   }
 ];
 export const calls = [
@@ -620,4 +644,104 @@ export const calls = [
  {id:'jaeyul',name:'후재율 ❤️',time:'09.06 19:25',date:'2027-09-06',kind:'수신',duration:'32:27'},
  {id:'sohwa',name:'민소화',time:'09.06 10:27',date:'2027-09-06',kind:'수신',duration:'03:14'},
  {id:'other',name:'업무 연락',time:'09.05 15:01',date:'2027-09-05',kind:'수신',duration:'00:51'},
+];
+
+
+// 갤러리 순서는 홈 화면에서 왼쪽 위부터 오른쪽 아래까지 표시되는 순서다.
+export const galleryPhotos = [
+  {
+    "id": "photo-1",
+    "title": "추억1",
+    "file": "추억1.jpg"
+  },
+  {
+    "id": "photo-2",
+    "title": "재율_셀피1",
+    "file": "재율_셀피1.png"
+  },
+  {
+    "id": "photo-3",
+    "title": "Jaeyoul_rain",
+    "file": "Jaeyoul_rain.png"
+  },
+  {
+    "id": "photo-4",
+    "title": "재율_토라짐",
+    "file": "재율_토라짐.jpeg"
+  },
+  {
+    "id": "photo-5",
+    "title": "재율_셀피5",
+    "file": "재율_셀피5.png"
+  },
+  {
+    "id": "photo-6",
+    "title": "재율_일하는중",
+    "file": "재율_일하는중.jpg"
+  },
+  {
+    "id": "photo-7",
+    "title": "재율_셀피3",
+    "file": "재율_셀피3.png"
+  },
+  {
+    "id": "photo-8",
+    "title": "재율_자는중",
+    "file": "재율_자는중.jpg"
+  },
+  {
+    "id": "photo-9",
+    "title": "재율_물놀이",
+    "file": "재율_물놀이.jpg"
+  },
+  {
+    "id": "photo-10",
+    "title": "추억2",
+    "file": "추억2.jpg"
+  },
+  {
+    "id": "photo-11",
+    "title": "재율_캠핑",
+    "file": "재율_캠핑.jpg"
+  },
+  {
+    "id": "photo-12",
+    "title": "추억3",
+    "file": "추억3.jpg"
+  },
+  {
+    "id": "photo-13",
+    "title": "재율_셀피4",
+    "file": "재율_셀피4.png"
+  },
+  {
+    "id": "photo-14",
+    "title": "재율_눈사람",
+    "file": "재율_눈사람.jpg"
+  },
+  {
+    "id": "photo-15",
+    "title": "이헌_미행1",
+    "file": "이헌_미행1.png"
+  },
+  {
+    "id": "photo-16",
+    "title": "이헌_미행2",
+    "file": "이헌_미행2.png"
+  },
+  {
+    "id": "photo-17",
+    "title": "이헌_미행3",
+    "file": "이헌_미행3.png"
+  },
+  {
+    "id": "photo-18",
+    "title": "재율_셀피2",
+    "file": "재율_셀피2.png"
+  },
+  {
+    "id": "photo-19",
+    "title": "이헌_후계자",
+    "file": "이헌_후계자.png"
+  }
 ];
