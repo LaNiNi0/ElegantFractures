@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1560" viewBox="0 0 720 1560">
+  <defs>
+    <linearGradient id="pearl" x1="0" y1="0" x2=".94" y2="1">
+      <stop offset="0" stop-color="#FCFBFB"/>
+      <stop offset=".43" stop-color="#F3EFF1"/>
+      <stop offset=".78" stop-color="#E9E0E7"/>
+      <stop offset="1" stop-color="#DCD3DD"/>
+    </linearGradient>
+    <radialGradient id="blush" cx=".82" cy=".76" r=".73">
+      <stop offset="0" stop-color="#D8C7D5" stop-opacity=".65"/>
+      <stop offset=".67" stop-color="#E4D9E2" stop-opacity=".15"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="knotInk" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#9C8297"/><stop offset="1" stop-color="#705269"/>
+    </linearGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="34"/></filter>
+  </defs>
+  <rect width="720" height="1560" fill="url(#pearl)"/>
+  <rect width="720" height="1560" fill="url(#blush)"/>
+  <ellipse cx="72" cy="165" rx="270" ry="255" fill="#FFFFFF" opacity=".7" filter="url(#soft)"/>
+  <ellipse cx="614" cy="1290" rx="255" ry="335" fill="#B4A0B2" opacity=".09" filter="url(#soft)"/>
+  <!-- A single abstract Korean maedeup knot. Fine engraved lines, no ornamental tassels. -->
+  <g transform="translate(485 785)" opacity=".27">
+    <g stroke="#FBF8FA" stroke-width="16" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M0-103 C-50-159-128-155-143-101 C-158-51-105-30-68-47 C-24-69-21-114 0-120 C21-114 24-69 68-47 C105-30 158-51 143-101 C128-155 50-159 0-103Z"/>
+      <path d="M0 103 C-50 159-128 155-143 101 C-158 51-105 30-68 47 C-24 69-21 114 0 120 C21 114 24 69 68 47 C105 30 158 51 143 101 C128 155 50 159 0 103Z"/>
+      <path d="M-103 0 C-159-50-155-128-101-143 C-51-158-30-105-47-68 C-69-24-114-21-120 0 C-114 21-69 24-47 68 C-30 105-51 158-101 143 C-155 128-159 50-103 0Z"/>
+      <path d="M103 0 C159-50 155-128 101-143 C51-158 30-105 47-68 C69-24 114-21 120 0 C114 21 69 24 47 68 C30 105 51 158 101 143 C155 128 159 50 103 0Z"/>
+    </g>
+    <g stroke="url(#knotInk)" stroke-width="7.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M0-103 C-50-159-128-155-143-101 C-158-51-105-30-68-47 C-24-69-21-114 0-120 C21-114 24-69 68-47 C105-30 158-51 143-101 C128-155 50-159 0-103Z"/>
+      <path d="M0 103 C-50 159-128 155-143 101 C-158 51-105 30-68 47 C-24 69-21 114 0 120 C21 114 24 69 68 47 C105 30 158 51 143 101 C128 155 50 159 0 103Z"/>
+      <path d="M-103 0 C-159-50-155-128-101-143 C-51-158-30-105-47-68 C-69-24-114-21-120 0 C-114 21-69 24-47 68 C-30 105-51 158-101 143 C-155 128-159 50-103 0Z"/>
+      <path d="M103 0 C159-50 155-128 101-143 C51-158 30-105 47-68 C69-24 114-21 120 0 C114 21 69 24 47 68 C30 105 51 158 101 143 C155 128 159 50 103 0Z"/>
+      <rect x="-41" y="-41" width="82" height="82" rx="19" transform="rotate(45)"/>
+    </g>
+  </g>
+  <path d="M0 1536H720" stroke="#D2C4CE" stroke-width="2" opacity=".38"/>
+</svg>
