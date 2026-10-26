@@ -447,3 +447,9 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
   .phone{height:100dvh;min-height:0}
   .phone-inner,.screen{overscroll-behavior:contain}
 }
+
+/* Prevent iOS input-focus auto-zoom while keeping system accessibility zoom available. */
+@media(hover:none) and (pointer:coarse){
+  .screen input,.screen select,.screen textarea{font-size:16px!important}
+  .app-entry,.lock-shortcut,.unlock-button,.app-toolbar button{touch-action:manipulation}
+}
