@@ -4,20 +4,20 @@ export const people = [
   {id:'ijeong',name:'박이정',label:'전담 수행비서',group:'가까운 사람',birth:'미정 (2027년 기준 35세)',detail:'침착하고 유능한 남성 수행비서. 경호 실무에 익숙하고 특이하게 건조한 유머 감각을 가졌다.',spoiler:false},
   {id:'jinpyo',name:'설진표',label:'설가 가주',group:'설가',birth:'1958.08.03',detail:'계산과 질서를 중시하는 엄격한 가주.',spoiler:false},
   {id:'taerin',name:'권태린',label:'설가 안주인',group:'설가',birth:'1960.11.23',detail:'우아하고 냉정한 정실. 통제욕이 강하다.',spoiler:false},
-  {id:'sohwa',name:'민소화',label:'가족',group:'설가',birth:'1970.04.08',detail:'생활력이 약하고 유저에게 의존적인 인물.',spoiler:true},
+  {id:'sohwa',name:'민소화',label:친어머니',group:'설가',birth:'1970.04.08',detail:'생활력이 약하고 유저에게 의존적인 인물.',spoiler:true},
   {id:'jiwan',name:'설지완',label:'설가 장남',group:'설가',birth:'1990.01.30',detail:'똑똑하지만 다혈질이고 선민의식이 강하다. 2025년 결혼.',spoiler:false},
-  {id:'riwon',name:'설리원',label:'설가 구성원 · 인플루언서',group:'설가',birth:'1998년생',detail:'사랑스럽고 화려한 이미지 뒤에 질투심과 계산적인 면을 숨기고 있다.',spoiler:false},
+  {id:'riwon',name:'설리원',label:'설가 차녀 · 인플루언서',group:'설가',birth:'1998년생',detail:'사랑스럽고 화려한 이미지 뒤에 질투심과 계산적인 면을 숨기고 있다.',spoiler:false},
   {id:'dokmin',name:'황보독민',label:'황보가 가주',group:'황보가',birth:'1957.07.17',detail:'독립성과 가문의 혈통을 중시하는 황보가의 가주.',spoiler:false},
   {id:'seogyeong',name:'문서경',label:'황보가 안주인',group:'황보가',birth:'1963.03.22',detail:'황보독민의 두 번째 부인.',spoiler:false},
-  {id:'jeonghyeon',name:'황보정현',label:'전 후계자',group:'황보가',birth:'1990.06.13~2024.03.05',detail:'2024년 항공기 사고로 사망한 전 후계자.',spoiler:true},
-  {id:'yunhui',name:'서윤희',label:'황보가 관련 인물',group:'황보가',birth:'1965.01.05~2009.12.25',detail:'이헌의 생모. 2009년 교통사고로 사망했다는 설정안.',spoiler:true},
+  {id:'jeonghyeon',name:'황보정현',label:'황보가 전 후계자',group:'황보가',birth:'1990.06.13~2024.03.05',detail:'2024년 항공기 사고로 사망.',spoiler:true},
+  {id:'yunhui',name:'서윤희',label:'황보이헌 생모',group:'황보가',birth:'1965.01.05~2009.12.25',detail:'이헌의 생모. 2009년 교통사고로 사망.',spoiler:true},
   {id:'boryeong',name:'선우보령',label:'선우가 가주',group:'선우가',birth:'1972.05.01',detail:'다른 가문과 적절한 거리를 유지하는 중립적 가주.',spoiler:false},
   {id:'haemu',name:'선우해무',label:'선우가 후계자',group:'선우가',birth:'2000.09.09',detail:'선우가의 젊은 후계자.',spoiler:false},
   {id:'gangsin',name:'차강신',label:'차가 가주',group:'차가',birth:'1966.04.25',detail:'넓은 인맥과 친화력을 지닌 가주.',spoiler:false},
   {id:'udo',name:'차우도',label:'차가 후계자',group:'차가',birth:'1995.06.07',detail:'사교계에서 발이 넓은 후계자.',spoiler:false},
   {id:'jinseong',name:'권진성',label:'권가 가주',group:'권가',birth:'1951.06.30',detail:'영향력과 질서를 중시하는 권가의 가주.',spoiler:false},
   {id:'chaeha',name:'권채하',label:'권가 후계자',group:'권가',birth:'1985.10.16',detail:'경험 많고 냉철한 후계자.',spoiler:false},
-  {id:'seon',name:'윤세온',label:'주변 인물',group:'가까운 사람',birth:'1995.07.24',detail:'후재율을 짝사랑하는 인물.',spoiler:true},
+  {id:'seon',name:'윤세온',label:'주변 인물',group:'가까운 사람',birth:'1995.07.24',detail:'후재율의 회사 창립멤버이며 그를 짝사랑하는 인물.',spoiler:true},
 ];
 export const houses = [
   {name:'설가',en:'SEOL',desc:'전통과 명예를 지키려는 가문. 아름다운 겉모습 아래 복잡한 가족관계가 숨겨져 있다.',note:'권가와 혼인으로 이어진 오랜 우호 관계.'},
@@ -40,13 +40,18 @@ export const notes = [
   {id:'hidden',folder:'명가 기록',date:'열람 주의',title:'설가의 숨겨진 기록',body:'플레이어는 대외적으로 설진표와 권태린의 자녀로 알려졌으나 실제 생모는 민소화다. 후재율은 2022년 권태린의 폭언을 우연히 듣고 이 사실을 알게 되었다.',spoiler:true}
 ];
 export const events = [
- {date:'2017-02-11',title:'재율과 첫 만남',type:'추억'},
- {date:'2017-05-20',title:'후재율과 연애 시작',type:'기념일'},
- {date:'2017-07-22',title:'첫 소나기',type:'기준안'},
- {date:'2017-10-13',title:'첫 국내여행',type:'기준안'},
- {date:'2027-05-20',title:'연애 10주년',type:'기념일'},
- {date:'2027-07-23',title:'황보가 후계자 공식 등장',type:'기준안'},
- {date:'2027-09-18',title:'초가을 별 보기 · 예정',type:'제안'}
+ {date:'2017-02-11',title:'첫 만남',type:'❤️'},
+ {date:'2017-05-20',title:'연애 시작',type:'❤️'},
+ {date:'2017-07-22',title:'소나기',type:'❤️'},
+ {date:'2017-10-13',title:'첫 여행',type:'❤️'},
+ {date:'2025-04-02',title:'후계자 발표',type:'업무'},
+ {date:'2027-01-08',title:'신년 행사',type:'업무'},
+ {date:'2027-03-10',title:'권가 행사',type:'업무'},
+ {date:'2027-04-30',title:'선우가 행사',type:'업무'},
+ {date:'2027-05-20',title:'10주년',type:'❤️'},
+ {date:'2027-06-06',title:'선우가 행사',type:'업무'},
+ {date:'2027-07-23',title:'황보가 행사',type:'업무'},
+ {date:'2027-09-18',title:'초가을 별 보기',type:'❤️'}
 ];
 // Fictional sample correspondence and a two-week call log (2027-09-05 — 2027-09-18).
 // They convey character dynamics; these are not fixed player choices.
@@ -77,13 +82,13 @@ export const conversations = [
       },
       {
         "date": "2027-09-14",
-        "time": "23:08",
+        "time": "12:08",
         "from": "them",
         "text": "지금 어디야"
       },
       {
         "date": "2027-09-14",
-        "time": "23:09",
+        "time": "12:09",
         "from": "them",
         "text": "또 안 받네"
       },
@@ -119,19 +124,19 @@ export const conversations = [
       },
       {
         "date": "2027-09-18",
-        "time": "20:59",
+        "time": "21:59",
         "from": "them",
         "text": "한 번만 연락해"
       },
       {
         "date": "2027-09-18",
-        "time": "21:02",
+        "time": "22:02",
         "from": "them",
         "text": "읽기만하지말고"
       },
       {
         "date": "2027-09-18",
-        "time": "21:08",
+        "time": "22:08",
         "from": "them",
         "text": "받아"
       }
@@ -144,7 +149,7 @@ export const conversations = [
     "time": "오늘 18:42",
     "messages": [
       {
-        "date": "2027-09-10",
+        "date": "2027-09-09",
         "time": "18:51",
         "from": "them",
         "text": "끝나면 전화해. 내 목소리 듣고 싶을 것 같아서"
@@ -159,13 +164,13 @@ export const conversations = [
         "date": "2027-09-10",
         "time": "18:55",
         "from": "them",
-        "text": "알아. 그래도 연락은 해"
+        "text": "알아. 끝나면 연락줘"
       },
       {
         "date": "2027-09-10",
         "time": "18:56",
         "from": "them",
-        "text": "늦게 끝나면 데리러 갈게. 이번에는 거절하지 마 😏"
+        "text": "너무 늦게 끝나면 데리러 갈게. 거절은 안받아"
       },
       {
         "date": "2027-09-12",
@@ -177,25 +182,25 @@ export const conversations = [
         "date": "2027-09-12",
         "time": "22:18",
         "from": "them",
-        "text": "제발 전화 좀 받아. 걱정돼서 미치겠어"
+        "text": "제발 전화 좀 받아 걱정돼서 미치겠어"
       },
       {
         "date": "2027-09-12",
         "time": "23:07",
         "from": "them",
-        "text": "연락하기 싫은 날도 있는 거 알아. 하지만 늦는다고 한마디만 해 줬으면 좋겠어"
+        "text": "제발"
       },
       {
         "date": "2027-09-13",
-        "time": "09:21",
+        "time": "08:21",
+        "from": "them",
+        "text": "출근 잘 했어?"
+      },
+      {
+        "date": "2027-09-13",
+        "time": "08:22",
         "from": "them",
         "text": "어제는 내가 말이 좀 거칠었어. 미안해"
-      },
-      {
-        "date": "2027-09-13",
-        "time": "09:22",
-        "from": "them",
-        "text": "그래도 걱정한 건 진심이야. 그건 나도 쉽게 못 고쳐"
       },
       {
         "date": "2027-09-15",
@@ -249,10 +254,10 @@ export const conversations = [
         "date": "2027-09-18",
         "time": "18:42",
         "from": "them",
-        "text": "우리 저녁 같이 먹자. 오늘은 내가 할게"
+        "text": "마음의 준비하고 퇴근해 😘😘"
       }
     ],
-    "preview": "우리 저녁 같이 먹자. 오늘은 내가 할게"
+    "preview": "마음의 준비하고 퇴근해 😘😘"
   },
   {
     "id": "ijeong",
@@ -271,6 +276,23 @@ export const conversations = [
         "from": "them",
         "text": "우회로 세 곳 확보했습니다. 저희보다 내비게이션이 더 긴장한 것 같습니다"
       },
+      {
+        "date": "2027-09-09",
+        "time": "08:31",
+        "from": "them",
+        "text": "이거 한 번 확인해보셔야 할 것 같습니다",
+      },        
+      {
+        "date": "2027-09-09",
+        "time": "08:32",
+        "from": "them",
+        "text": "설가 후계 구도 재검토? 설지완 재부상론",
+        "link": {
+          "id": "seol-successor",
+          "title": "설가 후계 구도 재검토? 설지완 재부상론",
+          "source": "한성경제 · 재계"
+        }
+      },            
       {
         "date": "2027-09-11",
         "time": "14:20",
@@ -305,13 +327,7 @@ export const conversations = [
         "date": "2027-09-16",
         "time": "18:30",
         "from": "them",
-        "text": "귀가 동선은 다시 확인해 두겠습니다"
-      },
-      {
-        "date": "2027-09-16",
-        "time": "18:31",
-        "from": "them",
-        "text": "이상한 차량은 없었습니다. 제 유머를 이해하는 사람도 없었습니다"
+        "text": "일정은 다시 확인해 두겠습니다"
       },
       {
         "date": "2027-09-18",
@@ -340,46 +356,40 @@ export const conversations = [
     "time": "09.14 11:12",
     "messages": [
       {
-        "date": "2027-09-06",
+        "date": "2027-09-01",
         "time": "10:25",
         "from": "them",
-        "text": "딸… 오늘 잠깐 통화할 수 있을까…"
+        "text": "딸, 오늘 잠깐 통화할 수 있을까"
       },
       {
-        "date": "2027-09-06",
+        "date": "2027-09-01",
         "time": "10:29",
         "from": "them",
-        "text": "별일은 아닌데… 네 목소리가 듣고 싶어서…"
+        "text": "별일은 아닌데… 네 목소리가 듣고 싶어서"
       },
       {
-        "date": "2027-09-10",
+        "date": "2027-09-03",
         "time": "17:48",
         "from": "them",
         "text": "엄마가 늘 미안해…"
       },
       {
-        "date": "2027-09-10",
+        "date": "2027-09-03",
         "time": "17:51",
         "from": "them",
-        "text": "나는 왜 늘 너한테 기대기만 할까…"
-      },
-      {
-        "date": "2027-09-10",
-        "time": "17:56",
-        "from": "them",
-        "text": "그래도 네가 없으면 어떻게 해야 할지 모르겠어…"
+        "text": "바빠도 밥 잘 챙겨먹고… 사랑해 딸"
       },
       {
         "date": "2027-09-14",
         "time": "11:06",
         "from": "them",
-        "text": "괜찮을 때 연락해 줄래…"
+        "text": "딸… 괜찮을 때 연락해 줄래"
       },
       {
         "date": "2027-09-14",
         "time": "11:08",
         "from": "them",
-        "text": "네가 화날 만하다는 거 알아… 그런데 이번 한 번만 좀 도와주면 안 될까…"
+        "text": "네가 화날 만하다는 거 알아 그래도 이번 한 번만 더 도와주면 안 될까…"
       },
       {
         "date": "2027-09-14",
@@ -403,37 +413,7 @@ export const conversations = [
     "messages": [
       {
         "date": "2027-09-09",
-        "time": "20:27",
-        "from": "them",
-        "text": "어머 오늘 이런 기사가 떴던데 괜찮아? 😭😭"
-      },
-      {
-        "date": "2027-09-09",
-        "time": "20:28",
-        "from": "them",
-        "text": "요즘 다들 입이 너무 가볍다니까"
-      },
-      {
-        "date": "2027-09-09",
-        "time": "20:29",
-        "from": "them",
-        "text": "댓글까지 읽어봤는데 지완이가 더 적임자 아니냐는 말이 많더라"
-      },
-      {
-        "date": "2027-09-09",
-        "time": "20:30",
-        "from": "them",
-        "text": "우리 후계자님이 얼마나 열심히 하는데 다들 그건 모르고 막말이야 🤬"
-      },
-      {
-        "date": "2027-09-09",
-        "time": "20:31",
-        "from": "them",
-        "text": "링크 보낼게. 괜히 모르고 있는 것보단 낫잖아"
-      },
-      {
-        "date": "2027-09-09",
-        "time": "20:31",
+        "time": "12:27",
         "from": "them",
         "text": "설가 후계 구도 재검토? 설지완 재부상론",
         "link": {
@@ -441,18 +421,30 @@ export const conversations = [
           "title": "설가 후계 구도 재검토? 설지완 재부상론",
           "source": "한성경제 · 재계"
         }
+      },      
+      {
+        "date": "2027-09-09",
+        "time": "12:27",
+        "from": "them",
+        "text": "오늘 이런 기사 떴던데 괜찮아? 😭😭"
       },
       {
         "date": "2027-09-09",
-        "time": "20:33",
+        "time": "12:28",
         "from": "them",
-        "text": "이런 거 신경 쓰지 말고 너무 무리하지 마 🩷"
+        "text": "왜자꾸 이런기사가 나는지 속상하게 댓글들도 너무하더라"
       },
       {
         "date": "2027-09-09",
-        "time": "20:34",
+        "time": "12:29",
         "from": "them",
-        "text": "그런데 기사에 완전히 틀린 말만 있는 건 또 아니고… 😅"
+        "text": "우리 언니가 얼마나 열심히하는데 다들 그건모르고 막말이야 🤬"
+      },
+      {
+        "date": "2027-09-09",
+        "time": "12:29",
+        "from": "them",
+        "text": "이딴거 신경쓰지말고 너무무리하지마 🩷"
       },
       {
         "date": "2027-09-12",
@@ -465,15 +457,9 @@ export const conversations = [
         "time": "23:15",
         "from": "them",
         "text": "나 부탁할 거 있는데에 들어주라아 🥺🩷"
-      },
-      {
-        "date": "2027-09-12",
-        "time": "23:16",
-        "from": "them",
-        "text": "너라면 어렵지 않을 거야. 늘 그랬잖아 ㅎㅎ"
       }
     ],
-    "preview": "너라면 어렵지 않을 거야. 늘 그랬잖아 ㅎㅎ"
+    "preview": "나 부탁할 거 있는데에 들어주라아 🥺🩷"
   }
 ];
 export const calls = [
@@ -489,20 +475,20 @@ export const calls = [
  {id:'ijeong',name:'박이정',time:'09.16 14:06',date:'2027-09-16',kind:'수신',duration:'00:57'},
  {id:'other',name:'설가 비서실',time:'09.15 13:10',date:'2027-09-15',kind:'수신',duration:'02:49'},
  {id:'jaeyul',name:'후재율 ❤️',time:'09.15 08:52',date:'2027-09-15',kind:'수신',duration:'06:25'},
- {id:'iheon',name:'황보이헌',time:'09.14 23:08',date:'2027-09-14',kind:'거절'},
+ {id:'iheon',name:'황보이헌',time:'09.14 12:08',date:'2027-09-14',kind:'거절'},
  {id:'sohwa',name:'민소화',time:'09.14 11:03',date:'2027-09-14',kind:'수신',duration:'04:38'},
  {id:'jinpyo',name:'설진표',time:'09.13 20:14',date:'2027-09-13',kind:'발신',duration:'01:12'},
  {id:'ijeong',name:'박이정',time:'09.13 16:44',date:'2027-09-13',kind:'발신',duration:'03:29'},
  {id:'jaeyul',name:'후재율 ❤️',time:'09.13 09:15',date:'2027-09-13',kind:'발신',duration:'14:11'},
- {id:'iheon',name:'황보이헌',time:'09.12 21:38',date:'2027-09-12',kind:'부재중'},
+ {id:'iheon',name:'황보이헌',time:'09.12 17:38',date:'2027-09-12',kind:'부재중'},
  {id:'taerin',name:'권태린',time:'09.12 16:08',date:'2027-09-12',kind:'수신',duration:'02:09'},
  {id:'ijeong',name:'박이정',time:'09.11 10:19',date:'2027-09-11',kind:'수신',duration:'01:20'},
  {id:'jinpyo',name:'설진표',time:'09.11 09:41',date:'2027-09-11',kind:'수신',duration:'03:18'},
  {id:'jaeyul',name:'후재율 ❤️',time:'09.10 20:06',date:'2027-09-10',kind:'수신',duration:'23:01'},
- {id:'iheon',name:'황보이헌',time:'09.10 00:12',date:'2027-09-10',kind:'거절'},
+ {id:'iheon',name:'황보이헌',time:'09.10 19:12',date:'2027-09-10',kind:'거절'},
  {id:'taerin',name:'권태린',time:'09.09 18:52',date:'2027-09-09',kind:'부재중'},
  {id:'other',name:'업무 연락',time:'09.09 14:36',date:'2027-09-09',kind:'발신',duration:'08:34'},
- {id:'ijeong',name:'박이정',time:'09.09 08:29',date:'2027-09-09',kind:'수신',duration:'02:05'},
+ {id:'ijeong',name:'박이정',time:'09.09 08:52',date:'2027-09-09',kind:'수신',duration:'02:05'},
  {id:'jaeyul',name:'후재율 ❤️',time:'09.08 22:16',date:'2027-09-08',kind:'발신',duration:'19:14'},
  {id:'jiwan',name:'설지완',time:'09.07 15:42',date:'2027-09-07',kind:'수신',duration:'01:36'},
  {id:'ijeong',name:'박이정',time:'09.07 11:36',date:'2027-09-07',kind:'수신',duration:'03:03'},
