@@ -57,7 +57,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
   position:relative;isolation:isolate;color:var(--ink);
   background-image:
     linear-gradient(180deg,rgba(255,255,255,.03) 0%,transparent 50%,rgba(81,46,70,.14) 100%),
-    url('/ElegantFractures/images/modern-maedeup-pearl.svg');
+    url('/ElegantFractures/images/korean-lattice-pearl.svg');
   background-color:#F1EDF1;background-position:center;background-repeat:no-repeat;background-size:cover;
 }
 .screen-lock::after,.screen-home::after{
@@ -118,12 +118,21 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 }
 .app-icon{
   width:clamp(47px,13vw,57px);height:clamp(47px,13vw,57px);
-  border-radius:16px;display:grid;place-items:center;color:#FAF9FA;
-  background:linear-gradient(150deg,color-mix(in srgb,var(--tile) 91%,white 9%),color-mix(in srgb,var(--tile) 79%,#342935 21%));
-  box-shadow:inset 0 1px 0 #FFFFFF4D,0 6px 14px #49364D27;
-  border:1px solid #FFFFFF8F;
+  border-radius:16px;display:grid;place-items:center;color:#3F3344;
+  background:
+    linear-gradient(155deg,rgba(255,255,255,.38),rgba(255,255,255,.12)),
+    linear-gradient(150deg,color-mix(in srgb,var(--tile) 64%,transparent),color-mix(in srgb,var(--tile) 46%,transparent));
+  border:1px solid rgba(255,255,255,.67);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.58),0 7px 18px rgba(69,49,76,.12);
+  backdrop-filter:blur(14px) saturate(1.15);
+  -webkit-backdrop-filter:blur(14px) saturate(1.15);
+  transition:transform .17s ease,box-shadow .17s ease;
 }
-.tile-notes,.tile-contacts{color:#554258;background:linear-gradient(145deg,#FFFFFF,#E7DFE8)}
+.app-entry:active .app-icon{transform:scale(.95)}
+.tile-notes,.tile-contacts{
+  color:#4F4053;
+  background:linear-gradient(140deg,rgba(255,255,255,.83),rgba(228,219,234,.60));
+}
 .app-entry>span:last-child{font-size:11px;font-weight:600;color:#554758;text-shadow:0 1px 1px #FFFFFF90;white-space:nowrap}
 .home-pagination{
   position:absolute;bottom:135px;left:0;right:0;
@@ -134,8 +143,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 .dock{
   position:absolute;left:14px;right:14px;bottom:34px;
   padding:12px 7px 10px;display:grid;place-items:center;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;
-  border-radius:24px;border:1px solid #FFFFFFC4;background:#FFFFFF88;
-  box-shadow:0 8px 30px #60506824;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-radius:24px;border:1px solid rgba(255,255,255,.72);background:rgba(255,255,255,.48);
+  box-shadow:0 10px 28px rgba(96,80,104,.13);backdrop-filter:blur(24px) saturate(1.16);-webkit-backdrop-filter:blur(24px) saturate(1.16);
 }
 .dock .app-entry>span:last-child{display:none}
 .app-toolbar{
