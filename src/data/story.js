@@ -1,0 +1,60 @@
+export const people = [
+  {id:'jaeyul',name:'후재율',label:'10년의 연인',group:'가까운 사람',birth:'1993.10.25',detail:'프로그래머 출신 정보보안 기업 대표. 다정하고 능글맞지만 자기 원칙과 고집이 뚜렷하다.',spoiler:false},
+  {id:'iheon',name:'황보이헌',label:'황보가 후계자',group:'황보가',birth:'1997.02.08',detail:'2027년 한여름 후계자로 공식 등장. 과거 서이헌이라는 이름으로 흥신소를 운영했다.',spoiler:true},
+  {id:'ijeong',name:'박이정',label:'전담 수행비서',group:'가까운 사람',birth:'미정 (2027년 기준 35세)',detail:'침착하고 유능한 남성 수행비서. 경호 실무에 익숙하고 특이하게 건조한 유머 감각을 가졌다.',spoiler:false},
+  {id:'jinpyo',name:'설진표',label:'설가 가주',group:'설가',birth:'1958.08.03',detail:'계산과 질서를 중시하는 엄격한 가주.',spoiler:false},
+  {id:'taerin',name:'권태린',label:'설가 안주인',group:'설가',birth:'1960.11.23',detail:'우아하고 냉정한 정실. 통제욕이 강하다.',spoiler:false},
+  {id:'sohwa',name:'민소화',label:'가족',group:'설가',birth:'1970.04.08',detail:'생활력이 약하고 유저에게 의존적인 인물.',spoiler:true},
+  {id:'jiwan',name:'설지완',label:'설가 장남',group:'설가',birth:'1990.01.30',detail:'똑똑하지만 다혈질이고 선민의식이 강하다. 2025년 결혼.',spoiler:false},
+  {id:'riwon',name:'설리원',label:'설가 구성원 · 인플루언서',group:'설가',birth:'1998년생',detail:'사랑스럽고 화려한 이미지 뒤에 질투심과 계산적인 면을 숨기고 있다.',spoiler:false},
+  {id:'dokmin',name:'황보독민',label:'황보가 가주',group:'황보가',birth:'1957.07.17',detail:'독립성과 가문의 혈통을 중시하는 황보가의 가주.',spoiler:false},
+  {id:'seogyeong',name:'문서경',label:'황보가 안주인',group:'황보가',birth:'1963.03.22',detail:'황보독민의 두 번째 부인.',spoiler:false},
+  {id:'jeonghyeon',name:'황보정현',label:'전 후계자',group:'황보가',birth:'1990.06.13~2024.03.05',detail:'2024년 항공기 사고로 사망한 전 후계자.',spoiler:true},
+  {id:'yunhui',name:'서윤희',label:'황보가 관련 인물',group:'황보가',birth:'1965.01.05~2009.12.25',detail:'이헌의 생모. 2009년 교통사고로 사망했다는 설정안.',spoiler:true},
+  {id:'boryeong',name:'선우보령',label:'선우가 가주',group:'선우가',birth:'1972.05.01',detail:'다른 가문과 적절한 거리를 유지하는 중립적 가주.',spoiler:false},
+  {id:'haemu',name:'선우해무',label:'선우가 후계자',group:'선우가',birth:'2000.09.09',detail:'선우가의 젊은 후계자.',spoiler:false},
+  {id:'gangsin',name:'차강신',label:'차가 가주',group:'차가',birth:'1966.04.25',detail:'넓은 인맥과 친화력을 지닌 가주.',spoiler:false},
+  {id:'udo',name:'차우도',label:'차가 후계자',group:'차가',birth:'1995.06.07',detail:'사교계에서 발이 넓은 후계자.',spoiler:false},
+  {id:'jinseong',name:'권진성',label:'권가 가주',group:'권가',birth:'1951.06.30',detail:'영향력과 질서를 중시하는 권가의 가주.',spoiler:false},
+  {id:'chaeha',name:'권채하',label:'권가 후계자',group:'권가',birth:'1985.10.16',detail:'경험 많고 냉철한 후계자.',spoiler:false},
+  {id:'seon',name:'윤세온',label:'주변 인물',group:'가까운 사람',birth:'1995.07.24',detail:'후재율을 짝사랑하는 인물.',spoiler:true},
+];
+export const houses = [
+  {name:'설가',en:'SEOL',desc:'전통과 명예를 지키려는 가문. 아름다운 겉모습 아래 복잡한 가족관계가 숨겨져 있다.',note:'권가와 혼인으로 이어진 오랜 우호 관계.'},
+  {name:'황보가',en:'HWANGBO',desc:'독자적인 힘과 막대한 자산을 지닌 가문. 후계 문제를 둘러싼 긴장이 존재한다.',note:'차가와 비교적 가까우며 권가와는 불편한 관계.'},
+  {name:'선우가',en:'SEONWOO',desc:'여러 가문 사이에서 균형과 적절한 거리를 중시한다.',note:'대체로 중립적인 관계.'},
+  {name:'차가',en:'CHA',desc:'인맥과 사교에 능하고 모든 가문과 폭넓게 교류한다.',note:'황보가와도 비교적 우호적.'},
+  {name:'권가',en:'KWON',desc:'제도적 영향력과 장기적인 이해관계를 중시한다.',note:'설가와 가까우며 황보가와는 긴장 관계.'},
+];
+export const notes = [
+  {id:'first',folder:'재율과의 기록',date:'2017.02.11',title:'처음 만난 날',body:'친어머니와 다투고 나온 날, 거리에서 우연히 후재율과 부딪혔다.\n\n“……괜찮아요?”\n\n주변을 한 번 둘러본 재율은 자연스럽게 한 걸음 옆으로 움직여 사람들의 시선을 가렸다.\n\n“저 키 큰 거, 이런 데 쓰라고 있는 건가 보네.”\n\n그가 건넨 손수건은 그에게서 처음 받은 물건이었다.',spoiler:false},
+  {id:'meet-again',folder:'재율과의 기록',date:'2017.03.11',title:'우연 말고, 다음 만남',body:'힘들 때마다 우연히 마주치던 사람.\n\n“나, 그쪽 또 보고 싶은데. 이번에는 우연 말고요.”',spoiler:false,proposal:true},
+  {id:'date',folder:'재율과의 기록',date:'2017.04.08',title:'조금 특별한 첫 데이트',body:'유저의 신분이 드러나지 않도록 변장하고, 오락실과 인형뽑기 같은 평범한 데이트를 즐긴 날.\n\n세부 날짜는 설정 기준안.',spoiler:false,proposal:true},
+  {id:'confess',folder:'재율과의 기록',date:'2017.05.20',title:'한강에서의 고백',body:'한강의 밤, 라면을 먹던 중 그가 말했다.\n\n“나 요즘 욕심나는 거 하나 생겼는데.”\n\n“너.”\n\n“너랑 이렇게 노는 거, 앞으로도 계속하고 싶어. 나랑 사귈래?”\n\n이날부터 연인이 되었다.',spoiler:false},
+  {id:'rain',folder:'재율과의 기록',date:'2017.07.22',title:'소나기가 내리던 날',body:'데이트 도중 갑작스러운 소나기를 맞고 재율의 집으로 향했다. 서로의 마음과 의사를 확인하며 더 가까워진 날.\n\n날짜는 제안 중.',spoiler:false,proposal:true},
+  {id:'trip',folder:'재율과의 기록',date:'2017.10.13~15',title:'첫 여행',body:'인적이 드문 강원도 산간 지역으로 떠난 첫 국내여행. 둘만의 조용한 2박 3일.\n\n세부 날짜와 장소는 제안 중.',spoiler:false,proposal:true},
+  {id:'anniversary',folder:'재율과의 기록',date:'2027.05.20',title:'열 번째 기념일',body:'함께한 십 년. 낯선 사람에서 가장 익숙한 사람이 되기까지.',spoiler:false},
+  {id:'seol-note',folder:'명가 기록',date:'설가',title:'설가 · 후계자의 가문',body:'오랜 명예와 전통을 중시하는 집안. 현재 가주는 설진표이며 공식 후계자는 플레이어다.\n\n권가와는 혼인을 통해 연결되어 있다.',spoiler:false},
+  {id:'hwangbo-note',folder:'명가 기록',date:'황보가',title:'황보가 · 한여름의 새 후계자',body:'독립적인 기질과 막대한 자산을 지닌 가문.\n\n2027년 한여름, 황보이헌이 공식 후계자로 등장한다.',spoiler:false},
+  {id:'other-note',folder:'명가 기록',date:'기타',title:'선우가 · 차가 · 권가',body:'선우가는 중립적인 거리를 유지하며, 차가는 사교적 네트워크에 능하다.\n\n권가는 설가와 우호적이고 황보가와는 불편한 관계다.',spoiler:false},
+  {id:'hidden',folder:'명가 기록',date:'열람 주의',title:'설가의 숨겨진 기록',body:'플레이어는 대외적으로 설진표와 권태린의 자녀로 알려졌으나 실제 생모는 민소화다. 후재율은 2022년 권태린의 폭언을 우연히 듣고 이 사실을 알게 되었다.',spoiler:true}
+];
+export const events = [
+ {date:'2017-02-11',title:'재율과 첫 만남',type:'추억'},
+ {date:'2017-05-20',title:'후재율과 연애 시작',type:'기념일'},
+ {date:'2017-07-22',title:'첫 소나기',type:'기준안'},
+ {date:'2017-10-13',title:'첫 국내여행',type:'기준안'},
+ {date:'2027-05-20',title:'연애 10주년',type:'기념일'},
+ {date:'2027-07-23',title:'황보가 후계자 공식 등장',type:'기준안'},
+ {date:'2027-09-18',title:'초가을 별 보기 · 예정',type:'제안'}
+];
+export const conversations = [
+ {id:'jaeyul',name:'후재율',preview:'오늘도 무리하지 말고.',messages:[{from:'them',text:'오늘도 무리하지 말고.'},{from:'me',text:'응, 알겠어.'},{from:'them',text:'그 대답, 10년째 듣는 것 같은데.'}],sample:true},
+ {id:'ijeong',name:'박이정',preview:'일정표를 전달드렸습니다.',messages:[{from:'them',text:'오늘 일정표를 전달드렸습니다.'},{from:'them',text:'빈 시간이 없습니다. 일정표가 매우 성실합니다.'}],sample:true},
+ {id:'unknown',name:'발신인 미표시',preview:'이 번호, 기억합니까?',messages:[{from:'them',text:'이 번호, 기억합니까?'}],sample:true,spoiler:true}
+];
+export const calls=[
+ {id:'jaeyul',name:'후재율',time:'어제 21:14',kind:'받은 통화'},
+ {id:'ijeong',name:'박이정',time:'어제 16:30',kind:'발신'},
+ {id:'unknown',name:'발신인 미표시',time:'07.21 19:02',kind:'부재중',spoiler:true}
+];
