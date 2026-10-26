@@ -1,0 +1,82 @@
+/* iOS-inspired Photos – private story gallery (all 19 original files) */
+.ios-photos-app{padding:0 0 45px!important;background:var(--seol-ivory,#f8f7f3);}
+.ios-gallery-heading{padding:7px 20px 19px;}
+.ios-gallery-heading .ios-gallery-overline{color:#90988B;font-size:11px;font-weight:600;letter-spacing:.08em;}
+.ios-gallery-heading h2{font-size:31px!important;line-height:1.3;letter-spacing:-.06em;margin:5px 0 4px!important;font-weight:800!important;}
+.ios-gallery-count{font-size:12px;color:#879185;}
+.ios-photos-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:2px;width:100%;background:#E7EAE3;
+}
+.ios-photo-tile{
+  width:100%;aspect-ratio:1/1;display:block;position:relative;overflow:hidden;
+  border:0;border-radius:0;background:#E9E8DF;padding:0;min-width:0;
+}
+.ios-photo-tile img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
+.ios-photo-tile:active img{opacity:.75;transform:scale(.98);}
+.ios-photo-tile:focus-visible{outline:3px solid #B69C65;outline-offset:-3px;z-index:1;}
+.ios-gallery-footer{
+  display:flex;justify-content:space-between;gap:12px;margin:19px 20px 5px;
+  color:#8C9686;font-size:11px;border-top:1px solid #E8EAE3;padding-top:17px;
+}
+.screen-app:has(.ios-photo-viewer){padding:0!important;overflow:hidden!important;background:#101411!important;}
+.phone-inner:has(.ios-photo-viewer) .app-toolbar{display:none!important;}
+.phone-inner:has(.ios-photo-viewer) .statusbar{color:#FFF!important;}
+.phone-inner:has(.ios-photo-viewer) .home-indicator span{background:#F6F7F3!important;}
+.ios-photo-viewer{
+  display:flex;flex-direction:column;position:relative;
+  width:100%;height:100%;min-height:0;overflow:hidden;background:#101411;color:#F7F7F4;
+}
+.ios-photo-viewer-header{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:53px 18px 12px;flex-shrink:0;min-height:91px;
+  background:linear-gradient(180deg,#121712,#101411);
+}
+.ios-gallery-back{
+  color:#CFD9CA;display:flex;align-items:center;gap:5px;
+  font-size:13px;font-weight:600;padding:5px 0;background:transparent;
+}
+.ios-photo-position{font-size:11px;color:#A4B1A5;letter-spacing:.025em;}
+.ios-full-photo-stage{
+  display:flex;align-items:center;justify-content:center;flex:1;min-height:0;
+  position:relative;background:#0E120F;overflow:hidden;touch-action:pan-y;
+  outline:none;
+}
+.ios-full-photo-stage>img{
+  width:100%;height:100%;object-fit:contain;object-position:center;
+  display:block;user-select:none;-webkit-user-drag:none;
+}
+.ios-photo-nav{
+  position:absolute;top:50%;transform:translateY(-50%);width:31px;height:47px;
+  background:rgba(23,32,26,.34);border-radius:16px;color:#F7F9F4;
+  display:grid;place-items:center;backdrop-filter:blur(9px);
+}
+.ios-photo-prev{left:7px}.ios-photo-next{right:7px}
+.ios-photo-nav:disabled{opacity:.18;cursor:default;}
+.ios-photo-meta{
+  display:flex;align-items:center;justify-content:center;min-height:37px;max-height:46px;
+  padding:6px 12px;text-align:center;flex-shrink:0;color:#EDF0E8;background:#111712;
+}
+.ios-photo-meta strong{font-size:12px;font-weight:500;letter-spacing:.01em;}
+.ios-photo-filmstrip{
+  display:flex;flex-shrink:0;align-items:center;gap:5px;height:83px;width:100%;
+  overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;
+  padding:8px 12px 13px;background:#141A15;scroll-snap-type:x proximity;
+}
+.ios-photo-filmstrip::-webkit-scrollbar{display:none;}
+.ios-film-thumb{
+  width:56px;height:56px;min-width:56px;padding:0;overflow:hidden;
+  border:2px solid transparent;background:#2C3731;border-radius:5px;
+  scroll-snap-align:center;opacity:.62;
+}
+.ios-film-thumb.selected{border-color:#E1C88F;opacity:1;}
+.ios-film-thumb img{display:block;width:100%;height:100%;object-fit:cover;}
+@media(max-width:520px){
+ .ios-photos-app{padding-bottom:calc(42px + env(safe-area-inset-bottom))!important;}
+ .ios-photo-filmstrip{padding-bottom:calc(10px + env(safe-area-inset-bottom));height:calc(83px + env(safe-area-inset-bottom));}
+}
+@media(max-height:710px){
+ .ios-photo-viewer-header{padding-top:49px;min-height:82px;}
+ .ios-photo-filmstrip{height:71px;}
+ .ios-film-thumb{width:45px;min-width:45px;height:45px;}
+}
