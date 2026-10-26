@@ -56,7 +56,7 @@ function HousesGuide({selectedHouse,onSelect,onPerson}) {
    ? <div className="houses-overview">
        <h3>다섯 가문</h3>
        {houses.map(h=><button key={h.id} className="house-overview-row" onClick={()=>onSelect(h.id)}>
-         <span className="house-crest" style={{'--house-tint':h.tint}}>{h.name.charAt(0)}</span>
+         <span className="house-overview-art"><img src={imageRoot+encodeURIComponent(h.banner)} alt={h.name+' 문장 배너'} loading="lazy" decoding="async"/></span>
          <span className="house-overview-label"><strong>{h.name} <small>{h.en}</small></strong><span>{h.domains.join(' · ')}</span></span>
          <ChevronRight size={17}/>
        </button>)}
@@ -70,6 +70,7 @@ function HousesGuide({selectedHouse,onSelect,onPerson}) {
        </div>
      </div>
    : <div className="house-profile" key={current.id}>
+       <div className="house-banner"><img src={imageRoot+encodeURIComponent(current.banner)} alt={current.name+' 문장과 대표 상징 배너'} loading="lazy" decoding="async"/></div>
        <header className="house-profile-header" style={{'--house-tint':current.tint}}>
          <span className="house-profile-roman">{current.en} · {current.color}</span>
          <div className="house-profile-heading"><span className="house-crest house-crest-large">{current.name.charAt(0)}</span><div><h3>{current.name} <small>{current.hanja}</small></h3><p>{current.domains.join(' · ')}</p></div></div>
