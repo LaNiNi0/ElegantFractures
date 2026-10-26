@@ -20,7 +20,16 @@ const initialPrefs = () => {
 const formatKorean = (d) => new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'long'}).format(d);
 const pageTitle = (id) => apps.find(x=>x.id===id)?.title || '홈';
 const imageRoot = '/ElegantFractures/images/';
-const portraitOf = id => id==='jaeyul'?imageRoot+'Jaeyoul_profile.jpg':id==='iheon'?imageRoot+'Ehun_profile.png':null;
+const portraits = {
+ jaeyul: 'Jaeyoul_profile.jpg',
+ iheon: 'Ehun_profile.png',
+ jinpyo: 'Jinpyo_profile.png',
+ taerin: 'Taelin_profile.png',
+ sohwa: 'Sohwa_profile.png',
+ jiwan: 'Jiwan_profile.png',
+ riwon: 'Leewon_profile.jpg',
+};
+const portraitOf = id => portraits[id] ? imageRoot + portraits[id] : null;
 function Avatar({name,id,large=false}) {
  const portrait=portraitOf(id);
  return <span className={'avatar '+(large?'avatar-large':'')+(portrait?' avatar-photo':'')} aria-label={name+' 프로필'}>
