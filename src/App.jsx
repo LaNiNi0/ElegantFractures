@@ -38,6 +38,71 @@ function Avatar({name,id,large=false}) {
  </span>
 }
 function Empty({children}) {return <div className="empty"><Sparkles size={20}/><p>{children}</p></div>}
+function HousesGuide({selectedHouse,onSelect,onPerson}) {
+ const current=houses.find(h=>h.id===selectedHouse);
+ const openPerson=(id)=>{if(id)onPerson(id)};
+ return <div className="houses-guide">
+  <section className="houses-intro">
+    <div className="houses-intro-kicker">FIVE GREAT HOUSES · 2027</div>
+    <h2>오대명가 <span>五大名家</span></h2>
+    <p>오랜 세월 대한민국의 부와 권력, 사회적 영향력을 유지해 온 다섯 가문.</p>
+    <p>통칭 <strong>오문(五門)</strong> 또는 <strong>오가(五家)</strong>. 각기 다른 기반과 전통을 갖고 있으나, 그 관계는 혼인과 이해관계, 오랜 경쟁으로 복잡하게 얽혀 있다.</p>
+  </section>
+  <div className="house-tabs" role="tablist" aria-label="오대명가 가문 선택">
+    <button role="tab" aria-selected={!current} className={!current?'active':''} onClick={()=>onSelect(null)}>총람</button>
+    {houses.map(h=><button role="tab" aria-selected={current?.id===h.id} className={current?.id===h.id?'active':''} key={h.id} onClick={()=>onSelect(h.id)}>{h.name}</button>)}
+  </div>
+  {!current
+   ? <div className="houses-overview">
+       <h3>다섯 가문</h3>
+       {houses.map(h=><button key={h.id} className="house-overview-row" onClick={()=>onSelect(h.id)}>
+         <span className="house-crest" style={{'--house-tint':h.tint}}>{h.name.charAt(0)}</span>
+         <span className="house-overview-label"><strong>{h.name} <small>{h.en}</small></strong><span>{h.domains.join(' · ')}</span></span>
+         <ChevronRight size={17}/>
+       </button>)}
+       <div className="houses-network">
+         <h3>오문의 관계</h3>
+         <p><strong>설가 × 권가</strong> · 혼인을 통한 우호 관계</p>
+         <p><strong>황보가 × 차가</strong> · 비교적 가까운 사이</p>
+         <p><strong>황보가 × 권가</strong> · 긴장 관계</p>
+         <p><strong>선우가</strong> · 어느 편에도 깊이 치우치지 않는 중립적 입장</p>
+         <p><strong>차가</strong> · 여러 가문을 연결하는 폭넓은 사교 관계</p>
+       </div>
+     </div>
+   : <div className="house-profile" key={current.id}>
+       <header className="house-profile-header" style={{'--house-tint':current.tint}}>
+         <span className="house-profile-roman">{current.en} · {current.color}</span>
+         <div className="house-profile-heading"><span className="house-crest house-crest-large">{current.name.charAt(0)}</span><div><h3>{current.name} <small>{current.hanja}</small></h3><p>{current.domains.join(' · ')}</p></div></div>
+       </header>
+       <p className="house-profile-description">{current.desc}</p>
+       <div className="family-info-grid">
+         <div><span>대표 색</span><strong><i className="family-color-swatch" style={{background:current.tint}}/>{current.color}</strong></div>
+         <div><span>대표 식물</span><strong>{current.plant}</strong></div>
+         <div><span>대표 동물</span><strong>{current.animal}</strong></div>
+         <div><span>뿌리 지역</span><strong>{current.root}</strong></div>
+         <div className="family-wide"><span>서울 본가</span><strong>{current.residence}</strong></div>
+       </div>
+       <div className="house-nicknames">
+         <div><span>통용되는 별칭</span><strong>{current.nickname}</strong></div>
+         <div><span>비꼬는 별명</span><strong>{current.teasingNickname}</strong></div>
+       </div>
+       <h3 className="family-subhead">가주와 후계자</h3>
+       <div className="family-leaders">
+         {[{role:'가주',id:current.headId,name:current.head},{role:'후계자',id:current.heirId,name:current.heir}].map(x=>
+           x.id
+           ? <button className="family-leader" key={x.role} onClick={()=>openPerson(x.id)}>
+               <Avatar name={x.name} id={x.id}/>
+               <span><small>{x.role}</small><strong>{x.name}</strong></span><ChevronRight size={16}/>
+             </button>
+           : <div className="family-leader" key={x.role}><span className="avatar family-you">我</span><span><small>{x.role}</small><strong>{x.name}</strong></span></div>
+         )}
+       </div>
+       <h3 className="family-subhead">다른 가문과의 관계</h3>
+       <p className="house-relationship">{current.note}</p>
+     </div>}
+ </div>;
+}
+
 function App() {
  const [route,setRoute]=useState('home');
  const [locked,setLocked]=useState(true);
@@ -52,6 +117,7 @@ function App() {
  const [month,setMonth]=useState(6);
  const [prefs,setPrefs]=useState(initialPrefs);
  const [browserPage,setBrowserPage]=useState('portal');
+ const [selectedHouse,setSelectedHouse]=useState(null);
  const [browserInput,setBrowserInput]=useState('');
  const [callFilter,setCallFilter]=useState('전체');
  const [photosView,setPhotosView]=useState(null);
@@ -59,7 +125,14 @@ function App() {
  useEffect(()=>{if(route==='messages'&&picked&&chatScrollRef.current){chatScrollRef.current.scrollTop=chatScrollRef.current.scrollHeight}},[route,picked]);
  function updatePrefs(value){setPrefs(prev=>{const n={...prev,...value};try{localStorage.setItem('ef-prefs',JSON.stringify(n));}catch{}return n})}
  function navigate(to){if(to===route)return;setStack(old=>[...old,route]);setRoute(to);setPicked(null);setFolder(null);setQuery('');setShowSearch(false)}
- function back(){if(picked){setPicked(null);return}if(photosView){setPhotosView(null);return}if(folder){setFolder(null);return}setRoute(stack.at(-1)||'home');setStack(old=>old.slice(0,-1));setQuery('')}
+ function back(){
+  if(picked){setPicked(null);return}
+  if(photosView){setPhotosView(null);return}
+  if(folder){setFolder(null);return}
+  if(route==='browser'&&browserPage==='houses'&&selectedHouse){setSelectedHouse(null);return}
+  if(route==='browser'&&browserPage!=='portal'){setBrowserPage('portal');setSelectedHouse(null);return}
+  setRoute(stack.at(-1)||'home');setStack(old=>old.slice(0,-1));setQuery('');
+ }
  function home(){setRoute('home');setStack([]);setPicked(null);setFolder(null);setPhotosView(null);setQuery('');setShowSearch(false)}
  const visible = list => list.filter(x=>!x.spoiler||prefs.spoilers);
  const matched = (value)=>value.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase());
@@ -140,7 +213,7 @@ function App() {
    </>}
  </div>;
  if(route==='calendar')return <div className="app-content"><div className="section-kicker">SCHEDULE / 2027</div><h2>캘린더</h2><div className="calendar-heading"><button aria-label="이전 달" onClick={()=>{setMonth(m=>(m+11)%12);setDay(1)}}>‹</button><strong>2027년 {month+1}월</strong><button aria-label="다음 달" onClick={()=>{setMonth(m=>(m+1)%12);setDay(1)}}>›</button></div><div className="calendar-grid">{['일','월','화','수','목','금','토'].map(x=><span key={x} className="dow">{x}</span>)}{monthDays.map((d,i)=>d?<button className={'day '+(d===day?'selected':'')+(calendarData(d).length?' has-event':'')} key={i} onClick={()=>setDay(d)}>{d}</button>:<span key={i}/>)}</div><div className="section-kicker">선택한 날짜 · {month+1}월 {day}일</div><div className="records">{calendarData(day).length?calendarData(day).map((e,i)=><div className="event-row" key={i}><span className="event-dot"/><div><strong>{e.title}</strong><small>{e.type}</small></div></div>):<Empty>등록된 주요 일정이 없습니다.</Empty>}</div><div className="section-kicker" style={{marginTop:22}}>이달의 주요 일정</div>{monthEvents.length?monthEvents.map((e,i)=><button className="record" key={i} onClick={()=>setDay(Number(e.date.slice(8,10)))}><div><strong>{e.date.slice(8,10)}일 · {e.title}</strong><small>{e.type}</small></div><ChevronRight size={15}/></button>):<p className="muted">등록된 일정 없음</p>}</div>;
- if(route==='browser')return <div className="app-content browser-app"><div className="browser-bar"><Globe2 size={16}/><form onSubmit={e=>{e.preventDefault();setBrowserPage('search')}}><input aria-label="내부 아카이브 검색" value={browserInput} onChange={e=>setBrowserInput(e.target.value)} placeholder="archive.elegant-fractures.local"/></form></div>{browserPage==='portal'?<><div className="section-kicker">BOOKMARKS</div><div className="browser-hero"><span>ARCHIVE 2027</span><h2>우아한 균열</h2><p>다섯 가문, 그리고 각자의 이야기.</p></div><h3>즐겨찾기</h3>{[{title:'다섯 명가 기록',desc:'가문 소개와 관계',page:'houses'},{title:'2027년 주요 일정',desc:'공식 행사와 기념일',page:'schedule'},{title:'스토리 소개',desc:'한 편의 관계극',page:'about'}].map(x=><button className="record" key={x.page} onClick={()=>setBrowserPage(x.page)}><div><strong>{x.title}</strong><small>{x.desc}</small></div><ChevronRight size={15}/></button>)}</>:browserPage==='article'?<><div className="article-screen">
+ if(route==='browser')return <div className="app-content browser-app"><div className="browser-bar"><Globe2 size={16}/><form onSubmit={e=>{e.preventDefault();setBrowserPage('search')}}><input aria-label="내부 아카이브 검색" value={browserInput} onChange={e=>setBrowserInput(e.target.value)} placeholder="archive.elegant-fractures.local"/></form></div>{browserPage==='portal'?<><div className="section-kicker">BOOKMARKS</div><div className="browser-hero"><span>ARCHIVE 2027</span><h2>우아한 균열</h2><p>다섯 가문, 그리고 각자의 이야기.</p></div><h3>즐겨찾기</h3>{[{title:'오대명가 · 五大名家',desc:'오문 총람과 각 가문의 기록',page:'houses'},{title:'2027년 주요 일정',desc:'공식 행사와 기념일',page:'schedule'},{title:'스토리 소개',desc:'한 편의 관계극',page:'about'}].map(x=><button className="record" key={x.page} onClick={()=>{setBrowserPage(x.page);if(x.page==='houses')setSelectedHouse(null)}}><div><strong>{x.title}</strong><small>{x.desc}</small></div><ChevronRight size={15}/></button>)}</>:browserPage==='article'?<><div className="article-screen">
   <div className="article-masthead">한성경제 <span>재계</span></div>
   <div className="article-date">2027년 9월 9일</div>
   <h2>설가 후계 구도 재검토?</h2>
@@ -149,7 +222,7 @@ function App() {
   <p>현 후계자가 보여준 역량을 높이 평가하는 의견이 있는 반면, 가문의 전통적 승계 질서를 고려하면 설지완이 적합하다는 주장이 일부에서 제기된다.</p>
   <p>다만 가문 측은 후계 변경 여부에 관해 별도의 입장을 내놓지 않았다. 확인되지 않은 관측이 실제 인사로 이어질지는 미지수다.</p>
   <div className="article-footer">한성경제 · 재계 소식</div>
- </div></>:browserPage==='houses'?<><div className="section-kicker">ENCYCLOPEDIA</div><h2>다섯 명가</h2>{houses.map(h=><div className="house-card" key={h.name}><small>{h.en}</small><h3>{h.name}</h3><p>{h.desc}</p><p className="muted small">{h.note}</p></div>)}</>:browserPage==='schedule'?<><h2>2027년 · 주요 기록</h2>{events.filter(e=>e.date.startsWith('2027')).map((e,i)=><div className="event-row" key={i}><Clock3 size={16}/><div><strong>{e.title}</strong><small>{e.date} · {e.type}</small></div></div>)}</>:browserPage==='about'?<><div className="browser-hero"><span>ELEGANT FRACTURES</span><h2>우아한 균열</h2><p>십 년의 사랑, 서른 날의 유예.</p></div><p className="longtext">2027년 현대 대한민국. 다섯 명가의 화려한 질서 아래, 사랑과 가족과 혈통의 균열이 조용히 번져간다.</p></>:<><h2>아카이브 검색</h2><p className="muted">‘{browserInput}’에 대한 내부 검색 결과</p>{houses.filter(h=>h.name.includes(browserInput)).map(h=><div className="house-card" key={h.name}><h3>{h.name}</h3><p>{h.desc}</p></div>)}{people.filter(p=>p.name.includes(browserInput)&&(!p.spoiler||prefs.spoilers)).map(p=><div className="record" key={p.id}><div><strong>{p.name}</strong><small>{p.label}</small></div></div>)}{!houses.some(h=>h.name.includes(browserInput))&&!people.some(p=>p.name.includes(browserInput))&&<Empty>내부 자료를 찾지 못했습니다.</Empty>}</>}<div className="browser-footer"><button onClick={()=>setBrowserPage('portal')}><Home size={16}/> 시작 페이지</button></div></div>;
+ </div></>:browserPage==='houses'?<HousesGuide selectedHouse={selectedHouse} onSelect={setSelectedHouse} onPerson={(id)=>{const person=people.find(p=>p.id===id);if(person){navigate('contacts');setPicked(person)}}}/>:browserPage==='schedule'?<><h2>2027년 · 주요 기록</h2>{events.filter(e=>e.date.startsWith('2027')).map((e,i)=><div className="event-row" key={i}><Clock3 size={16}/><div><strong>{e.title}</strong><small>{e.date} · {e.type}</small></div></div>)}</>:browserPage==='about'?<><div className="browser-hero"><span>ELEGANT FRACTURES</span><h2>우아한 균열</h2><p>십 년의 사랑, 서른 날의 유예.</p></div><p className="longtext">2027년 현대 대한민국. 다섯 명가의 화려한 질서 아래, 사랑과 가족과 혈통의 균열이 조용히 번져간다.</p></>:<><h2>아카이브 검색</h2><p className="muted">‘{browserInput}’에 대한 내부 검색 결과</p>{houses.filter(h=>h.name.includes(browserInput)).map(h=><div className="house-card" key={h.name}><h3>{h.name}</h3><p>{h.desc}</p></div>)}{people.filter(p=>p.name.includes(browserInput)&&(!p.spoiler||prefs.spoilers)).map(p=><div className="record" key={p.id}><div><strong>{p.name}</strong><small>{p.label}</small></div></div>)}{!houses.some(h=>h.name.includes(browserInput))&&!people.some(p=>p.name.includes(browserInput))&&<Empty>내부 자료를 찾지 못했습니다.</Empty>}</>}<div className="browser-footer"><button onClick={()=>setBrowserPage('portal')}><Home size={16}/> 시작 페이지</button></div></div>;
  if(route==='gallery')return <div className="app-content">
  <div className="section-kicker">PHOTOS · PERSONAL</div><h2>사진</h2>
  {photosView?
