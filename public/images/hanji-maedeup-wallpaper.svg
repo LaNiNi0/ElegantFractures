@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1560" width="720" height="1560">
+ <defs>
+  <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+   <stop stop-color="#F7F0E5"/><stop offset=".54" stop-color="#EBDCCB"/><stop offset="1" stop-color="#E0C9B9"/>
+  </linearGradient>
+  <linearGradient id="ribbon" x1="0" y1="0" x2="1" y2=".8">
+   <stop stop-color="#8B4B56"/><stop offset=".55" stop-color="#6D3546"/><stop offset="1" stop-color="#4B2C3B"/>
+  </linearGradient>
+  <linearGradient id="tassel" x1="0" y1="0" x2="1" y2="0">
+   <stop stop-color="#824353"/><stop offset=".5" stop-color="#B66D70"/><stop offset="1" stop-color="#794252"/>
+  </linearGradient>
+  <filter id="paper-grain" x="-0.2" y="-0.2" width="1.4" height="1.4"><feTurbulence type="fractalNoise" baseFrequency=".19 .21" numOctaves="3" seed="8" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".14"/></feComponentTransfer></filter>
+  <filter id="fuzz"><feGaussianBlur stdDeviation="36"/></filter>
+ </defs>
+ <rect width="720" height="1560" fill="url(#paper)"/>
+ <ellipse cx="122" cy="110" rx="330" ry="420" fill="#FFFFFF" opacity=".26" filter="url(#fuzz)"/>
+ <ellipse cx="700" cy="1360" rx="320" ry="430" fill="#A96772" opacity=".08" filter="url(#fuzz)"/>
+ <rect width="720" height="1560" filter="url(#paper-grain)" opacity=".70"/>
+ <!-- thin traditional silk trim, intentionally asymmetrical and minimal -->
+ <path d="M650 0V1560" stroke="#B39185" stroke-width="1.5" opacity=".44"/>
+ <path d="M654 0V1560" stroke="#FFF8EE" stroke-width="1.5" opacity=".7"/>
+ <path d="M35 0V1560" stroke="#A77A72" stroke-width=".8" opacity=".19"/>
+ <!-- subtle brush-shadow, not a drawn landscape -->
+ <ellipse cx="60" cy="1060" rx="260" ry="260" fill="#83575C" opacity=".032" filter="url(#fuzz)"/>
+ <!-- Korean maedeup / norigae knot pendant, off-center to preserve text and icons -->
+ <g transform="translate(577 815)" opacity=".79">
+  <path d="M0 -430V-113" stroke="#80505A" stroke-width="5" fill="none"/>
+  <path d="M0 -430V-113" stroke="#B98082" stroke-width="1.2" fill="none"/>
+  <!-- loops, overlapping silk cords -->
+  <g fill="none" stroke="url(#ribbon)" stroke-linejoin="round" stroke-linecap="round">
+   <path d="M0 -129 C-38 -170 -85 -147 -78 -108 C-73 -82 -41 -85 -27 -101 C-13 -121 -5 -114 0 -101 C5 -114 13 -121 27 -101 C41 -85 73 -82 78 -108 C85 -147 38 -170 0 -129Z" stroke-width="10"/>
+   <path d="M0 -129 C-34 -119 -48 -88 -29 -73 C-8 -57 -3 -79 0 -90 C3 -79 8 -57 29 -73 C48 -88 34 -119 0 -129Z" stroke-width="8"/>
+   <path d="M-74 -45 C-102 -72 -76 -101 -49 -93 C-24 -85 -20 -54 -37 -42 C-54 -29 -56 -12 -38 -2 C-18 7 -6 -11 0 -23 C6 -11 18 7 38 -2 C56 -12 54 -29 37 -42 C20 -54 24 -85 49 -93 C76 -101 102 -72 74 -45" stroke-width="8"/>
+   <path d="M-48 -42 C-18 -35 18 -35 48 -42 M-37 -18 C-14 -28 14 -28 37 -18" stroke-width="6"/>
+  </g>
+  <path d="M0 -12V24" stroke="#86525B" stroke-width="8"/>
+  <path d="M-15 24 Q0 14 15 24 V66 Q0 81 -15 66Z" fill="#985662" stroke="#E2BD9A" stroke-width="2"/>
+  <path d="M-12 33H12M-12 40H12M-12 47H12" stroke="#D4A08D" stroke-opacity=".6" stroke-width="1"/>
+  <g stroke="url(#tassel)" stroke-width="3.2" stroke-linecap="round" opacity=".88">
+   <path d="M-14 62Q-20 178 -26 296"/>
+   <path d="M-10 66Q-12 183 -15 318"/>
+   <path d="M-5 69Q-7 186 -5 330"/>
+   <path d="M0 70Q0 185 0 338"/>
+   <path d="M5 69Q7 186 5 330"/>
+   <path d="M10 66Q12 183 15 318"/>
+   <path d="M14 62Q20 178 26 296"/>
+  </g>
+  <path d="M-24 74Q0 81 24 74" stroke="#D2A08B" stroke-width="2" fill="none"/>
+ </g>
+ <!-- understated embossed Korean knot seal lower left -->
+ <g transform="translate(104 1310)" opacity=".085" fill="none" stroke="#754351" stroke-width="5">
+  <path d="M0 -48C-30 -70 -55 -40 -36 -22C-19 -8 -7 -26 0 -34C7 -26 19 -8 36 -22C55 -40 30 -70 0 -48Z"/>
+  <path d="M0 48C-30 70 -55 40 -36 22C-19 8 -7 26 0 34C7 26 19 8 36 22C55 40 30 70 0 48Z"/>
+  <circle r="18"/>
+ </g>
+</svg>
