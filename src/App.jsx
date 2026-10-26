@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, BatteryFull, BookOpen, CalendarDays, Camera, Check, ChevronRight, Clock3, Compass, Contact, FileText, Folder, Globe2, Heart, Home, Image as ImageIcon, Info, LockKeyhole, Mail, Menu, MessageCircle, Moon, NotebookPen, Phone, PhoneIncoming, PhoneMissed, Search, Settings, Shield, Signal, Sparkles, Star, UserRound, Wifi, X } from 'lucide-react';
 import { people, houses, notes, events, conversations, calls } from './data/story';
 
@@ -23,6 +23,10 @@ function Avatar({name,large=false}) {return <span className={'avatar '+(large?'a
 function Empty({children}) {return <div className="empty"><Sparkles size={20}/><p>{children}</p></div>}
 function App() {
  const [route,setRoute]=useState('home');
+ const [locked,setLocked]=useState(true);
+ const [now,setNow]=useState(()=>new Date());
+ const swipeOrigin=useRef(null);
+ useEffect(()=>{const timer=setInterval(()=>setNow(new Date()),30000);return ()=>clearInterval(timer)},[]);
  const [stack,setStack]=useState([]);
  const [query,setQuery]=useState('');
  const [picked,setPicked]=useState(null);
@@ -40,7 +44,16 @@ function App() {
  function home(){setRoute('home');setStack([]);setPicked(null);setFolder(null);setPhotosView(null);setQuery('');setShowSearch(false)}
  const visible = list => list.filter(x=>!x.spoiler||prefs.spoilers);
  const matched = (value)=>value.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase());
- const time = '21:09';
+ const time = new Intl.DateTimeFormat('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false}).format(now);
+ // Story date is an editable placeholder until the narrative's opening day is finalized.
+ const storyDate = new Date(2027,8,18);
+ const lockDate = new Intl.DateTimeFormat('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'}).format(storyDate);
+ function unlock(){setLocked(false);setRoute('home');setStack([]);setPicked(null);setFolder(null)}
+ function lock(){home();setLocked(true)}
+ function onSwipeStart(e){swipeOrigin.current=e.clientY}
+ function onSwipeEnd(e){if(swipeOrigin.current!==null&&swipeOrigin.current-e.clientY>54)unlock();swipeOrigin.current=null}
+ function quickOpen(app){setLocked(false);setRoute(app);setStack(['home']);setPicked(null);setFolder(null);setQuery('')}
+
  const segments = { '가까운 사람':'MY PEOPLE','설가':'SEOL','황보가':'HWANGBO','선우가':'SEONWOO','차가':'CHA','권가':'KWON' };
  const shownPeople = useMemo(()=>visible(people).filter(p=>matched(p.name+' '+p.label+' '+p.group)),[query,prefs.spoilers]);
  const monthDays = useMemo(()=>{const days=new Date(2027,month+1,0).getDate();const start=new Date(2027,month,1).getDay();return [...Array(start).fill(null),...Array.from({length:days},(_,i)=>i+1)]},[month]);
@@ -50,10 +63,8 @@ function App() {
  const appButton=(a)=>{const I=a.icon;return <button key={a.id} className="app-entry" onClick={()=>navigate(a.id)}><span className="app-icon" style={{'--tile':a.color}}><I size={25} strokeWidth={1.6}/></span><span>{a.title}</span></button>};
  const content = () => {
  if(route==='home') return <div className="home-screen">
-   <section className="home-brand"><div className="eyebrow">SEOUL · 2027</div><h1>우아한 균열</h1><p>ELEGANT FRACTURES</p><span className="hairline"/></section>
-   <section className="home-widget"><div className="widget-head"><span><Star size={13}/> PERSONAL ARCHIVE</span><span>2027</span></div><p className="widget-line">십 년의 사랑,<br/><em>서른 날의 유예.</em></p><p className="widget-tiny">기록은 남고, 관계는 변한다.</p></section>
    <div className="home-apps">{apps.slice(4).map(appButton)}</div>
-   <div className="home-below"><span>나의 일상, 나의 기록</span><span className="tiny-flower">✺</span></div>
+   <div className="home-pagination" aria-hidden="true"><span className="active"/><span/></div>
    <div className="dock">{apps.slice(0,4).map(appButton)}</div>
  </div>;
  if(route==='notes') return <div className="app-content">
@@ -72,11 +83,26 @@ function App() {
  if(route==='settings')return <div className="app-content"><div className="section-kicker">PREFERENCES</div><h2>설정</h2><div className="setting-block"><h3>아카이브 공개 범위</h3><label className="setting-row"><span><strong>스포일러 포함</strong><small>출생 비밀 및 숨겨진 과거 일부 표시</small></span><input type="checkbox" checked={prefs.spoilers} onChange={e=>updatePrefs({spoilers:e.target.checked})}/></label></div><div className="setting-block"><h3>내 선택 (이 기기에만 저장)</h3><label className="field-label">연애 공개 여부</label><select value={prefs.relationship} onChange={e=>updatePrefs({relationship:e.target.value})}><option>미설정</option><option>공개 연애</option><option>비공개 연애</option><option>일부에게만 공개</option></select><label className="field-label">재율과 사용하는 애칭 (선택)</label><input className="text-field" value={prefs.nickname} onChange={e=>updatePrefs({nickname:e.target.value})} placeholder="원하는 경우 직접 입력" maxLength={40}/></div><div className="notice"><Shield size={17}/> 선택 항목은 이 브라우저에만 저장되며 GitHub나 서버로 전송하지 않습니다. 다른 기기와 자동으로 동기화되지 않습니다.</div><button className="reset-btn" onClick={()=>updatePrefs({spoilers:false,relationship:'미설정',nickname:''})}>개인 선택 초기화</button><p className="muted small">Elegant Fractures · Prototype 0.1</p></div>;
  return null;
  };
- return <div className="site-shell"><div className="ambient ambient-left"/><div className="ambient ambient-right"/><aside className="desktop-caption"><div className="eyebrow">A PRIVATE STORY ARCHIVE</div><h2>Elegant<br/><em>Fractures.</em></h2><div className="accent-line"/><p>십 년의 사랑,<br/>서른 날의 유예.</p><small>2027 · 다섯 명가의 이야기</small></aside>
- <main className="phone" aria-label="《우아한 균열》 휴대폰 아카이브"><div className="phone-inner"><div className="statusbar"><span>{time}</span><span className="island" aria-hidden="true"/><div><Signal size={14}/><Wifi size={14}/><BatteryFull size={18}/></div></div>
- {route!=='home'&&<div className="app-toolbar"><button className="back-btn" onClick={back} aria-label="뒤로 가기"><ArrowLeft size={18}/></button><span>{picked?.name||picked?.title||folder||pageTitle(route)}</span><button className="toolbar-home" onClick={home} aria-label="홈으로"><Home size={17}/></button></div>}
- <div className={'screen '+(route==='home'?'screen-home':'screen-app')} key={route}>{content()}</div>
- <div className="home-indicator"><button onClick={home} aria-label="홈 화면으로 돌아가기"><span/></button></div></div></main>
- <footer className="desktop-footnote"><span>LA NUIT / ARCHIVE</span><span>모든 기록은 허구의 작품 설정입니다.</span></footer></div>;
+ return <div className="site-shell"><div className="ambient ambient-left"/><div className="ambient ambient-right"/>
+ <main className="phone" aria-label="2027년 설가 후계자의 휴대폰">
+   <div className="phone-inner">
+     <div className="statusbar"><span>{time}</span><span className="island" aria-hidden="true"/><div><Signal size={14}/><Wifi size={14}/><BatteryFull size={18}/></div></div>
+     {locked ? <div className="screen screen-lock" onPointerDown={onSwipeStart} onPointerUp={onSwipeEnd} onPointerCancel={()=>{swipeOrigin.current=null}}>
+        <div className="lock-timebox"><div className="lock-date">{lockDate}</div><div className="lock-clock">{time}</div></div>
+        <div className="lock-bottom">
+          <div className="lock-shortcuts">
+            <button className="lock-shortcut" onClick={()=>quickOpen('calls')} aria-label="전화 앱 바로가기"><Phone size={22}/></button>
+            <button className="lock-shortcut" onClick={()=>quickOpen('gallery')} aria-label="카메라 바로가기: 사진 앱 미리보기"><Camera size={22}/></button>
+          </div>
+          <button className="unlock-button" onClick={unlock} aria-label="위로 밀거나 클릭해서 잠금 해제"><span className="up-chevron">⌃</span>위로 밀어서 잠금 해제</button>
+        </div>
+      </div> : <>
+        {route!=='home'&&<div className="app-toolbar"><button className="back-btn" onClick={back} aria-label="뒤로 가기"><ArrowLeft size={18}/></button><span>{picked?.name||picked?.title||folder||pageTitle(route)}</span><button className="toolbar-home" onClick={home} aria-label="홈으로"><Home size={17}/></button></div>}
+        <div className={'screen '+(route==='home'?'screen-home':'screen-app')} key={route}>{content()}</div>
+        <div className="home-indicator"><button onClick={home} aria-label="홈 화면으로 돌아가기"><span/></button></div>
+      </>}
+     <button className="phone-side-button" onClick={lock} aria-label="화면 잠그기" title="화면 잠그기"/>
+   </div>
+ </main></div>;
 }
 export default App;
