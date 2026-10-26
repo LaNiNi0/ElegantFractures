@@ -1,0 +1,267 @@
+/* ElegantFractures — Seol House phone theme
+   A contemporary heir's phone: ivory, charcoal, pine, brushed champagne.
+   This layer follows styles.css so family-specific tints remain visible. */
+:root {
+  color-scheme: light;
+  --seol-ivory: #F8F7F2;
+  --seol-surface: #FFFFFF;
+  --seol-mist: #F0EFE8;
+  --seol-line: #E5E4DA;
+  --seol-ink: #2D3330;
+  --seol-muted: #788078;
+  --seol-pine: #435849;
+  --seol-olive: #677565;
+  --seol-gold: #B69C65;
+  --seol-champagne: #E0D3B4;
+  --seol-gold-light: #F4F0E6;
+  --paper: var(--seol-ivory);
+  --surface: var(--seol-surface);
+  --wash: var(--seol-mist);
+  --divider: var(--seol-line);
+  --ink: var(--seol-ink);
+  --secondary: var(--seol-muted);
+  --plum: var(--seol-pine);
+  --plum-deep: #304138;
+  --pink: var(--seol-gold);
+  --glow: #EFE9D9;
+}
+body { background: #181D19; }
+button:focus-visible,input:focus-visible,select:focus-visible {
+  outline-color: #B69C65;
+}
+.site-shell {
+  background:
+   radial-gradient(ellipse at 38% 13%, rgba(129,143,112,.22),transparent 46%),
+   radial-gradient(ellipse at 84% 80%, rgba(167,144,95,.12),transparent 40%),
+   linear-gradient(145deg,#27302A 0%,#121712 100%);
+}
+.ambient {border-color:rgba(197,183,138,.12)}
+.phone {
+  background:linear-gradient(135deg,#313831,#0C100D);
+  border-color:#7C7E6A;
+  box-shadow:0 35px 100px #020703b0,0 0 0 4px #1B221C,0 0 0 5px #B5A58033;
+}
+.phone-inner {background:var(--seol-ivory)}
+.island {background:#101714}
+.phone-side-button {background:#787F6D}
+.statusbar {color:var(--seol-ink)}
+.screen-lock,.screen-home {
+  color:var(--seol-ink);
+  background-image:
+    linear-gradient(180deg,rgba(255,255,255,.08) 0%,transparent 55%,rgba(91,106,79,.12) 100%),
+    url('/ElegantFractures/images/seol-lattice-ivory.svg');
+  background-color:#F7F5EE;
+  background-position:center center;
+  background-repeat:no-repeat;
+  background-size:cover;
+}
+.screen-lock::after,.screen-home::after {
+  background:linear-gradient(180deg,rgba(255,255,255,.20),transparent 46%,rgba(223,211,186,.14));
+}
+.lock-clock {
+  color:#29342C;
+  font-weight:400;
+  text-shadow:0 1px 1px #FFFDF68A;
+}
+.lock-date {color:#5D6B5D}
+.lock-notification {
+  border:1px solid #FFFFFFC9;
+  background:rgba(255,255,251,.78);
+  box-shadow:0 7px 25px rgba(56,70,54,.07);
+  color:var(--seol-ink);
+}
+.lock-notification:hover {background:rgba(255,255,251,.94)}
+.notification-icon {
+  color:#FCFBF6;
+  background:linear-gradient(142deg,#718073,#40574A);
+  border:1px solid #CAD0BD77;
+}
+.notification-copy strong {color:#7F8276}
+.notification-copy>span {color:#2D3730}
+.lock-notification small {color:#888F84}
+.lock-shortcut {
+  background:rgba(56,71,60,.82);border-color:#EEEADDCC;color:#FFFDF5;
+}
+.lock-shortcut:hover {background:#4A6654}
+.unlock-button {color:#526050}
+.up-chevron {color:#B49E68}
+.app-entry {color:#425247}
+.app-entry>span:last-child {
+  color:#39453C;
+  text-shadow:0 1px 1px #FFFEF6BD;
+  font-weight:600;
+}
+.app-icon {
+  color:#34473A;
+  border:1px solid rgba(255,255,255,.83);
+  background:
+    linear-gradient(142deg,rgba(255,255,255,.52),rgba(255,255,255,.13)),
+    linear-gradient(148deg,
+      color-mix(in srgb,var(--tile) 47%,transparent),
+      color-mix(in srgb,var(--tile) 27%,transparent));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.8),
+    0 8px 18px rgba(58,67,53,.11);
+  -webkit-backdrop-filter:blur(17px) saturate(1.08);
+  backdrop-filter:blur(17px) saturate(1.08);
+}
+.tile-notes,.tile-contacts {
+  color:#535D47;
+  background:linear-gradient(155deg,rgba(255,255,254,.88),rgba(228,226,211,.52));
+}
+.dock {
+  background:rgba(248,248,239,.63);
+  border:1px solid rgba(255,255,255,.78);
+  box-shadow:0 11px 25px rgba(60,71,55,.12);
+  -webkit-backdrop-filter:blur(26px) saturate(1.07);
+  backdrop-filter:blur(26px) saturate(1.07);
+}
+.home-pagination span {background:#A3AA97A0}
+.home-pagination .active {background:#50604D}
+.home-indicator span {background:#415145}
+.app-toolbar {
+  background:rgba(252,251,247,.94);
+  color:#2D3C31;
+  border-bottom:1px solid var(--seol-line);
+  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(18px);
+}
+.back-btn,.toolbar-home {color:#60735B}
+.back-btn:hover,.toolbar-home:hover {background:#EBEEE6}
+.screen-app {background:#F8F7F3;color:var(--seol-ink)}
+.app-content h2,.app-content h3 {color:#2D3730}
+.section-kicker {color:#9A937C;letter-spacing:.13em}
+.muted {color:#7A8075}
+.search,.browser-bar {
+  background:#EEEEEA;color:#8C978A;
+  border:1px solid rgba(215,219,207,.7);
+}
+.search input,.browser-bar input {color:#263229}
+.search input::placeholder,.browser-bar input::placeholder {color:#A0A69B}
+.folder-card {
+  color:#9C9B7B;
+  background:#FFFFFF;
+  border:1px solid #E9E8DF;
+  box-shadow:0 5px 18px rgba(66,74,54,.045);
+}
+.folder-card strong {color:#35443A}
+.folder-card small {color:#90978A}
+.folder-card>svg:last-child,.record>svg,.person-row>svg {color:#A9B09F}
+.folder-card:hover {border-color:#CFCCAF}
+.notice,.empty {background:#F0F1E9;color:#758071;border-color:#E4E8DA}
+.record,.person-row,.event-row {border-bottom-color:#E6E8E0}
+.record strong,.person-row strong,.event-row strong {color:#2E3A31}
+.record small,.person-row small,.event-row small {color:#7A8479}
+.record:hover,.person-row:not(.no-pointer):hover {background:#EFF2E9}
+.avatar {
+  background:linear-gradient(140deg,#B9BB9B,#556D59);
+  border:1px solid #F4F1E6;
+}
+.person-detail .detail-grid {border-color:#E1E5DA}
+.detail-grid span,.call-record .call-time {color:#849080}
+.detail-grid strong {color:#354039}
+.person-detail p {color:#5D6C5F}
+.note-sheet {
+  color:#334037;background:#FFFFFF;
+  border:1px solid #E5E5DA;
+  box-shadow:0 8px 24px rgba(58,67,54,.065);
+}
+.tag.proposal {color:#87734D;background:#F3EEE0}
+.pills button {color:#657762;background:#EAEDE5}
+.pills button.active {color:white;background:#526954}
+.call-record.is-missed strong,.call-record.is-missed small {color:#B0696C}
+.message-person {border-bottom-color:#E3E8DD}
+.bubble {background:#EAEDE6;color:#334336}
+.bubble.mine {background:#58705B;color:#FFFFFF}
+.bubble-time,.message-row-time {color:#99A194}
+.message-date {background:#EDEEE7;color:#899486}
+.message-compose {background:#F0F1EC;border-color:#E1E5DE;color:#A2A99D}
+.compose-arrow {background:#ADB9AA}
+.message-article-link .article-source,.article-action {color:#72805C}
+.calendar-heading {color:#3B463B}
+.calendar-heading button {background:#E9EDE5;color:#527253}
+.dow {color:#909B8C}
+.day {color:#3C4A3F}
+.day:hover {background:#E6EADC}
+.day.selected {background:#536A55;color:#fff}
+.day.has-event:not(.selected)::after {background:#AD996A}
+.event-dot {background:#A99B73}
+.browser-hero {
+  background:linear-gradient(133deg,#3B5648,#26382F);
+  color:#FFFDF7;
+  box-shadow:0 12px 27px #304B382E;
+}
+.browser-hero h2,.browser-hero p {color:#FAFAF1}
+.browser-hero span {color:#DADFCF}
+.article-masthead {color:#3E5945;border-color:#C5B07C}
+.article-screen>h3 {color:#687760}
+.article-screen>p {color:#495A4E}
+.article-action,.browser-footer button {color:#526A54}
+.house-card,.setting-block {
+  border-color:#E5E7DD;background:#FFFFFF;
+}
+.house-card h3,.setting-block h3 {color:#354238}
+.house-card p {color:#5C695B}
+.house-card small {color:#8F9A8C}
+.setting-row small,.field-label {color:#84917E}
+.setting-row input {accent-color:#627A64}
+.setting-block select,.text-field {
+  color:#314135;background:#F1F2ED;border-color:#E1E7DC;
+}
+.reset-btn {color:#566F58;background:#EDF0E8}
+
+/* The five-house archive: ivory frame, per-house accent from h.tint. */
+.houses-intro {
+  background:linear-gradient(145deg,#FFFFFF,#F3F2EB);
+  border-color:#E7E6DB;
+}
+.houses-intro-kicker,.houses-intro>h2 span {color:#A09270}
+.houses-intro p {color:#59665B}
+.houses-intro strong {color:#586C56}
+.house-tabs button {color:#717F70;background:#ECEFE6}
+.house-tabs button.active {color:#FCFBF5;background:#48624C}
+.houses-overview>h3,.family-subhead {color:#394B3D}
+.house-overview-row {
+  gap:11px;padding:10px;min-height:76px;
+  border-color:#E7E8DD;background:#FFF;
+}
+.house-overview-row:active {background:#F3F5EF}
+.house-overview-art {
+  width:112px;height:52px;min-width:112px;display:flex;
+  align-items:center;justify-content:center;overflow:hidden;
+  border-radius:8px;background:#F5F2E9;border:1px solid #EAE5D9;
+}
+.house-overview-art img {display:block;width:100%;height:100%;object-fit:contain}
+.house-overview-label strong {color:#38483A}
+.house-overview-label strong small,.house-overview-label>span {color:#879184}
+.house-overview-row>svg {color:#ADB4A3}
+.houses-network {background:#F0F2E9}
+.houses-network h3,.houses-network strong {color:#466048}
+.houses-network p {color:#677766;border-bottom-color:#DEE4D8}
+.house-banner{
+  overflow:hidden;border-radius:13px;aspect-ratio:21/9;
+  background:#F8F5EA;
+  border:1px solid #DFD9C8;
+  box-shadow:0 7px 18px rgba(74,73,55,.12);
+  margin:2px 0 14px;
+}
+.house-banner img {
+  width:100%;height:100%;display:block;
+  object-fit:contain;object-position:center;
+}
+.house-profile-header {margin-top:0}
+.house-profile-heading h3 {color:#334236}
+.house-profile-description {color:#5C6D5F}
+.family-info-grid>div {border-color:#E6E8DE}
+.family-info-grid span,.house-nicknames span {color:#879385}
+.family-info-grid strong,.house-nicknames strong {color:#3C4D3D}
+.house-nicknames>div {background:#F0F2EB}
+.family-leader {border-color:#E5E7DB}
+.family-leader strong {color:#354736}
+.family-leader small,.family-leader>svg {color:#96A091}
+.house-relationship {background:#F0F2EA;color:#596C5C}
+.family-you {background:linear-gradient(140deg,#DAD3B8,#BEB084);color:#596346}
+@media(max-width:390px){
+  .house-overview-art{width:97px;min-width:97px;height:47px}
+  .house-overview-row{gap:8px;padding:8px}
+}
