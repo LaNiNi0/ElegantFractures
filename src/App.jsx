@@ -4,14 +4,14 @@ import { people, houses, notes, events, conversations, calls } from './data/stor
 
 const icons = {notes:NotebookPen,calendar:CalendarDays,contacts:Contact,calls:Phone,messages:MessageCircle,browser:Compass,gallery:ImageIcon,settings:Settings};
 const apps = [
- {id:'calls',title:'전화',icon:Phone,color:'#527b65'},
- {id:'messages',title:'메시지',icon:MessageCircle,color:'#698670'},
- {id:'browser',title:'브라우저',icon:Compass,color:'#526b8c'},
- {id:'gallery',title:'사진',icon:ImageIcon,color:'#876f87'},
- {id:'notes',title:'메모',icon:NotebookPen,color:'#a78566'},
- {id:'calendar',title:'캘린더',icon:CalendarDays,color:'#8a636c'},
- {id:'contacts',title:'연락처',icon:Contact,color:'#777193'},
- {id:'settings',title:'설정',icon:Settings,color:'#595a6a'}
+ {id:'calls',title:'전화',icon:Phone,color:'#435349'},
+ {id:'messages',title:'메시지',icon:MessageCircle,color:'#583640'},
+ {id:'browser',title:'브라우저',icon:Compass,color:'#493941'},
+ {id:'gallery',title:'사진',icon:ImageIcon,color:'#925664'},
+ {id:'notes',title:'메모',icon:NotebookPen,color:'#e8d8c7'},
+ {id:'calendar',title:'캘린더',icon:CalendarDays,color:'#66414b'},
+ {id:'contacts',title:'연락처',icon:Contact,color:'#e4d7cb'},
+ {id:'settings',title:'설정',icon:Settings,color:'#403439'}
 ];
 const initialPrefs = () => {
  try { return {spoilers:false,relationship:'미설정',nickname:'',...(JSON.parse(localStorage.getItem('ef-prefs'))||{})}; }
@@ -60,7 +60,7 @@ function App() {
  const monthEvents=events.filter(e=>Number(e.date.slice(5,7))===month+1);
  const calendarData = day => events.filter(e=>Number(e.date.slice(5,7))===month+1 && Number(e.date.slice(8,10))===day);
  const [day,setDay]=useState(23);
- const appButton=(a)=>{const I=a.icon;return <button key={a.id} className="app-entry" onClick={()=>navigate(a.id)}><span className="app-icon" style={{'--tile':a.color}}><I size={25} strokeWidth={1.6}/></span><span>{a.title}</span></button>};
+ const appButton=(a)=>{const I=a.icon;return <button key={a.id} className="app-entry" onClick={()=>navigate(a.id)}><span className={'app-icon tile-'+a.id} style={{'--tile':a.color}}><I size={25} strokeWidth={1.6}/></span><span>{a.title}</span></button>};
  const content = () => {
  if(route==='home') return <div className="home-screen">
    <div className="home-apps">{apps.slice(4).map(appButton)}</div>
