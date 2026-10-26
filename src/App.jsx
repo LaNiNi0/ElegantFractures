@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, BatteryFull, BookOpen, CalendarDays, Camera, Check, ChevronRight, Clock3, Compass, Contact, FileText, Folder, Globe2, Heart, Home, Image as ImageIcon, Info, LockKeyhole, Mail, Menu, MessageCircle, Moon, NotebookPen, Phone, PhoneIncoming, PhoneMissed, Search, Settings, Shield, Signal, Sparkles, Star, UserRound, Wifi, X } from 'lucide-react';
-import { people, houses, notes, events, conversations, calls } from './data/story';
+import { people, houses, notes, events, conversations, calls, galleryPhotos } from './data/story';
 
 const icons = {notes:NotebookPen,calendar:CalendarDays,contacts:Contact,calls:Phone,messages:MessageCircle,browser:Compass,gallery:ImageIcon,settings:Settings};
 const apps = [
@@ -37,6 +37,47 @@ function Avatar({name,id,large=false}) {
    {portrait&&<img src={portrait} alt="" loading="lazy" onError={e=>{e.currentTarget.style.display='none'}}/>}
  </span>
 }
+function PhotosGallery({photos,activeIndex,onSelect,onClose}) {
+ const touchX=useRef(null);
+ if(activeIndex!==null){
+  const photo=photos[activeIndex];
+  if(!photo)return null;
+  const move=(direction)=>onSelect(Math.max(0,Math.min(photos.length-1,activeIndex+direction)));
+  return <div className="ios-photo-viewer">
+    <header className="ios-photo-viewer-header">
+      <button onClick={onClose} aria-label="사진 목록으로" className="ios-gallery-back"><ArrowLeft size={19}/><span>모든 사진</span></button>
+      <span className="ios-photo-position">{activeIndex+1} / {photos.length}</span>
+    </header>
+    <div className="ios-full-photo-stage" role="group" aria-label={photo.title}
+      tabIndex={0}
+      onKeyDown={e=>{if(e.key==='ArrowLeft'){e.preventDefault();move(-1)}if(e.key==='ArrowRight'){e.preventDefault();move(1)}}}
+      onTouchStart={e=>{touchX.current=e.touches[0].clientX}}
+      onTouchEnd={e=>{if(touchX.current===null)return;const dx=e.changedTouches[0].clientX-touchX.current;touchX.current=null;if(dx>48)move(-1);else if(dx< -48)move(1)}}
+    >
+      <img key={photo.id} src={imageRoot+encodeURIComponent(photo.file)} alt={photo.title} decoding="async"/>
+      <button className="ios-photo-nav ios-photo-prev" onClick={()=>move(-1)} disabled={activeIndex===0} aria-label="이전 사진"><ArrowLeft size={22}/></button>
+      <button className="ios-photo-nav ios-photo-next" onClick={()=>move(1)} disabled={activeIndex===photos.length-1} aria-label="다음 사진"><ChevronRight size={22}/></button>
+    </div>
+    <div className="ios-photo-meta"><strong>{photo.title}</strong></div>
+    <div className="ios-photo-filmstrip" aria-label="사진 미리보기">
+      {photos.map((p,i)=><button key={p.id} className={'ios-film-thumb'+(i===activeIndex?' selected':'')}
+         onClick={()=>onSelect(i)} aria-label={p.title} aria-pressed={i===activeIndex}>
+          <img src={imageRoot+encodeURIComponent(p.file)} alt="" loading="lazy" decoding="async"/>
+        </button>)}
+    </div>
+  </div>;
+ }
+ return <div className="app-content ios-photos-app">
+   <div className="ios-gallery-heading"><span className="ios-gallery-overline">보관함</span><h2>사진</h2><span className="ios-gallery-count">{photos.length}장의 사진</span></div>
+   <div className="ios-photos-grid">
+     {photos.map((p,i)=><button className="ios-photo-tile" key={p.id} onClick={()=>onSelect(i)} aria-label={p.title}>
+       <img src={imageRoot+encodeURIComponent(p.file)} alt="" loading="lazy" decoding="async"/>
+     </button>)}
+   </div>
+   <div className="ios-gallery-footer"><span>전체 사진</span><span>{photos.length}장</span></div>
+ </div>;
+}
+
 function Empty({children}) {return <div className="empty"><Sparkles size={20}/><p>{children}</p></div>}
 function HousesGuide({selectedHouse,onSelect,onPerson}) {
  const current=houses.find(h=>h.id===selectedHouse);
@@ -128,7 +169,7 @@ function App() {
  function navigate(to){if(to===route)return;setStack(old=>[...old,route]);setRoute(to);setPicked(null);setFolder(null);setQuery('');setShowSearch(false)}
  function back(){
   if(picked){setPicked(null);return}
-  if(photosView){setPhotosView(null);return}
+  if(photosView!==null){setPhotosView(null);return}
   if(folder){setFolder(null);return}
   if(route==='browser'&&browserPage==='houses'&&selectedHouse){setSelectedHouse(null);return}
   if(route==='browser'&&browserPage!=='portal'){setBrowserPage('portal');setSelectedHouse(null);return}
@@ -224,16 +265,7 @@ function App() {
   <p>다만 가문 측은 후계 변경 여부에 관해 별도의 입장을 내놓지 않았다. 확인되지 않은 관측이 실제 인사로 이어질지는 미지수다.</p>
   <div className="article-footer">한성경제 · 재계 소식</div>
  </div></>:browserPage==='houses'?<HousesGuide selectedHouse={selectedHouse} onSelect={setSelectedHouse} onPerson={(id)=>{const person=people.find(p=>p.id===id);if(person){navigate('contacts');setPicked(person)}}}/>:browserPage==='schedule'?<><h2>2027년 · 주요 기록</h2>{events.filter(e=>e.date.startsWith('2027')).map((e,i)=><div className="event-row" key={i}><Clock3 size={16}/><div><strong>{e.title}</strong><small>{e.date} · {e.type}</small></div></div>)}</>:browserPage==='about'?<><div className="browser-hero"><span>ELEGANT FRACTURES</span><h2>우아한 균열</h2><p>십 년의 사랑, 서른 날의 유예.</p></div><p className="longtext">2027년 현대 대한민국. 다섯 명가의 화려한 질서 아래, 사랑과 가족과 혈통의 균열이 조용히 번져간다.</p></>:<><h2>아카이브 검색</h2><p className="muted">‘{browserInput}’에 대한 내부 검색 결과</p>{houses.filter(h=>h.name.includes(browserInput)).map(h=><div className="house-card" key={h.name}><h3>{h.name}</h3><p>{h.desc}</p></div>)}{people.filter(p=>p.name.includes(browserInput)&&(!p.spoiler||prefs.spoilers)).map(p=><div className="record" key={p.id}><div><strong>{p.name}</strong><small>{p.label}</small></div></div>)}{!houses.some(h=>h.name.includes(browserInput))&&!people.some(p=>p.name.includes(browserInput))&&<Empty>내부 자료를 찾지 못했습니다.</Empty>}</>}<div className="browser-footer"><button onClick={()=>setBrowserPage('portal')}><Home size={16}/> 시작 페이지</button></div></div>;
- if(route==='gallery')return <div className="app-content">
- <div className="section-kicker">PHOTOS · PERSONAL</div><h2>사진</h2>
- {photosView?
-   <><div className="gallery-detail"><img src={imageRoot+'Jaeyoul_rain.png'} alt="비가 오는 날의 후재율" /><span>{photosView.caption}</span></div>
-     <h3>{photosView.title}</h3><p className="muted small">사진첩의 기록 · 2027</p></>:
-   <><p className="muted">저장된 사진</p>
-     <div className="gallery-grid"><button onClick={()=>setPhotosView({id:'jaeyoul-rain',title:'후재율 · 비 오는 날',caption:'JAEYOUL · RAIN'})} className="gallery-photo"><img src={imageRoot+'Jaeyoul_rain.png'} alt="후재율의 비 오는 날 일러스트" loading="lazy" /><span>재율 · 비 오는 날</span></button></div>
-   </>
- }
- </div>;
+ if(route==='gallery')return <PhotosGallery photos={galleryPhotos} activeIndex={photosView} onSelect={setPhotosView} onClose={()=>setPhotosView(null)}/>;
  if(route==='settings')return <div className="app-content"><div className="section-kicker">PREFERENCES</div><h2>설정</h2><div className="setting-block"><h3>아카이브 공개 범위</h3><label className="setting-row"><span><strong>스포일러 포함</strong><small>출생 비밀 및 숨겨진 과거 일부 표시</small></span><input type="checkbox" checked={prefs.spoilers} onChange={e=>updatePrefs({spoilers:e.target.checked})}/></label></div><div className="setting-block"><h3>내 선택 (이 기기에만 저장)</h3><label className="field-label">연애 공개 여부</label><select value={prefs.relationship} onChange={e=>updatePrefs({relationship:e.target.value})}><option>미설정</option><option>공개 연애</option><option>비공개 연애</option><option>일부에게만 공개</option></select><label className="field-label">재율과 사용하는 애칭 (선택)</label><input className="text-field" value={prefs.nickname} onChange={e=>updatePrefs({nickname:e.target.value})} placeholder="원하는 경우 직접 입력" maxLength={40}/></div><button className="reset-btn" onClick={()=>updatePrefs({spoilers:false,relationship:'미설정',nickname:''})}>개인 선택 초기화</button></div>;
  return null;
  };
