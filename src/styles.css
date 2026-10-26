@@ -316,3 +316,144 @@
  .app-content{padding-left:22px!important;padding-right:22px!important;}
  .screen-app{background-size:cover!important;}
 }
+
+
+/* v0.4 | H A N J I  &  M A E D E U P
+   Minimal Korean knot ornament, subtle hanji fiber, and matching app details.
+   The former illustrated hanok wallpaper remains in the repository as an archive. */
+.screen-lock,.screen-home{
+ background-image:
+   linear-gradient(180deg,#fcf5eb18 0%,#eedccb00 58%,#ad7b730f 100%),
+   url('/ElegantFractures/images/hanji-maedeup-wallpaper.svg')!important;
+ background-color:#efe1d1!important;
+ background-size:cover!important;
+ background-position:center!important;
+ background-repeat:no-repeat!important;
+}
+.screen-lock::before,.screen-lock::after,
+.screen-home::before,.screen-home::after{display:none!important;}
+.lock-clock,.lock-date{
+ color:#53343b!important;
+ text-shadow:0 1px 1px #fffcf6ba!important;
+}
+.statusbar{
+ color:#50343c!important;
+ text-shadow:0 1px 2px #fdf1eccc!important;
+}
+.lock-shortcut{
+ background:#5b343ddc!important;color:#fff6ed!important;
+ border-color:#b58d8569!important;box-shadow:0 6px 19px #66414823!important;
+}
+.unlock-button{color:#5d3c41!important;text-shadow:0 1px 2px #fff9ee99!important;}
+.up-chevron{color:#704b55!important;}
+.home-pagination .active{background:#6b424b!important;}
+.home-pagination span{background:#976d754d!important;}
+.dock{
+ background:#fff7ecc9!important;
+ border:1px solid #ba9693a3!important;
+ box-shadow:0 11px 28px #8b60532c!important;
+}
+.app-entry>span:last-child{
+ color:#4f3039!important;text-shadow:0 1px 2px #fff9eeac!important;
+ font-weight:600!important;
+}
+.home-indicator span{background:#55363e!important;}
+.home-indicator button{filter:drop-shadow(0 1px 1px #fff5e8b0);}
+
+/* A few warm visual details inside apps, without placing wallpaper behind every paragraph. */
+.screen-app{
+ background-image:radial-gradient(ellipse at 80% 0%,#e6cfc11f,transparent 50%),linear-gradient(155deg,#f8f0e6,#f0e2d6)!important;
+ background-color:#f7eee4!important;
+ background-size:cover!important;
+}
+.folder-card:before{border-color:#98746476!important;}
+.browser-hero{
+ background:linear-gradient(130deg,#613742,#382830)!important;
+ border:1px solid #b7947f70!important;
+}
+.gallery-art,.large-art{
+ background-image:linear-gradient(160deg,#a4757d,#694551)!important;
+}
+.avatar{overflow:hidden;position:relative;}
+.avatar.avatar-photo{background:#e4cdc1!important;}
+.avatar img{
+ position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+ border-radius:inherit;z-index:1;
+}
+.avatar-large img{object-position:center 24%;}
+.person-row img{object-position:center 20%;}
+.call-record{display:flex;align-items:center;gap:11px!important;}
+.call-record.is-missed strong,.call-record.is-missed small{color:#A05A61!important;}
+.call-record .call-time{
+ max-width:93px;text-align:right;white-space:nowrap;line-height:1.45;
+ color:#95796f!important;font-size:11px!important;
+}
+.call-record .avatar{width:39px;height:39px;flex-shrink:0;}
+.call-record>span:nth-child(2){min-width:0;}
+.call-record>span:nth-child(2)>strong{font-size:13px;}
+.call-record>span:nth-child(2)>small{font-size:11px;}
+.gallery-photo{
+ position:relative;display:flex;flex-direction:column;align-items:stretch;
+ border-radius:14px;overflow:hidden;border:1px solid #b9988b8c;
+ background:#e9d4c9;box-shadow:0 8px 18px #64463517;
+}
+.gallery-photo img{
+ display:block;width:100%;height:188px;object-fit:cover;object-position:center 22%;
+}
+.gallery-photo span{
+ display:block;padding:9px 10px;color:#5a3942;background:#fff7edeb;
+ font-size:12px;font-weight:600;white-space:normal;
+}
+.gallery-detail{
+ display:flex;flex-direction:column;align-items:center;gap:8px;
+ margin:16px -6px 20px;border-radius:12px;overflow:hidden;
+ padding:10px;background:#ecddd2;
+}
+.gallery-detail img{display:block;width:100%;height:auto;max-height:520px;object-fit:contain;border-radius:6px;}
+.gallery-detail>span{font-size:10px;color:#8e6b71;letter-spacing:.17em;font-weight:600;}
+
+/* Three actionable notifications on the lock screen, inspired by a normal phone. */
+.lock-notifications{
+ position:relative;z-index:4;
+ width:100%;display:flex;flex-direction:column;gap:7px;
+ margin:auto 0;max-height:min(38vh,320px);overflow:auto;
+ padding:5px 0;scrollbar-width:none;
+}
+.lock-notifications::-webkit-scrollbar{display:none;}
+.lock-notification{
+ width:100%;min-height:66px;
+ display:flex;align-items:center;gap:11px;
+ text-align:left;border-radius:15px;
+ background:#fffcf6d9;
+ border:1px solid #fffdf9d8;
+ box-shadow:0 5px 15px #724e4b1a;
+ backdrop-filter:blur(14px);
+ padding:10px 12px;color:#523942;
+}
+.lock-notification:hover{background:#fffdf7f2;}
+.lock-notification .notification-icon{
+ display:grid;place-items:center;flex-shrink:0;
+ width:34px;height:34px;border-radius:11px;
+ background:#784651;color:#fff6ee;
+}
+.lock-notification .notification-copy{
+ display:flex;flex-direction:column;gap:4px;min-width:0;flex:1;
+}
+.lock-notification .notification-copy strong{font-size:11px;color:#70515a;}
+.lock-notification .notification-copy>span{font-size:13px;font-weight:600;color:#4b3038;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.lock-notification small{align-self:flex-start;font-size:10px;white-space:nowrap;color:#987b7c;}
+.screen-lock{gap:12px!important;}
+.lock-timebox{margin-top:0!important;}
+.lock-bottom{gap:9px!important;}
+@media(max-width:520px){
+ .lock-notifications{max-height:min(36vh,290px);}
+ .lock-notification{min-height:62px;}
+}
+@media(max-height:700px){
+ .screen-lock{padding-top:64px!important;padding-bottom:32px!important;}
+ .lock-clock{font-size:66px!important;}
+ .lock-notifications{max-height:33vh;}
+ .lock-notification{min-height:51px;padding:8px 10px;}
+ .lock-shortcut{width:42px;height:42px;}
+ .lock-bottom{gap:5px!important;}
+}
