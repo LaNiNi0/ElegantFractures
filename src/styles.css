@@ -70,3 +70,249 @@
  .lock-clock{font-size:70px}
  .screen-lock{padding-top:68px}
 }
+
+/* v0.3 — Korean hanok and plum-blossom design system.
+   Warm plaster, dark walnut, burgundy silk, and quiet brass. */
+
+:root{
+ --ef-ink:#34262a;
+ --ef-wine:#512b36;
+ --ef-deep:#321f28;
+ --ef-rose:#955b68;
+ --ef-muted:#837177;
+ --ef-paper:#f4e8df;
+ --ef-card:#fff9f1;
+ --ef-line:#c5a89d8a;
+ --ef-brass:#ae8970;
+}
+
+/* The phones use a detailed authored illustration, not the old abstract circles and grid. */
+.screen-lock,.screen-home{
+ background-image:
+  linear-gradient(to bottom,rgba(23,16,19,.42) 0%,rgba(29,19,24,.06) 33%,rgba(39,21,26,.03) 63%,rgba(29,16,20,.57) 100%),
+  url('/ElegantFractures/images/hanok-plum-wallpaper.svg') !important;
+ background-position:center, center;
+ background-repeat:no-repeat;
+ background-size:cover;
+ background-color:#9c7c75;
+ isolation:isolate;
+}
+.screen-lock::before,.screen-lock::after,
+.screen-home::before,.screen-home::after{display:none!important;}
+.screen-home{
+ background-image:
+  linear-gradient(to bottom,rgba(28,16,23,.55) 0%,rgba(33,17,22,.20) 34%,rgba(30,18,23,.15) 61%,rgba(21,13,19,.74) 100%),
+  url('/ElegantFractures/images/hanok-plum-wallpaper.svg') !important;
+}
+.lock-clock,.lock-date{color:#fff9f3;text-shadow:0 2px 19px #281a1bdd,0 1px 3px #201518ba;}
+.lock-date{font-weight:500;}
+.lock-shortcut{background:#28171dc4!important;border:1px solid #edceb84d!important;box-shadow:0 8px 24px #22151a6c;}
+.unlock-button{color:#fff1e8;}
+
+/* Refined app icons, sampled from the same room's wood, plum and silk palette. */
+.app-icon{
+ border:1px solid #fce9d472!important;
+ background:linear-gradient(152deg,color-mix(in srgb,var(--tile) 86%,#f5dfcd 14%),color-mix(in srgb,var(--tile) 78%,#251921 22%))!important;
+ border-radius:17px;
+ box-shadow:0 2px 0 #ffffff24 inset,0 6px 16px #20151964!important;
+ color:#f8eee9;
+}
+.tile-notes,.tile-contacts{color:#573a40!important;}
+.home-apps{row-gap:24px;column-gap:7px;}
+.home-pagination .active{background:#f1ded3;}
+.dock{background:rgba(41,23,28,.48)!important;border:1px solid #f2e3d762!important;box-shadow:0 12px 30px #261a1b4a;}
+.app-entry>span:last-child{text-shadow:0 2px 8px #1a101de6;font-size:11px;}
+.site-shell{background:radial-gradient(ellipse at 40% 18%,#574149,#291b23 45%,#160e16 100%)!important;}
+.phone{border-color:#524047!important;}
+.phone-inner{background:#e8d9cf;}
+
+/* The status bar and nav remain visible over both sunlit and dark app surfaces. */
+.statusbar{color:#fff6ed!important;text-shadow:0 1px 5px #1f131bd0;}
+.app-toolbar{
+ background:linear-gradient(130deg,#57313e,#412732)!important;
+ border:1px solid #ab827256;
+ color:#f4e6dd!important;
+ box-shadow:0 4px 15px #3d24304a;
+}
+.app-toolbar button{color:#f4e6dd!important;}
+.app-toolbar button:hover{background:#ffffff1a!important;}
+.app-toolbar>span{font-family:'Noto Serif KR',serif;font-weight:600;letter-spacing:-.015em;}
+
+/* App interiors: lightly illuminated hanji-like plaster rather than dark slate.
+   Wallpaper is nearly fully overlaid so screens stay readable. */
+.screen-app{
+ background-image:
+  linear-gradient(180deg,rgba(251,244,235,.965),rgba(242,226,214,.970)),
+  url('/ElegantFractures/images/hanok-plum-wallpaper.svg')!important;
+ background-size:cover!important;
+ background-position:center!important;
+ background-blend-mode:normal;
+ color:var(--ef-ink)!important;
+}
+.app-content{color:var(--ef-ink)!important;padding-bottom:54px;}
+.app-content h2{
+ color:var(--ef-deep)!important;
+ font-family:'Noto Serif KR',serif!important;
+ font-size:24px!important;font-weight:600!important;
+ letter-spacing:-.04em;
+}
+.app-content h3{color:var(--ef-wine)!important;font-family:'Noto Serif KR',serif;font-weight:600;}
+.section-kicker{color:#996d68!important;letter-spacing:.12em!important;font-size:10px!important;}
+.muted{color:#89746d!important;}
+.section-kicker:first-child{padding-top:4px;}
+
+/* Reusable app cards, lists, row separators, small typography. */
+.folder-card,.house-card,.setting-block,.notice{
+ background:linear-gradient(143deg,#fffaf2,#f1e4d9)!important;
+ color:var(--ef-ink)!important;
+ border:1px solid var(--ef-line)!important;
+ box-shadow:0 5px 14px #52312b0d;
+}
+.folder-card{
+ min-height:148px;position:relative;border-radius:16px!important;
+}
+.folder-card svg:first-child{color:#a77a62!important;}
+.folder-card strong{color:#4d3037!important;}
+.folder-card small{color:#89756d!important;}
+.folder-card:before{
+ content:'';position:absolute;width:48px;height:48px;top:9px;right:8px;
+ border-top:1px solid #b99794aa;border-right:1px solid #b99794aa;
+ border-radius:0 10px 0 0;pointer-events:none;
+}
+.notice{font-size:11px!important;line-height:1.65;}
+.notice svg{color:#9d656e!important;}
+
+.search,.browser-bar{
+ background:#fff9f1!important;
+ color:#a47e76!important;
+ border:1px solid var(--ef-line)!important;
+ box-shadow:0 1px 3px #6d42310c;
+}
+.search input,.browser-bar input{color:var(--ef-ink)!important;}
+.search input::placeholder,.browser-bar input::placeholder{color:#ad978e!important;}
+
+.record,.person-row,.event-row{
+ background:rgba(255,250,242,.62)!important;
+ color:var(--ef-ink)!important;
+ border-bottom:1px solid #b7968566!important;
+ padding:16px 10px!important;
+}
+.record strong,.person-row strong,.event-row strong{color:#422d33!important;}
+.record small,.person-row small,.event-row small{color:#987d76!important;}
+.record>svg,.person-row>svg{color:#a78b81!important;}
+.record:hover,.person-row:not(.no-pointer):hover{background:#fff9f2!important;}
+.avatar{
+ background:linear-gradient(145deg,#bd908e,#754b56)!important;
+ color:#fff7e9!important;
+ border:1px solid #fff4e890;
+}
+.group-section{margin:24px 0 18px;}
+.group-section .section-kicker{color:#995e68!important;}
+.person-detail .detail-grid{
+ border-color:var(--ef-line)!important;
+ background:#fff9f1bb; border-radius:12px;
+ padding:17px 12px!important;
+}
+.detail-grid span{color:#968078!important;}
+.detail-grid strong{color:#49313a!important;}
+.person-detail p{color:#614c46!important;}
+
+.note-sheet{
+ background:#fff9f1!important;
+ color:#44302d!important;
+ border:1px solid var(--ef-line)!important;
+ border-left:3px solid #a37373!important;
+ box-shadow:0 12px 28px #5b40321c!important;
+ border-radius:6px 14px 14px 6px!important;
+ font-family:'Noto Serif KR',serif;
+ font-size:13px!important;line-height:1.85!important;
+}
+.tag.proposal{background:#e7cec7!important;color:#673d44!important;border-color:#ca9c90!important;}
+
+/* Calls and messages */
+.call-marker{background:#b6aa8a66!important;color:#597462!important;}
+.call-marker.missed{background:#ac626144!important;color:#994c50!important;}
+.call-time{color:#927a72!important;}
+.pills button{
+ border:1px solid #b79d8b!important;
+ background:#f3e6dc!important;
+ color:#76585b!important;
+}
+.pills button.active{background:var(--ef-wine)!important;color:#fff2eb!important;}
+.message-person{border-color:var(--ef-line)!important;}
+.message-person strong{color:#4d3037!important;}
+.message-person small{color:#9e857c!important;}
+.bubble{
+ background:#fff9f1!important;
+ border:1px solid #bea69599;
+ color:#453032!important;
+ box-shadow:0 2px 8px #8e665511;
+}
+.bubble.mine{
+ background:#603540!important;
+ border-color:#603540!important;
+ color:#fff3e9!important;
+}
+.fake-compose{border-color:#c6afa0!important;background:#fff9f1!important;color:#938077!important;}
+
+/* Calendar */
+.calendar-heading{color:var(--ef-wine)!important;}
+.calendar-heading button{background:#eee0d6!important;color:#6b414a!important;}
+.dow{color:#98766f!important;}
+.day{color:#5c4546!important;border-radius:11px;}
+.day:hover{background:#efded5!important;}
+.day.selected{background:#713d49!important;color:#fff6ed!important;}
+.day.has-event:not(.selected)::after{background:#b05f6c!important;}
+.event-row>svg{color:#8b5c63!important;}
+.event-dot{background:#ad7471!important;}
+
+/* Fictional browser: editorial warmth, wood-toned panels, and plum-wine accents. */
+.browser-hero{
+ background:
+  linear-gradient(150deg,#572f39d9,#35242cca),
+  url('/ElegantFractures/images/hanok-plum-wallpaper.svg') center 52% / cover!important;
+ border-color:#b3938188!important;
+ box-shadow:0 10px 28px #5631292a!important;
+}
+.browser-hero h2,.browser-hero p,.browser-hero span{color:#fff0e3!important;}
+.browser-footer{border-color:var(--ef-line)!important;}
+.browser-footer button{color:#744c51!important;}
+.browser-footer span{color:#99847c!important;}
+.house-card{border-radius:15px!important;position:relative;overflow:hidden;}
+.house-card:after{
+ content:'✿';position:absolute;right:11px;top:7px;font-size:32px;
+ font-family:serif;color:#bd929077;pointer-events:none;
+}
+.house-card h3{color:#5c3841!important;}
+.house-card p{color:#68504d!important;}
+.house-card small{color:#a17e78!important;}
+
+/* Gallery previews, keeping photos as placeholders until character images exist. */
+.gallery-art,.large-art{border-color:#b38a7c99!important;box-shadow:0 7px 17px #603b3224!important;}
+.art-rose{background:linear-gradient(0deg,#32161d88,#32161d15),url('/ElegantFractures/images/hanok-plum-wallpaper.svg') 20% 61% / cover!important;}
+.art-night{background:linear-gradient(0deg,#37262ea9,#37262e2d),url('/ElegantFractures/images/hanok-plum-wallpaper.svg') 60% 8% / cover!important;}
+.art-plum{background:linear-gradient(0deg,#52323e99,#52323e12),url('/ElegantFractures/images/hanok-plum-wallpaper.svg') 40% 78% / cover!important;}
+.art-stars{background:linear-gradient(0deg,#312b43af,#312b4340),url('/ElegantFractures/images/hanok-plum-wallpaper.svg') 80% 30% / cover!important;}
+
+/* Settings */
+.setting-block{padding:18px!important;}
+.setting-block h3{color:#5f4045!important;}
+.setting-row strong{color:#513943!important;}
+.setting-row small{color:#87746b!important;}
+.setting-row input{accent-color:#874e5b!important;}
+.field-label{color:#76585b!important;}
+.setting-block select,.text-field{
+ background:#fff9f1!important;color:#3f3031!important;
+ border-color:#bda095!important;
+}
+.reset-btn{color:#6d444c!important;border-color:#b99891!important;}
+.empty{color:#9a8176!important;}
+
+/* Reduce motion for users who request it */
+@media(prefers-reduced-motion:reduce){.unlock-button{animation:none!important;}}
+
+/* Fine tuning on compact devices */
+@media(max-width:520px){
+ .app-content{padding-left:22px!important;padding-right:22px!important;}
+ .screen-app{background-size:cover!important;}
+}
