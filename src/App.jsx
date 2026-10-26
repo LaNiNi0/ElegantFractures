@@ -47,6 +47,7 @@ function App() {
  const [stack,setStack]=useState([]);
  const [query,setQuery]=useState('');
  const [picked,setPicked]=useState(null);
+ const chatScrollRef=useRef(null);
  const [folder,setFolder]=useState(null);
  const [month,setMonth]=useState(6);
  const [prefs,setPrefs]=useState(initialPrefs);
@@ -55,6 +56,7 @@ function App() {
  const [callFilter,setCallFilter]=useState('전체');
  const [photosView,setPhotosView]=useState(null);
  const [showSearch,setShowSearch]=useState(false);
+ useEffect(()=>{if(route==='messages'&&picked&&chatScrollRef.current){chatScrollRef.current.scrollTop=chatScrollRef.current.scrollHeight}},[route,picked]);
  function updatePrefs(value){setPrefs(prev=>{const n={...prev,...value};try{localStorage.setItem('ef-prefs',JSON.stringify(n));}catch{}return n})}
  function navigate(to){if(to===route)return;setStack(old=>[...old,route]);setRoute(to);setPicked(null);setFolder(null);setQuery('');setShowSearch(false)}
  function back(){if(picked){setPicked(null);return}if(photosView){setPhotosView(null);return}if(folder){setFolder(null);return}setRoute(stack.at(-1)||'home');setStack(old=>old.slice(0,-1));setQuery('')}
@@ -187,7 +189,7 @@ function App() {
         </div>
       </div> : <>
         {route!=='home'&&<div className="app-toolbar"><button className="back-btn" onClick={back} aria-label="뒤로 가기"><ArrowLeft size={18}/></button><span>{picked?.name||picked?.title||folder||pageTitle(route)}</span><button className="toolbar-home" onClick={home} aria-label="홈으로"><Home size={17}/></button></div>}
-        <div className={'screen '+(route==='home'?'screen-home':'screen-app')} key={route}>{content()}</div>
+        <div ref={chatScrollRef} className={'screen '+(route==='home'?'screen-home':'screen-app')} key={route}>{content()}</div>
         <div className="home-indicator"><button onClick={home} aria-label="홈 화면으로 돌아가기"><span/></button></div>
       </>}
      <button className="phone-side-button" onClick={lock} aria-label="화면 잠그기" title="화면 잠그기"/>
