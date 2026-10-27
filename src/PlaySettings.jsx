@@ -59,51 +59,52 @@ const GROUPS = [
 ];
 const STORAGE_KEY = 'ef-player-setup-v1';
 const value = (v,k) => (v[k] || '').trim();
-const pair = (label,content) => content ? label + ': ' + content : null;
-const included = values => values.filter(Boolean).join(' / ');
+const include = items => items.filter(Boolean);
+const item = (values,key,prefix) => value(values,key) ? prefix + value(values,key) : null;
+const section = (name,clauses) => {
+  const text=include(clauses);
+  return text.length ? '- ' + name + ': ' + text.join(' / ') + '.' : null;
+};
 
+// One continuous, AI-readable line. Only the section heading gets a colon;
+// empty inputs disappear, and the user's original details are preserved.
 export function buildPlayerSettingText(v) {
-  const paragraphs = [];
-  const basic = included([
-    pair('직업',value(v,'job')),pair('거주지',value(v,'residence')),
-    pair('건강·특이사항',value(v,'health')),pair('기타',value(v,'basicOther'))
-  ]);
-  if(basic) paragraphs.push('유저: ' + basic + '.');
-
-  const relationships = [];
-  if(value(v,'visibility')) relationships.push('연애 공개 여부: ' + value(v,'visibility'));
-  if(value(v,'callJaeyul')) relationships.push('유저가 재율을 부르는 애칭: ' + value(v,'callJaeyul'));
-  if(value(v,'callMe')) relationships.push('재율이 유저를 부르는 애칭: ' + value(v,'callMe'));
-  if(relationships.length) paragraphs.push('후재율과의 관계: ' + included(relationships) + '.');
-
-  const memories = included([
-    pair('주요 선물',value(v,'gift')),pair('단골 식당',value(v,'restaurant')),
-    pair('자주 가는 여행지',value(v,'travel')),pair('자주 먹는 음식',value(v,'food')),
-    pair('기타',value(v,'memoriesOther'))
-  ]);
-  if(memories) paragraphs.push('후재율과의 추억: ' + memories + '.');
-
-  const habits = included([
-    pair('위로',value(v,'comfort')),pair('삐졌을 때',value(v,'sulk')),
-    pair('화났을 때',value(v,'angry')),pair('화해',value(v,'reconcile')),
-    pair('연락',value(v,'contact')),pair('데이트',value(v,'date')),
-    pair('애정 표현',value(v,'affection')),pair('특별한 날',value(v,'special')),
-    pair('스킨십',value(v,'skinship')),pair('잠자리·친밀한 관계',value(v,'intimacy')),
-    pair('기타',value(v,'habitsOther'))
-  ]);
-  if(habits) paragraphs.push('후재율과의 연애 습관: ' + habits + '.');
-
-  const iheon = included([
-    pair('연락',value(v,'iheonContact')),pair('만남',value(v,'iheonMeeting')),
-    pair('스킨십·진도',value(v,'iheonSkinship')),
-    pair('기억에 남는 사건',value(v,'iheonEvents')),pair('기타',value(v,'iheonOther'))
-  ]);
-  if(iheon) paragraphs.push('황보이헌과의 관계(플레이 시작 시점): ' + iheon + '.');
-
-  if(!paragraphs.length) return '';
-  return '[《우아한 균열》 플레이어 사전 설정]\n'
-    + '아래는 플레이 시작 전 확정한 유저의 설정이다. 기재하지 않은 사항은 임의로 확정하지 말 것.\n\n'
-    + paragraphs.join('\n');
+  const visibility=value(v,'visibility');
+  const publicity=visibility==='공개 연애' ? '후재율과 공개 연애 중'
+    : visibility==='비공개 연애' ? '후재율과 비공개 연애 중'
+    : visibility==='가족에게만 공개' ? '후재율과의 연애는 가족에게만 공개'
+    : null;
+  const groups=[
+    section('유저',[
+      item(v,'job','직업은 '),item(v,'residence','거주지는 '),
+      item(v,'health','건강·특이사항은 '),value(v,'basicOther')||null
+    ]),
+    section('후재율과의 관계',[
+      publicity,
+      value(v,'callJaeyul') ? "유저는 재율을 '" + value(v,'callJaeyul') + "'이라고 부름" : null,
+      value(v,'callMe') ? "재율은 유저를 '" + value(v,'callMe') + "'이라고 부름" : null
+    ]),
+    section('후재율과의 추억',[
+      item(v,'gift','주요 선물은 '),item(v,'restaurant','단골 식당은 '),
+      item(v,'travel','자주 가는 여행지는 '),item(v,'food','자주 먹는 음식은 '),
+      value(v,'memoriesOther')||null
+    ]),
+    section('후재율과의 연애 습관',[
+      item(v,'comfort','위로할 때 '),item(v,'sulk','삐졌을 때 '),
+      item(v,'angry','화났을 때 '),item(v,'reconcile','화해할 때 '),
+      item(v,'contact','연락은 '),item(v,'date','데이트는 '),
+      item(v,'affection','애정 표현은 '),item(v,'special','특별한 날은 '),
+      item(v,'skinship','스킨십은 '),item(v,'intimacy','잠자리·친밀한 관계는 '),
+      value(v,'habitsOther')||null
+    ]),
+    section('황보이헌과의 관계 (플레이 시작 시점)',[
+      item(v,'iheonContact','연락은 '),item(v,'iheonMeeting','만남은 '),
+      item(v,'iheonSkinship','스킨십·진도는 '),
+      item(v,'iheonEvents','기억에 남는 사건은 '),
+      value(v,'iheonOther')||null
+    ])
+  ];
+  return include(groups).join(' | ');
 }
 function readSaved(){
   try{const v=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');return v&&typeof v==='object'&&!Array.isArray(v)?v:{}}catch{return {}}
@@ -115,12 +116,46 @@ export default function PlaySettings(){
  const [tab,setTab]=useState('basic');
  const [copyMessage,setCopyMessage]=useState('');
  const previewRef=useRef(null);
+ const tabsRef=useRef(null);
+ const dragRef=useRef(null);
+ const draggedRef=useRef(false);
  const text=useMemo(()=>buildPlayerSettingText(form),[form]);
  const filled=GROUPS.reduce((n,g)=>n+countGroup(form,g),0);
  const total=GROUPS.reduce((n,g)=>n+g.fields.length,0);
  useEffect(()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(form))}catch{}},[form]);
  const current=GROUPS.find(g=>g.id===tab);
  function update(key,input){setForm(old=>({...old,[key]:input}));setCopyMessage('')}
+ function scrollTabs(distance){
+   tabsRef.current?.scrollBy({left:distance,behavior:'smooth'});
+ }
+ function onTabsPointerDown(e){
+   if(e.pointerType!=='mouse'||e.button!==0)return;
+   draggedRef.current=false;
+   dragRef.current={id:e.pointerId,x:e.clientX,left:e.currentTarget.scrollLeft,dragging:false};
+ }
+ function onTabsPointerMove(e){
+   const drag=dragRef.current;
+   if(!drag||drag.id!==e.pointerId||!(e.buttons&1))return;
+   const dx=e.clientX-drag.x;
+   if(Math.abs(dx)>5)drag.dragging=true;
+   if(!drag.dragging)return;
+   e.preventDefault();
+   if(!e.currentTarget.hasPointerCapture(e.pointerId))e.currentTarget.setPointerCapture(e.pointerId);
+   e.currentTarget.scrollLeft=drag.left-dx;
+ }
+ function onTabsPointerUp(e){
+   const drag=dragRef.current;
+   if(!drag||drag.id!==e.pointerId)return;
+   draggedRef.current=drag.dragging;
+   dragRef.current=null;
+   if(e.currentTarget.hasPointerCapture(e.pointerId))e.currentTarget.releasePointerCapture(e.pointerId);
+ }
+ function onTabsClickCapture(e){
+   if(!draggedRef.current)return;
+   draggedRef.current=false;
+   e.preventDefault();
+   e.stopPropagation();
+ }
  async function copy(){
    if(!text)return;
    try{
@@ -144,13 +179,20 @@ export default function PlaySettings(){
      <span>작성한 항목 <strong>{filled}</strong> / {total}</span>
      <button type="button" onClick={()=>setTab('summary')} aria-label="최종 설정 문구 보기">미리보기 <ChevronRight size={14}/></button>
    </div>
-   <div className="play-settings-tabs" role="tablist" aria-label="플레이 설정 항목">
-     {GROUPS.map(g=><button key={g.id} type="button" role="tab" aria-selected={tab===g.id}
-       className={tab===g.id?'selected':''} onClick={()=>setTab(g.id)}>
-       {g.title}{countGroup(form,g)>0&&<span>{countGroup(form,g)}</span>}
-     </button>)}
-     <button type="button" role="tab" aria-selected={tab==='summary'}
-       className={tab==='summary'?'selected':''} onClick={()=>setTab('summary')}>복사하기</button>
+   <div className="play-settings-tab-shell">
+     <button type="button" className="play-settings-tab-arrow" aria-label="이전 설정 탭 보기" onClick={()=>scrollTabs(-176)}>‹</button>
+     <div className="play-settings-tabs" ref={tabsRef} role="tablist" aria-label="플레이 설정 항목"
+       onPointerDown={onTabsPointerDown} onPointerMove={onTabsPointerMove}
+       onPointerUp={onTabsPointerUp} onPointerCancel={onTabsPointerUp}
+       onClickCapture={onTabsClickCapture}>
+       {GROUPS.map(g=><button key={g.id} type="button" role="tab" aria-selected={tab===g.id}
+         className={tab===g.id?'selected':''} onClick={()=>setTab(g.id)}>
+         {g.title}{countGroup(form,g)>0&&<span>{countGroup(form,g)}</span>}
+       </button>)}
+       <button type="button" role="tab" aria-selected={tab==='summary'}
+         className={tab==='summary'?'selected':''} onClick={()=>setTab('summary')}>복사하기</button>
+     </div>
+     <button type="button" className="play-settings-tab-arrow" aria-label="다음 설정 탭 보기" onClick={()=>scrollTabs(176)}>›</button>
    </div>
    {current
      ? <section className="play-settings-panel" key={current.id}>
@@ -179,7 +221,7 @@ export default function PlaySettings(){
      </section>
      : <section className="play-settings-panel play-summary-panel">
        <h3>최종 플레이 설정</h3>
-       <p>입력한 내용만 모아서 AI에게 전달하기 좋은 하나의 문구로 정리했어</p>
+       <p>입력한 내용을 줄바꿈 없이 한 줄로 정리했어. 복사해서 플레이 시작 메시지에 붙여넣어 봐</p>
        <textarea ref={previewRef} className="play-export-preview" readOnly spellCheck={false}
          value={text} placeholder="설정을 작성하면 여기에 자동으로 정리돼" rows={Math.max(7,Math.min(18,text.split('\n').length+5))}/>
        <button type="button" className="play-copy-button" disabled={!text} onClick={copy}>
