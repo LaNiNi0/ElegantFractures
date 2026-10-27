@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, ChevronRight, Newspaper } from 'lucide-react';
+import { ArrowLeft, ChevronRight, MessageCircle, Newspaper, ThumbsUp } from 'lucide-react';
 
 // A growing in-world archive. Articles may be unreliable from the characters' perspective.
 export function NewsArchive({articles,onRead,filter,onFilterChange}){
@@ -23,7 +23,7 @@ export function NewsArchive({articles,onRead,filter,onFilterChange}){
        {a.tone==='breaking'&&<span className="news-type news-type-breaking">긴급 속보</span>}
        <strong>{a.headline}</strong>
        <span className="news-card-summary">{a.subtitle}</span>
-       <span className="news-card-footer">{a.source}<ChevronRight size={15}/></span>
+       <span className="news-card-footer">{a.source}{a.comments?.length>0&&<span className="news-comment-counter"><MessageCircle size={12}/>{a.comments.length}</span>}<ChevronRight size={15}/></span>
      </button>)}
    </div>
  </div>;
@@ -34,7 +34,6 @@ export function NewsArticle({article,onBack}){
  return <article className="seol-news-article">
    <button type="button" className="seol-news-back" onClick={onBack}><ArrowLeft size={16}/> 뉴스 목록</button>
    <div className="news-article-masthead"><span>{article.source}</span><small>{article.desk}</small></div>
-   {article.tone==='rumor'&&<p className="news-source-context">사교계에 퍼진 미확인 소문을 다룬 기사입니다.</p>}
    {article.tone==='breaking'&&<p className="news-source-context breaking">속보 · 당시 발표된 내용에 기초한 기사입니다.</p>}
    <div className="news-article-meta">{article.family} <span>·</span> {article.date}</div>
    <h2>{article.headline}</h2>
@@ -42,5 +41,19 @@ export function NewsArticle({article,onBack}){
    <p className="news-article-lead">{article.lead}</p>
    {article.paragraphs.map((p,i)=><p key={i}>{p}</p>)}
    <div className="news-article-end">{article.source} · {article.desk}</div>
+   {article.tone==='rumor'&&Array.isArray(article.comments)&&article.comments.length>0&&
+     <section className="news-comment-section" aria-label="이 기사에 달린 댓글">
+       <div className="news-comment-title"><MessageCircle size={17}/><h4>댓글 <span>{article.comments.length}</span></h4></div>
+       <div className="news-comment-list">
+         {article.comments.map((comment,i)=><div className="news-comment" key={i}>
+           <span className="news-comment-avatar" aria-hidden="true">{comment.name.slice(0,1)}</span>
+           <div className="news-comment-main">
+             <strong>{comment.name}</strong>
+             <p>{comment.text}</p>
+             <span className="news-comment-likes"><ThumbsUp size={12}/> 공감 {comment.likes}</span>
+           </div>
+         </div>)}
+       </div>
+     </section>}
  </article>;
 }
