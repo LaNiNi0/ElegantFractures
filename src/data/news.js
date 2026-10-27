@@ -112,7 +112,7 @@ export const newsArticles = [
     "family": "아크노드",
     "source": "한성경제",
     "desk": "테크",
-    "date": "2026.08.20",
+    "date": "2026.06.20",
     "headline": "아크노드(ARCNODE), 기업 보안 시장서 존재감 확대",
     "subtitle": "안정적인 기술력과 신속한 사고 대응으로 고객사 확대",
     "lead": "후재율 대표가 이끄는 아크노드(ARCNODE)가 기업용 보안 솔루션과 대응 서비스 분야에서 빠르게 입지를 넓혀 가고 있다.",
