@@ -174,6 +174,8 @@ function App() {
  const [query,setQuery]=useState('');
  const [picked,setPicked]=useState(null);
  const chatScrollRef=useRef(null);
+ const noteListScrollRef=useRef(0);
+ const restoreNoteScrollRef=useRef(false);
  const [folder,setFolder]=useState(null);
  const [month,setMonth]=useState(6);
  const [calendarFilter,setCalendarFilter]=useState('전체');
@@ -189,10 +191,22 @@ function App() {
  const [photosView,setPhotosView]=useState(null);
  const [showSearch,setShowSearch]=useState(false);
  useEffect(()=>{if(route==='messages'&&picked&&chatScrollRef.current){chatScrollRef.current.scrollTop=chatScrollRef.current.scrollHeight}},[route,picked]);
- // Reset Notes reading position whenever a folder or individual note opens.
+ // Keep the exact list position when returning from a diary entry.
+ // Fresh folders and freshly opened entries still begin at the top.
  useLayoutEffect(()=>{
-   if(route==='notes'&&chatScrollRef.current)chatScrollRef.current.scrollTop=0;
+   if(route!=='notes'||!chatScrollRef.current)return;
+   if(!picked&&folder&&restoreNoteScrollRef.current){
+     chatScrollRef.current.scrollTop=noteListScrollRef.current;
+     restoreNoteScrollRef.current=false;
+   }else{
+     chatScrollRef.current.scrollTop=0;
+   }
  },[route,folder,picked]);
+ function openNote(note){
+   noteListScrollRef.current=chatScrollRef.current?.scrollTop||0;
+   restoreNoteScrollRef.current=false;
+   setPicked(note);
+ }
  function navigate(to){if(to===route)return;setStack(old=>[...old,route]);setRoute(to);setPicked(null);setFolder(null);setQuery('');setShowSearch(false)}
  function openNewsArticle(id){
   newsScrollRef.current=route==='browser'&&browserPage==='news' ? (browserScrollRef.current?.scrollTop||0) : 0;
@@ -215,9 +229,13 @@ function App() {
   }
  },[route,browserPage]);
  function back(){
-  if(picked){setPicked(null);return}
+  if(picked){
+    if(route==='notes')restoreNoteScrollRef.current=true;
+    setPicked(null);
+    return;
+  }
   if(photosView!==null){setPhotosView(null);return}
-  if(folder){setFolder(null);return}
+  if(folder){noteListScrollRef.current=0;restoreNoteScrollRef.current=false;setFolder(null);return}
   if(route==='browser'&&browserPage==='houses'&&selectedHouse){setSelectedHouse(null);return}
   if(route==='browser'&&browserPage==='article'){closeNewsArticle();return}
   if(route==='browser'&&browserPage!=='portal'){setBrowserPage('portal');setSelectedHouse(null);return}
@@ -261,14 +279,14 @@ function App() {
  if(route==='notes') return <div className="app-content notes-app">
    {!folder&&!picked?<><div className="section-kicker">PERSONAL NOTES</div><h2>메모</h2><p className="muted">함께한 사람들, 잊고 싶지 않은 순간들</p>
      <div className="folder-grid notes-folder-grid">
-       {notesFolders.map(f=><button className="folder-card notes-folder-card" key={f.name} onClick={()=>{setFolder(f.name);setQuery('')}}>
+       {notesFolders.map(f=><button className="folder-card notes-folder-card" key={f.name} onClick={()=>{noteListScrollRef.current=0;restoreNoteScrollRef.current=false;setFolder(f.name);setQuery('')}}>
          <span className="notes-folder-icon" aria-hidden="true">{f.emoji}</span>
          <span className="notes-folder-info"><strong>{f.name}</strong><small>{f.sub} · {notes.filter(n=>n.folder===f.name).length}개의 메모</small></span>
          <ChevronRight size={17}/>
        </button>)}
      </div>
-   </>:picked?<><div className="section-kicker">{notesFolders.find(x=>x.name===picked.folder)?.emoji} {picked.folder} · {picked.date}</div><h2>{picked.title}</h2>{picked.proposal&&<span className="tag proposal">일부 날짜 제안 중</span>}{picked.draft&&<span className="tag note-draft">세부 내용 초안</span>}<div className="note-sheet">{picked.body.split('\n').map((line,i)=><p key={i}>{line||'\u00a0'}</p>)}{picked.image&&<figure className="note-memory-photo"><img src={imageRoot+encodeURIComponent(picked.image)} alt={picked.imageAlt||picked.title+' 관련 이미지'} loading="lazy" decoding="async"/></figure>}</div></>:
-   <><div className="section-kicker">NOTES / {folder}</div><h2>{notesFolders.find(x=>x.name===folder)?.emoji} {folder}</h2><div className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="메모 검색" aria-label="메모 검색"/></div><div className="records">{visible(notes).filter(n=>n.folder===folder&&matched(n.title+' '+n.body)).map(n=><button className="record" key={n.id} onClick={()=>setPicked(n)}><div><strong>{n.title}</strong><small>{n.date} {n.proposal?'· 날짜 기준안':''}</small></div><ChevronRight size={16}/></button>)}</div></>}
+   </>:picked?<><div className="section-kicker">{notesFolders.find(x=>x.name===picked.folder)?.emoji} {picked.folder} · {picked.date}</div><h2>{picked.title}</h2><div className="note-sheet">{picked.body.split('\n').map((line,i)=><p key={i}>{line||'\u00a0'}</p>)}{picked.image&&<figure className="note-memory-photo"><img src={imageRoot+encodeURIComponent(picked.image)} alt={picked.imageAlt||picked.title+' 관련 이미지'} loading="lazy" decoding="async"/></figure>}</div></>:
+   <><div className="section-kicker">NOTES / {folder}</div><h2>{notesFolders.find(x=>x.name===folder)?.emoji} {folder}</h2><div className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="메모 검색" aria-label="메모 검색"/></div><div className="records">{visible(notes).filter(n=>n.folder===folder&&matched(n.title+' '+n.body)).map(n=><button className="record" key={n.id} onClick={()=>openNote(n)}><div><strong>{n.title}</strong><small>{n.date}</small></div><ChevronRight size={16}/></button>)}</div></>}
  </div>;
  if(route==='contacts') return <div className="app-content"><div className="section-kicker">PEOPLE & CONNECTIONS</div><h2>연락처</h2>{picked?<div className="person-detail"><Avatar name={picked.name} id={picked.id} large/><h2>{picked.name}</h2><span className="muted">{picked.label}</span><div className="detail-grid"><span>소속</span><strong>{picked.group}</strong><span>생년월일</span><strong>{picked.birth}</strong></div><h3>인물 메모</h3><p>{picked.detail}</p></div>:<><div className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="이름 또는 가문 검색" aria-label="연락처 검색"/></div>{Object.keys(segments).map(group=>{const groupPeople=shownPeople.filter(p=>p.group===group);return groupPeople.length?<section className="group-section" key={group}><div className="section-kicker">{segments[group]} · {group}</div>{groupPeople.map(p=><button className="person-row" key={p.id} onClick={()=>setPicked(p)}><Avatar name={p.name} id={p.id}/><span><strong>{p.name}</strong><small>{p.label}</small></span><ChevronRight size={15}/></button>)}</section>:null})}</>}</div>;
  if(route==='calls')return <div className="app-content">
