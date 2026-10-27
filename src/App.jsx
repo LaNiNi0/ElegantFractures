@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, BatteryFull, BookOpen, CalendarDays, Camera, Check, ChevronRight, Clock3, Compass, Contact, FileText, Folder, Globe2, Heart, Home, Image as ImageIcon, Info, LockKeyhole, Mail, Menu, MessageCircle, Moon, NotebookPen, Phone, PhoneIncoming, PhoneMissed, Search, Settings, Shield, Signal, Sparkles, Star, UserRound, Wifi, X } from 'lucide-react';
 import { people, houses, notes, events, conversations, calls, galleryPhotos } from './data/story';
+import { newsArticles } from './data/news';
+import { NewsArchive, NewsArticle } from './NewsArchive.jsx';
 import PlaySettings from './PlaySettings.jsx';
 
 const icons = {notes:NotebookPen,calendar:CalendarDays,contacts:Contact,calls:Phone,messages:MessageCircle,browser:Compass,gallery:ImageIcon,settings:Settings};
@@ -55,7 +57,6 @@ function PhotosGallery({photos,activeIndex,onSelect,onClose}) {
       <button className="ios-photo-nav ios-photo-prev" onClick={()=>move(-1)} disabled={activeIndex===0} aria-label="이전 사진"><ArrowLeft size={22}/></button>
       <button className="ios-photo-nav ios-photo-next" onClick={()=>move(1)} disabled={activeIndex===photos.length-1} aria-label="다음 사진"><ChevronRight size={22}/></button>
     </div>
-    <div className="ios-photo-meta"><strong>{photo.title}</strong></div>
     <div className="ios-photo-filmstrip" aria-label="사진 미리보기">
       {photos.map((p,i)=><button key={p.id} className={'ios-film-thumb'+(i===activeIndex?' selected':'')}
          onClick={()=>onSelect(i)} aria-label={p.title} aria-pressed={i===activeIndex}>
@@ -155,6 +156,7 @@ function App() {
  const [folder,setFolder]=useState(null);
  const [month,setMonth]=useState(6);
  const [browserPage,setBrowserPage]=useState('portal');
+ const [activeNewsId,setActiveNewsId]=useState('seol-successor');
  const [selectedHouse,setSelectedHouse]=useState(null);
  const [browserInput,setBrowserInput]=useState('');
  const [callFilter,setCallFilter]=useState('전체');
@@ -167,6 +169,7 @@ function App() {
   if(photosView!==null){setPhotosView(null);return}
   if(folder){setFolder(null);return}
   if(route==='browser'&&browserPage==='houses'&&selectedHouse){setSelectedHouse(null);return}
+  if(route==='browser'&&browserPage==='article'){setBrowserPage('news');return}
   if(route==='browser'&&browserPage!=='portal'){setBrowserPage('portal');setSelectedHouse(null);return}
   setRoute(stack.at(-1)||'home');setStack(old=>old.slice(0,-1));setQuery('');
  }
@@ -226,7 +229,7 @@ function App() {
          <div className={'message-line '+(m.from==='me'?'mine':'theirs')}>
            <div className={'bubble '+(m.from==='me'?'mine':'')}>
              {m.link
-              ? <button className="message-article-link" onClick={()=>{navigate('browser');setBrowserPage('article')}} aria-label="보낸 뉴스 기사 열기">
+              ? <button className="message-article-link" onClick={()=>{setActiveNewsId(m.link.id);navigate('browser');setBrowserPage('article')}} aria-label="보낸 뉴스 기사 열기">
                   <span className="article-source">{m.link.source}</span>
                   <strong>{m.link.title}</strong>
                   <span className="article-action">기사 보기 <ChevronRight size={13}/></span>
@@ -254,16 +257,7 @@ function App() {
  <span>ELEGANT FRACTURES · 2027</span><h2>우아한 균열</h2>
  <p>오래된 우아함 아래 감춰진 균열, 그리고 새롭게 시작되는 균열.</p>
  <span className="world-hero-link">세계관 소개 보기 <ChevronRight size={15}/></span>
- </button><h3>즐겨찾기</h3>{[{title:'오대명가 · 五大名家',desc:'오문 총람과 각 가문의 기록',page:'houses'},{title:'2027년 주요 일정',desc:'공식 행사와 기념일',page:'schedule'}].map(x=><button className="record" key={x.page} onClick={()=>{setBrowserPage(x.page);if(x.page==='houses')setSelectedHouse(null)}}><div><strong>{x.title}</strong><small>{x.desc}</small></div><ChevronRight size={15}/></button>)}</>:browserPage==='article'?<><div className="article-screen">
-  <div className="article-masthead">한성경제 <span>재계</span></div>
-  <div className="article-date">2027년 9월 9일</div>
-  <h2>설가 후계 구도 재검토?</h2>
-  <h3>장남 설지완 재부상론에 엇갈린 시선</h3>
-  <p className="article-lead">설가의 후계 구도를 둘러싼 논쟁이 다시 고개를 들고 있다. 현 후계자의 성과와 장남 설지완의 가문 내 입지를 놓고 평가가 엇갈린다.</p>
-  <p>현 후계자가 보여준 역량을 높이 평가하는 의견이 있는 반면, 가문의 전통적 승계 질서를 고려하면 설지완이 적합하다는 주장이 일부에서 제기된다.</p>
-  <p>다만 가문 측은 후계 변경 여부에 관해 별도의 입장을 내놓지 않았다. 확인되지 않은 관측이 실제 인사로 이어질지는 미지수다.</p>
-  <div className="article-footer">한성경제 · 재계 소식</div>
- </div></>:browserPage==='houses'?<HousesGuide selectedHouse={selectedHouse} onSelect={setSelectedHouse} onPerson={(id)=>{const person=people.find(p=>p.id===id);if(person){navigate('contacts');setPicked(person)}}}/>:browserPage==='schedule'?<><h2>2027년 · 주요 기록</h2>{events.filter(e=>e.date.startsWith('2027')).map((e,i)=><div className="event-row" key={i}><Clock3 size={16}/><div><strong>{e.title}</strong><small>{e.date} · {e.type}</small></div></div>)}</>:browserPage==='about'?<div className="world-intro-page">
+ </button><h3>즐겨찾기</h3>{[{title:'오대명가 · 五大名家',desc:'오문 총람과 각 가문의 기록',page:'houses'},{title:'오대명가 뉴스',desc:'후계 구도와 재계 소식',page:'news'}].map(x=><button className="record" key={x.page} onClick={()=>{setBrowserPage(x.page);if(x.page==='houses')setSelectedHouse(null)}}><div><strong>{x.title}</strong><small>{x.desc}</small></div><ChevronRight size={15}/></button>)}</>:browserPage==='news'?<NewsArchive articles={newsArticles} onRead={(id)=>{setActiveNewsId(id);setBrowserPage('article')}}/>:browserPage==='article'?<NewsArticle article={newsArticles.find(n=>n.id===activeNewsId)||newsArticles[0]} onBack={()=>setBrowserPage('news')}/>:browserPage==='houses'?<HousesGuide selectedHouse={selectedHouse} onSelect={setSelectedHouse} onPerson={(id)=>{const person=people.find(p=>p.id===id);if(person){navigate('contacts');setPicked(person)}}}/>:browserPage==='schedule'?<><h2>2027년 · 주요 기록</h2>{events.filter(e=>e.date.startsWith('2027')).map((e,i)=><div className="event-row" key={i}><Clock3 size={16}/><div><strong>{e.title}</strong><small>{e.date} · {e.type}</small></div></div>)}</>:browserPage==='about'?<div className="world-intro-page">
  <div className="section-kicker">ELEGANT FRACTURES · WORLD</div>
  <h2>우아한 균열</h2>
  <p className="world-intro-tagline">오래된 우아함 아래 감춰진 균열, 그리고 새롭게 시작되는 균열.</p>
