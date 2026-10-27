@@ -255,14 +255,19 @@ function App() {
        {picked.messages.map((m,i)=><React.Fragment key={i}>
          {(i===0||m.date!==picked.messages[i-1].date)&&<div className="message-date">{Number(m.date.slice(5,7))}월 {Number(m.date.slice(8,10))}일</div>}
          <div className={'message-line '+(m.from==='me'?'mine':'theirs')}>
-           <div className={'bubble '+(m.from==='me'?'mine':'')}>
+           <div className={'bubble '+(m.from==='me'?'mine':'')+(m.image?' message-photo-bubble':'')}>
              {m.link
               ? <button className="message-article-link" onClick={()=>{newsScrollRef.current=0;restoreNewsScrollRef.current=false;setActiveNewsId(m.link.id);navigate('browser');setBrowserPage('article')}} aria-label="보낸 뉴스 기사 열기">
                   <span className="article-source">{m.link.source}</span>
                   <strong>{m.link.title}</strong>
                   <span className="article-action">기사 보기 <ChevronRight size={13}/></span>
                 </button>
-              : m.text}
+              : m.image
+                ? <img className="message-attached-image"
+                    src={imageRoot+encodeURIComponent(m.image)}
+                    alt={m.alt||'대화에서 받은 사진'}
+                    loading="lazy" decoding="async"/>
+                : m.text}
            </div>
            <span className="bubble-time">{m.time}</span>
          </div>
@@ -338,7 +343,7 @@ function App() {
         </div>
       </div> : <>
         {route!=='home'&&<div className="app-toolbar"><button className="back-btn" onClick={back} aria-label="뒤로 가기"><ArrowLeft size={18}/></button><span>{picked?.name||picked?.title||folder||pageTitle(route)}</span><button className="toolbar-home" onClick={home} aria-label="홈으로"><Home size={17}/></button></div>}
-        <div ref={chatScrollRef} className={'screen '+(route==='home'?'screen-home':'screen-app')+(['contacts','calls','settings'].includes(route)?' screen-contained':'')} key={route}>{content()}</div>
+        <div ref={chatScrollRef} className={'screen '+(route==='home'?'screen-home':'screen-app')+(['contacts','calls','settings','messages','calendar'].includes(route)||(route==='gallery'&&photosView===null)?' screen-contained':'')} key={route}>{content()}</div>
         <div className="home-indicator"><button onClick={home} aria-label="홈 화면으로 돌아가기"><span/></button></div>
       </>}
      <button className="phone-side-button" onClick={lock} aria-label="화면 잠그기" title="화면 잠그기"/>
