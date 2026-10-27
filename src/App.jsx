@@ -365,6 +365,19 @@ function App() {
      {locked ? <div className="screen screen-lock" onPointerDown={onSwipeStart} onPointerUp={onSwipeEnd} onPointerCancel={()=>{swipeOrigin.current=null}}>
         <div className="lock-timebox"><div className="lock-date">{lockDate}</div><div className="lock-clock">{time}</div></div>
         <div className="lock-notifications" aria-label="잠금화면 알림">
+          <div className="lock-player-wrap" onPointerDown={e=>e.stopPropagation()} onPointerUp={e=>e.stopPropagation()}>
+            <div className="lock-now-playing">
+              <div className="lock-album-art" aria-hidden="true"><Music2 size={20} strokeWidth={1.35}/></div>
+              <strong className="lock-track-title">우아한 균열</strong>
+              <button type="button" className="lock-music-toggle"
+                onClick={toggleMusic}
+                aria-label={isPlaying?'배경음악 일시정지':'배경음악 재생'}
+                title={isPlaying?'일시정지':'재생'}>
+                {isPlaying?<Pause size={21} fill="currentColor"/>:<Play size={21} fill="currentColor"/>}
+              </button>
+            </div>
+            {musicError&&<p className="lock-player-error" role="status">{musicError}</p>}
+          </div>
           <button className="lock-notification" onClick={()=>quickOpen('calls')}>
             <span className="notification-icon"><Phone size={17}/></span><span className="notification-copy"><strong>전화 · 부재중</strong><span>후재율 ❤️</span></span><small>20:53</small>
           </button>
@@ -374,23 +387,6 @@ function App() {
           <button className="lock-notification" onClick={()=>quickOpen('messages')}>
             <span className="notification-icon"><MessageCircle size={17}/></span><span className="notification-copy"><strong>메시지 · 황보이헌</strong><span>받아</span></span><small>21:08</small>
           </button>
-        </div>
-        <div className="lock-player-wrap" onPointerDown={e=>e.stopPropagation()} onPointerUp={e=>e.stopPropagation()}>
-          <div className="lock-now-playing">
-            <div className="lock-album-art" aria-hidden="true"><Music2 size={23} strokeWidth={1.35}/></div>
-            <div className="lock-track-info">
-              <span>{isPlaying ? '재생 중 · 오리지널 데모' : '음악 · 오리지널 데모'}</span>
-              <strong>잔향</strong>
-              <small>우아한 균열 · 피아노 & 앰비언트</small>
-            </div>
-            <button type="button" className="lock-music-toggle"
-              onClick={toggleMusic}
-              aria-label={isPlaying?'배경음악 일시정지':'배경음악 재생'}
-              title={isPlaying?'일시정지':'재생'}>
-              {isPlaying?<Pause size={21} fill="currentColor"/>:<Play size={21} fill="currentColor"/>}
-            </button>
-          </div>
-          {musicError&&<p className="lock-player-error" role="status">{musicError}</p>}
         </div>
         <div className="lock-bottom">
           <div className="lock-shortcuts">
