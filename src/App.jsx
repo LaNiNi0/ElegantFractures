@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, BatteryFull, BookOpen, CalendarDays, Camera, Check, ChevronRight, Clock3, Compass, Contact, FileText, Folder, Globe2, Heart, Home, Image as ImageIcon, Info, LockKeyhole, Mail, Menu, MessageCircle, Moon, NotebookPen, Phone, PhoneIncoming, PhoneMissed, Search, Settings, Shield, Signal, Sparkles, Star, UserRound, Wifi, X } from 'lucide-react';
 import { people, houses, notes, events, conversations, calls, galleryPhotos } from './data/story';
 import { newsArticles } from './data/news';
@@ -161,6 +161,10 @@ function App() {
  const [month,setMonth]=useState(6);
  const [browserPage,setBrowserPage]=useState('portal');
  const [activeNewsId,setActiveNewsId]=useState('seol-successor');
+ const [newsFilter,setNewsFilter]=useState('전체');
+ const browserScrollRef=useRef(null);
+ const newsScrollRef=useRef(0);
+ const restoreNewsScrollRef=useRef(false);
  const [selectedHouse,setSelectedHouse]=useState(null);
  const [browserInput,setBrowserInput]=useState('');
  const [callFilter,setCallFilter]=useState('전체');
@@ -168,12 +172,32 @@ function App() {
  const [showSearch,setShowSearch]=useState(false);
  useEffect(()=>{if(route==='messages'&&picked&&chatScrollRef.current){chatScrollRef.current.scrollTop=chatScrollRef.current.scrollHeight}},[route,picked]);
  function navigate(to){if(to===route)return;setStack(old=>[...old,route]);setRoute(to);setPicked(null);setFolder(null);setQuery('');setShowSearch(false)}
+ function openNewsArticle(id){
+  newsScrollRef.current=route==='browser'&&browserPage==='news' ? (browserScrollRef.current?.scrollTop||0) : 0;
+  restoreNewsScrollRef.current=false;
+  setActiveNewsId(id);
+  setBrowserPage('article');
+ }
+ function closeNewsArticle(){
+  restoreNewsScrollRef.current=true;
+  setBrowserPage('news');
+ }
+ useLayoutEffect(()=>{
+  if(route!=='browser'||!browserScrollRef.current)return;
+  const scroll=browserScrollRef.current;
+  if(browserPage==='news'&&restoreNewsScrollRef.current){
+    scroll.scrollTop=newsScrollRef.current;
+    restoreNewsScrollRef.current=false;
+  }else{
+    scroll.scrollTop=0;
+  }
+ },[route,browserPage]);
  function back(){
   if(picked){setPicked(null);return}
   if(photosView!==null){setPhotosView(null);return}
   if(folder){setFolder(null);return}
   if(route==='browser'&&browserPage==='houses'&&selectedHouse){setSelectedHouse(null);return}
-  if(route==='browser'&&browserPage==='article'){setBrowserPage('news');return}
+  if(route==='browser'&&browserPage==='article'){closeNewsArticle();return}
   if(route==='browser'&&browserPage!=='portal'){setBrowserPage('portal');setSelectedHouse(null);return}
   setRoute(stack.at(-1)||'home');setStack(old=>old.slice(0,-1));setQuery('');
  }
@@ -233,7 +257,7 @@ function App() {
          <div className={'message-line '+(m.from==='me'?'mine':'theirs')}>
            <div className={'bubble '+(m.from==='me'?'mine':'')}>
              {m.link
-              ? <button className="message-article-link" onClick={()=>{setActiveNewsId(m.link.id);navigate('browser');setBrowserPage('article')}} aria-label="보낸 뉴스 기사 열기">
+              ? <button className="message-article-link" onClick={()=>{newsScrollRef.current=0;restoreNewsScrollRef.current=false;setActiveNewsId(m.link.id);navigate('browser');setBrowserPage('article')}} aria-label="보낸 뉴스 기사 열기">
                   <span className="article-source">{m.link.source}</span>
                   <strong>{m.link.title}</strong>
                   <span className="article-action">기사 보기 <ChevronRight size={13}/></span>
@@ -257,11 +281,11 @@ function App() {
    </>}
  </div>;
  if(route==='calendar')return <div className="app-content"><div className="section-kicker">SCHEDULE / 2027</div><h2>캘린더</h2><div className="calendar-heading"><button aria-label="이전 달" onClick={()=>{setMonth(m=>(m+11)%12);setDay(1)}}>‹</button><strong>2027년 {month+1}월</strong><button aria-label="다음 달" onClick={()=>{setMonth(m=>(m+1)%12);setDay(1)}}>›</button></div><div className="calendar-grid">{['일','월','화','수','목','금','토'].map(x=><span key={x} className="dow">{x}</span>)}{monthDays.map((d,i)=>d?<button className={'day '+(d===day?'selected':'')+(calendarData(d).length?' has-event':'')} key={i} onClick={()=>setDay(d)}>{d}</button>:<span key={i}/>)}</div><div className="section-kicker">선택한 날짜 · {month+1}월 {day}일</div><div className="records">{calendarData(day).length?calendarData(day).map((e,i)=><div className="event-row" key={i}><span className="event-dot"/><div><strong>{e.title}</strong><small>{e.type}</small></div></div>):<Empty>등록된 주요 일정이 없습니다.</Empty>}</div><div className="section-kicker" style={{marginTop:22}}>이달의 주요 일정</div>{monthEvents.length?monthEvents.map((e,i)=><button className="record" key={i} onClick={()=>setDay(Number(e.date.slice(8,10)))}><div><strong>{e.date.slice(8,10)}일 · {e.title}</strong><small>{e.type}</small></div><ChevronRight size={15}/></button>):<p className="muted">등록된 일정 없음</p>}</div>;
- if(route==='browser')return <div className="app-content browser-app"><div className="browser-bar"><Globe2 size={16}/><form onSubmit={e=>{e.preventDefault();setBrowserPage('search')}}><input aria-label="내부 아카이브 검색" value={browserInput} onChange={e=>setBrowserInput(e.target.value)} placeholder="archive.elegant-fractures.local"/></form></div>{browserPage==='portal'?<><div className="section-kicker">BOOKMARKS</div><button type="button" className="browser-hero world-hero-button" onClick={()=>setBrowserPage('about')} aria-label="우아한 균열 세계관 소개 열기">
+ if(route==='browser')return <div className="app-content browser-app"><div className="browser-bar"><Globe2 size={16}/><form onSubmit={e=>{e.preventDefault();setBrowserPage('search')}}><input aria-label="내부 아카이브 검색" value={browserInput} onChange={e=>setBrowserInput(e.target.value)} placeholder="archive.elegant-fractures.local"/></form></div><div className="browser-page-scroll" key={browserPage} ref={browserScrollRef}>{browserPage==='portal'?<><div className="section-kicker">BOOKMARKS</div><button type="button" className="browser-hero world-hero-button" onClick={()=>setBrowserPage('about')} aria-label="우아한 균열 세계관 소개 열기">
  <span>ELEGANT FRACTURES · 2027</span><h2>우아한 균열</h2>
  <p>오래된 우아함 아래 감춰진 균열, 그리고 새롭게 시작되는 균열.</p>
  <span className="world-hero-link">세계관 소개 보기 <ChevronRight size={15}/></span>
- </button><h3>즐겨찾기</h3>{[{title:'오대명가 · 五大名家',desc:'오문 총람과 각 가문의 기록',page:'houses'},{title:'오대명가 뉴스',desc:'후계 구도와 재계 소식',page:'news'}].map(x=><button className="record" key={x.page} onClick={()=>{setBrowserPage(x.page);if(x.page==='houses')setSelectedHouse(null)}}><div><strong>{x.title}</strong><small>{x.desc}</small></div><ChevronRight size={15}/></button>)}</>:browserPage==='news'?<NewsArchive articles={newsArticles} onRead={(id)=>{setActiveNewsId(id);setBrowserPage('article')}}/>:browserPage==='article'?<NewsArticle article={newsArticles.find(n=>n.id===activeNewsId)||newsArticles[0]} onBack={()=>setBrowserPage('news')}/>:browserPage==='houses'?<HousesGuide selectedHouse={selectedHouse} onSelect={setSelectedHouse} onPerson={(id)=>{const person=people.find(p=>p.id===id);if(person){navigate('contacts');setPicked(person)}}}/>:browserPage==='schedule'?<><h2>2027년 · 주요 기록</h2>{events.filter(e=>e.date.startsWith('2027')).map((e,i)=><div className="event-row" key={i}><Clock3 size={16}/><div><strong>{e.title}</strong><small>{e.date} · {e.type}</small></div></div>)}</>:browserPage==='about'?<div className="world-intro-page">
+ </button><h3>즐겨찾기</h3>{[{title:'오대명가 · 五大名家',desc:'오문 총람과 각 가문의 기록',page:'houses'},{title:'뉴스',desc:'오대명가 · 아크노드 · 사교계 소식',page:'news'}].map(x=><button className="record" key={x.page} onClick={()=>{setBrowserPage(x.page);if(x.page==='houses')setSelectedHouse(null)}}><div><strong>{x.title}</strong><small>{x.desc}</small></div><ChevronRight size={15}/></button>)}</>:browserPage==='news'?<NewsArchive articles={newsArticles} filter={newsFilter} onFilterChange={setNewsFilter} onRead={openNewsArticle}/>:browserPage==='article'?<NewsArticle article={newsArticles.find(n=>n.id===activeNewsId)||newsArticles[0]} onBack={closeNewsArticle}/>:browserPage==='houses'?<HousesGuide selectedHouse={selectedHouse} onSelect={setSelectedHouse} onPerson={(id)=>{const person=people.find(p=>p.id===id);if(person){navigate('contacts');setPicked(person)}}}/>:browserPage==='schedule'?<><h2>2027년 · 주요 기록</h2>{events.filter(e=>e.date.startsWith('2027')).map((e,i)=><div className="event-row" key={i}><Clock3 size={16}/><div><strong>{e.title}</strong><small>{e.date} · {e.type}</small></div></div>)}</>:browserPage==='about'?<div className="world-intro-page">
  <div className="section-kicker">ELEGANT FRACTURES · WORLD</div>
  <h2>우아한 균열</h2>
  <p className="world-intro-tagline">오래된 우아함 아래 감춰진 균열, 그리고 새롭게 시작되는 균열.</p>
@@ -283,7 +307,7 @@ function App() {
  <p>모든 비밀과 과거를 알고 시작하는 이야기.</p>
  <p className="world-intro-ending">그들이 어떤 사람인지는 이미 알고 있다.</p>
  <p className="world-intro-ending">이제 남은 것은, 그들과 어떤 관계를 만들어 갈 것인가.</p>
- </div>:<><h2>아카이브 검색</h2><p className="muted">‘{browserInput}’에 대한 내부 검색 결과</p>{houses.filter(h=>h.name.includes(browserInput)).map(h=><div className="house-card" key={h.name}><h3>{h.name}</h3><p>{h.desc}</p></div>)}{people.filter(p=>p.name.includes(browserInput)).map(p=><div className="record" key={p.id}><div><strong>{p.name}</strong><small>{p.label}</small></div></div>)}{!houses.some(h=>h.name.includes(browserInput))&&!people.some(p=>p.name.includes(browserInput))&&<Empty>내부 자료를 찾지 못했습니다.</Empty>}</>}<div className="browser-footer"><button onClick={()=>setBrowserPage('portal')}><Home size={16}/> 시작 페이지</button></div></div>;
+ </div>:<><h2>아카이브 검색</h2><p className="muted">‘{browserInput}’에 대한 내부 검색 결과</p>{houses.filter(h=>h.name.includes(browserInput)).map(h=><div className="house-card" key={h.name}><h3>{h.name}</h3><p>{h.desc}</p></div>)}{people.filter(p=>p.name.includes(browserInput)).map(p=><div className="record" key={p.id}><div><strong>{p.name}</strong><small>{p.label}</small></div></div>)}{!houses.some(h=>h.name.includes(browserInput))&&!people.some(p=>p.name.includes(browserInput))&&<Empty>내부 자료를 찾지 못했습니다.</Empty>}</>}<div className="browser-footer"><button onClick={()=>setBrowserPage('portal')}><Home size={16}/> 시작 페이지</button></div></div></div>;
  if(route==='gallery')return <PhotosGallery photos={galleryPhotos} activeIndex={photosView} onSelect={setPhotosView} onClose={()=>setPhotosView(null)}/>;
  if(route==='settings')return <PlaySettings/>;
  return null;
