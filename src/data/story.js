@@ -164,19 +164,22 @@ export const notes = [
   {id:'other-note',folder:'명가 기록',date:'기타',title:'선우가 · 차가 · 권가',body:'선우가는 중립적인 거리를 유지하며, 차가는 사교적 네트워크에 능하다.\n\n권가는 설가와 우호적이고 황보가와는 불편한 관계다.',spoiler:false},
   {id:'hidden',folder:'명가 기록',date:'열람 주의',title:'설가의 숨겨진 기록',body:'플레이어는 대외적으로 설진표와 권태린의 자녀로 알려졌으나 실제 생모는 민소화다. 후재율은 2022년 권태린의 폭언을 우연히 듣고 이 사실을 알게 되었다.',spoiler:true}
 ];
+// Calendar is intentionally limited to 2027. Earlier memories remain in notes,
+// and the 2025 succession announcement remains in the news archive.
 export const events = [
- {date:'2017-02-11',title:'첫 만남',type:'❤️'},
- {date:'2017-05-20',title:'연애 시작',type:'❤️'},
- {date:'2017-07-22',title:'소나기',type:'❤️'},
- {date:'2017-10-13',title:'첫 여행',type:'❤️'},
- {date:'2025-04-02',title:'후계자 발표',type:'업무'},
  {date:'2027-01-08',title:'신년 행사',type:'업무'},
+ {date:'2027-01-30',title:'설지완 생일',type:'가족'},
  {date:'2027-03-10',title:'권가 행사',type:'업무'},
+ {date:'2027-04-08',title:'민소화 생일',type:'가족'},
  {date:'2027-04-30',title:'차가 론칭 행사',type:'업무'},
- {date:'2027-05-20',title:'10주년',type:'❤️'},
+ {date:'2027-05-20',title:'재율과 10주년',type:'❤️'},
  {date:'2027-06-06',title:'선우가 행사',type:'업무'},
+ {date:'2027-07-19',title:'설리원 생일',type:'가족'},
  {date:'2027-07-23',title:'황보가 행사',type:'업무'},
- {date:'2027-09-18',title:'초가을 별 보기',type:'❤️'}
+ {date:'2027-08-03',title:'설진표 생일',type:'가족'},
+ {date:'2027-09-18',title:'초가을 별 보기',type:'❤️'},
+ {date:'2027-10-25',title:'후재율 생일',type:'❤️'},
+ {date:'2027-11-23',title:'권태린 생일',type:'가족'}
 ];
 // Fictional sample correspondence and a two-week call log (2027-09-05 — 2027-09-18).
 // They convey character dynamics; these are not fixed player choices.
