@@ -293,7 +293,7 @@ function App() {
  if(route==='calendar')return <div className="app-content calendar-app">
   <div className="section-kicker">SCHEDULE / 2027</div>
   <h2>캘린더</h2>
-  <p className="calendar-info-note">2027년 일정 · 지난 추억은 메모의 '재율과의 기록'에서 확인</p>
+  <p className="calendar-info-note">2027년 일정</p>
   <div className="calendar-categories" role="group" aria-label="일정 분류">
     {calendarCategories.map(category=><button key={category} type="button" className={calendarFilter===category?'active':''} aria-pressed={calendarFilter===category} onClick={()=>setCalendarFilter(category)}>{category}</button>)}
   </div>
