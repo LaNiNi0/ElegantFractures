@@ -1,9 +1,10 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { ArrowLeft, BatteryFull, BookOpen, CalendarDays, Camera, Check, ChevronRight, Clock3, Compass, Contact, FileText, Folder, Globe2, Heart, Home, Image as ImageIcon, Info, LockKeyhole, Mail, Menu, MessageCircle, Moon, NotebookPen, Phone, PhoneIncoming, PhoneMissed, Search, Settings, Shield, Signal, Sparkles, Star, UserRound, Wifi, X } from 'lucide-react';
+import { ArrowLeft, BatteryFull, BookOpen, CalendarDays, Camera, Check, ChevronRight, Clock3, Compass, Contact, FileText, Folder, Globe2, Heart, Home, Image as ImageIcon, Info, LockKeyhole, Mail, Menu, MessageCircle, Moon, NotebookPen, Phone, PhoneIncoming, PhoneMissed, Play, Pause, Music2, Search, Settings, Shield, Signal, Sparkles, Star, UserRound, Wifi, X } from 'lucide-react';
 import { people, houses, notes, events, conversations, calls, galleryPhotos } from './data/story';
 import { newsArticles } from './data/news';
 import { NewsArchive, NewsArticle } from './NewsArchive.jsx';
 import PlaySettings from './PlaySettings.jsx';
+import { useAmbientMusic } from './AmbientMusic.js';
 
 const icons = {notes:NotebookPen,calendar:CalendarDays,contacts:Contact,calls:Phone,messages:MessageCircle,browser:Compass,gallery:ImageIcon,settings:Settings};
 const apps = [
@@ -171,6 +172,7 @@ function App() {
  const [callFilter,setCallFilter]=useState('전체');
  const [photosView,setPhotosView]=useState(null);
  const [showSearch,setShowSearch]=useState(false);
+ const { isPlaying, toggleMusic, musicError } = useAmbientMusic();
  useEffect(()=>{if(route==='messages'&&picked&&chatScrollRef.current){chatScrollRef.current.scrollTop=chatScrollRef.current.scrollHeight}},[route,picked]);
  function navigate(to){if(to===route)return;setStack(old=>[...old,route]);setRoute(to);setPicked(null);setFolder(null);setQuery('');setShowSearch(false)}
  function openNewsArticle(id){
@@ -372,6 +374,23 @@ function App() {
           <button className="lock-notification" onClick={()=>quickOpen('messages')}>
             <span className="notification-icon"><MessageCircle size={17}/></span><span className="notification-copy"><strong>메시지 · 황보이헌</strong><span>받아</span></span><small>21:08</small>
           </button>
+        </div>
+        <div className="lock-player-wrap" onPointerDown={e=>e.stopPropagation()} onPointerUp={e=>e.stopPropagation()}>
+          <div className="lock-now-playing">
+            <div className="lock-album-art" aria-hidden="true"><Music2 size={23} strokeWidth={1.35}/></div>
+            <div className="lock-track-info">
+              <span>{isPlaying ? '재생 중 · 오리지널 데모' : '음악 · 오리지널 데모'}</span>
+              <strong>잔향</strong>
+              <small>우아한 균열 · 피아노 & 앰비언트</small>
+            </div>
+            <button type="button" className="lock-music-toggle"
+              onClick={toggleMusic}
+              aria-label={isPlaying?'배경음악 일시정지':'배경음악 재생'}
+              title={isPlaying?'일시정지':'재생'}>
+              {isPlaying?<Pause size={21} fill="currentColor"/>:<Play size={21} fill="currentColor"/>}
+            </button>
+          </div>
+          {musicError&&<p className="lock-player-error" role="status">{musicError}</p>}
         </div>
         <div className="lock-bottom">
           <div className="lock-shortcuts">
