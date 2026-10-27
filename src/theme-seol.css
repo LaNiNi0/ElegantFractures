@@ -330,3 +330,64 @@ button:focus-visible,input:focus-visible,select:focus-visible {
  user-select:none;
  -webkit-user-drag:none;
 }
+
+/* A compact lock-screen music widget. Audio is deliberately opt-in. */
+.lock-player-wrap{
+ position:relative;z-index:3;
+ width:100%;margin:2px 0 12px;
+ flex:0 0 auto;
+}
+.lock-now-playing{
+ display:flex;align-items:center;gap:12px;
+ min-height:84px;width:100%;
+ border:1px solid rgba(255,255,253,.82);
+ border-radius:19px;
+ padding:11px 12px;
+ background:rgba(251,251,246,.83);
+ backdrop-filter:blur(21px);
+ -webkit-backdrop-filter:blur(21px);
+ box-shadow:0 8px 23px rgba(48,65,47,.07);
+}
+.lock-album-art{
+ width:60px;height:60px;min-width:60px;
+ display:grid;place-items:center;
+ border-radius:11px;overflow:hidden;
+ background:
+   repeating-linear-gradient(90deg,transparent 0,transparent 12px,rgba(242,227,193,.18) 12px,rgba(242,227,193,.18) 13px),
+   repeating-linear-gradient(0deg,transparent 0,transparent 12px,rgba(248,241,214,.18) 12px,rgba(248,241,214,.18) 13px),
+   linear-gradient(135deg,#344E44,#648172 55%,#C4AB7D);
+ color:#F3E8CD;
+ box-shadow:inset 0 0 16px rgba(25,51,40,.12);
+}
+.lock-track-info{
+ display:flex;flex:1;min-width:0;flex-direction:column;gap:4px;
+ text-align:left;
+}
+.lock-track-info>span{font-size:9px;font-weight:700;color:#A29174;letter-spacing:.025em}
+.lock-track-info strong{font-size:14px;line-height:1.2;color:#304637;font-weight:800;letter-spacing:-.025em}
+.lock-track-info small{
+ font-size:10px;color:#7F9080;
+ line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.lock-music-toggle{
+ width:38px;height:38px;flex:0 0 38px;border-radius:50%;
+ display:grid;place-items:center;background:rgba(79,110,86,.09);
+ color:#49644D;
+ transition:background .2s, transform .2s;
+}
+.lock-music-toggle:hover{background:rgba(79,110,86,.18)}
+.lock-music-toggle:active{transform:scale(.94)}
+.lock-music-toggle:focus-visible{outline:2px solid #6C8D71;outline-offset:2px}
+.lock-player-error{font-size:10px;color:#AC5E54;margin:4px 6px 0;line-height:1.45}
+.screen-lock:has(.lock-player-wrap) .lock-notifications{
+ max-height:min(31vh,240px);
+ margin:auto 0 12px;
+}
+.screen-lock:has(.lock-player-wrap) .lock-bottom{gap:9px}
+@media(max-height:730px){
+ .screen-lock:has(.lock-player-wrap){padding-top:77px;padding-bottom:36px}
+ .screen-lock:has(.lock-player-wrap) .lock-notifications{max-height:155px;gap:6px}
+ .screen-lock:has(.lock-player-wrap) .lock-notification{min-height:59px;padding:8px 10px}
+ .screen-lock:has(.lock-player-wrap) .lock-now-playing{min-height:69px;padding:7px 10px}
+ .screen-lock:has(.lock-player-wrap) .lock-album-art{width:48px;height:48px;min-width:48px}
+}
