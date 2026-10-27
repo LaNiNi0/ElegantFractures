@@ -298,6 +298,13 @@ export const conversations = [
         "text": "너무 늦게 끝나면 데리러 갈게. 거절은 안받아"
       },
       {
+        "date": "2027-09-10",
+        "time": "18:57",
+        "from": "them",
+        "image": "재율_셀피2.png",
+        "alt": "후재율이 직접 찍어 보낸 셀피"
+      },
+      {
         "date": "2027-09-12",
         "time": "22:14",
         "from": "them",
