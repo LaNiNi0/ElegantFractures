@@ -12,7 +12,6 @@ export function NewsArchive({articles,onRead,filter,onFilterChange}){
    <header className="seol-news-heading">
      <span className="news-eyebrow">SOCIETY & BUSINESS · 2027</span>
      <div className="news-title-row"><h2>뉴스</h2><Newspaper size={23} strokeWidth={1.5}/></div>
-     <p>명가의 이야기부터 아크노드의 성장, 사교계 소식까지</p>
    </header>
    <nav className="seol-news-categories" aria-label="뉴스 가문 필터">
      {categories.map(c=><button key={c} type="button" aria-pressed={c===filter} className={c===filter?'active':''} onClick={()=>onFilterChange(c)}>{c}</button>)}
