@@ -6,6 +6,7 @@ import './theme-seol.css';
 import './photos.css';
 import './player-settings.css';
 import './news.css';
+import './calendar.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
