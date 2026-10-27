@@ -410,3 +410,7 @@ button:focus-visible,input:focus-visible,select:focus-visible {
  .screen-lock:has(.lock-player-wrap) .lock-now-playing{min-height:62px;padding:6px 10px}
  .screen-lock:has(.lock-player-wrap) .lock-album-art{width:44px;height:44px;min-width:44px}
 }
+
+/* Mobile audio loading indicator for native media playback. */
+.music-loading-spin{animation:music-loading-rotation 1.15s linear infinite}
+@keyframes music-loading-rotation{to{transform:rotate(360deg)}}
