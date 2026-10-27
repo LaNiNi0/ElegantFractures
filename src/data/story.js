@@ -151,20 +151,30 @@ export const houses = [
     "note": "다른 가문들과 적당한 선을 지키는 중립적인 위치로 알려져 있다."
   }
 ];
+export const omunAnnualEvents = [
+  {date:'01.08',title:'오문 신년례',detail:'다섯 가주와 주요 가족·후계자들이 새해 인사를 나누는 연초의 공식 행사.',kind:'공식 인사회'},
+  {date:'03.10',title:'오문 가주 정례회 · 상반기',detail:'권가 주최. 가주들이 주요 현안과 가문 간 이해관계를 비공개로 논의한다.',kind:'비공개 정례회'},
+  {date:'09.10',title:'오문 가주 정례회 · 하반기',detail:'가주들의 하반기 비공개 교류 및 입장 조율의 자리.',kind:'비공개 정례회'},
+  {date:'10.16',title:'오문 후계자 연회',detail:'2027년 황보가의 새 후계자 발표 이후 다섯 가문의 후계자들이 한자리에 모이는 사교 행사.',kind:'후계자 사교 행사'},
+  {date:'12.04',title:'오문 공동 자선 만찬',detail:'후원자와 외부 인사도 참석하는 공개적인 연말 자선·교류 행사.',kind:'공개 자선 행사'}
+];
+// Private memories are stored in Notes, public house records in the browser.
 export const notes = [
-  {id:'first',folder:'재율과의 기록',date:'2017.02.11',title:'처음 만난 날',body:'친어머니와 다투고 나온 날, 거리에서 우연히 후재율과 부딪혔다.\n\n“……괜찮아요?”\n\n주변을 한 번 둘러본 재율은 자연스럽게 한 걸음 옆으로 움직여 사람들의 시선을 가렸다.\n\n“저 키 큰 거, 이런 데 쓰라고 있는 건가 보네.”\n\n그가 건넨 손수건은 그에게서 처음 받은 물건이었다.',spoiler:false},
-  {id:'meet-again',folder:'재율과의 기록',date:'2017.03.11',title:'우연 말고, 다음 만남',body:'힘들 때마다 우연히 마주치던 사람.\n\n“나, 그쪽 또 보고 싶은데. 이번에는 우연 말고요.”',spoiler:false,proposal:true},
-  {id:'date',folder:'재율과의 기록',date:'2017.04.08',title:'조금 특별한 첫 데이트',body:'유저의 신분이 드러나지 않도록 변장하고, 오락실과 인형뽑기 같은 평범한 데이트를 즐긴 날.\n\n세부 날짜는 설정 기준안.',spoiler:false,proposal:true},
-  {id:'confess',folder:'재율과의 기록',date:'2017.05.20',title:'한강에서의 고백',body:'한강의 밤, 라면을 먹던 중 그가 말했다.\n\n“나 요즘 욕심나는 거 하나 생겼는데.”\n\n“너.”\n\n“너랑 이렇게 노는 거, 앞으로도 계속하고 싶어. 나랑 사귈래?”\n\n이날부터 연인이 되었다.',spoiler:false},
-  {id:'rain',folder:'재율과의 기록',date:'2017.07.22',title:'소나기가 내리던 날',body:'데이트 도중 갑작스러운 소나기를 맞고 재율의 집으로 향했다. 서로의 마음과 의사를 확인하며 더 가까워진 날.\n\n날짜는 제안 중.',spoiler:false,proposal:true},
-  {id:'trip',folder:'재율과의 기록',date:'2017.10.13~15',title:'첫 여행',body:'인적이 드문 강원도 산간 지역으로 떠난 첫 국내여행. 둘만의 조용한 2박 3일.\n\n세부 날짜와 장소는 제안 중.',spoiler:false,proposal:true},
-  {id:'arcnode-founding',folder:'재율과의 기록',date:'2023.03.14',title:'재율이 아크노드를 창립한 날',body:'2023년 3월 14일. 프로그래머로 쌓아 온 경험을 토대로 재율이 자신의 정보보안 기업 아크노드(ARCNODE)를 설립했다.\n\n그가 오래 준비해 온 중요한 출발점이자, 재율의 인생에서 의미가 큰 날. 2027년 3월 14일은 창립 4주년이다.',spoiler:false},
-  {id:'anniversary',folder:'재율과의 기록',date:'2027.05.20',title:'열 번째 기념일',body:'함께한 십 년. 낯선 사람에서 가장 익숙한 사람이 되기까지.',spoiler:false},
-  {id:'seol-note',folder:'명가 기록',date:'설가',title:'설가 · 후계자의 가문',body:'오랜 명예와 전통을 중시하는 집안. 현재 가주는 설진표이며 공식 후계자는 플레이어다.\n\n권가와는 혼인을 통해 연결되어 있다.',spoiler:false},
-  {id:'hwangbo-note',folder:'명가 기록',date:'황보가',title:'황보가 · 한여름의 새 후계자',body:'독립적인 기질과 막대한 자산을 지닌 가문.\n\n2027년 한여름, 황보이헌이 공식 후계자로 등장한다.',spoiler:false},
-  {id:'omun-calendar',folder:'명가 기록',date:'2027년 정기 행사',title:'오문의 연례 모임',body:'오대명가는 매년 공식·비공식 모임을 통해 서로의 질서와 관계를 유지한다.\n\n1월 8일 — 오문 신년례. 다섯 가주와 가족·후계자들이 새해 인사를 나누는 자리.\n3월 10일 — 상반기 오문 가주 정례회. 권가 주최, 주요 현안과 가문 간 이해관계를 논의한다.\n9월 10일 — 하반기 오문 가주 정례회. 비공개 교류와 입장 조율의 자리.\n10월 16일 — 오문 후계자 연회. 7월 황보가 후계자 발표 이후 황보이헌이 다른 가문의 후계자들과 나란히 서는 중요한 사교 행사.\n12월 4일 — 오문 공동 자선 만찬. 후원자와 외부 인사도 참석하는 공개적인 연말 교류 행사.\n\n신년례와 정례회는 관례와 의무가 강하고, 후계자 연회는 사교적 성격이 강하다.',spoiler:false},
-  {id:'other-note',folder:'명가 기록',date:'기타',title:'선우가 · 차가 · 권가',body:'선우가는 중립적인 거리를 유지하며, 차가는 사교적 네트워크에 능하다.\n\n권가는 설가와 우호적이고 황보가와는 불편한 관계다.',spoiler:false},
-  {id:'hidden',folder:'명가 기록',date:'열람 주의',title:'설가의 숨겨진 기록',body:'플레이어는 대외적으로 설진표와 권태린의 자녀로 알려졌으나 실제 생모는 민소화다. 후재율은 2022년 권태린의 폭언을 우연히 듣고 이 사실을 알게 되었다.',spoiler:true}
+  {id:'first',folder:'재율의 기록',date:'2017.02.11',title:'처음 만난 날',body:'친어머니와 다투고 나온 날, 거리에서 우연히 후재율과 부딪혔다.\n\n“……괜찮아요?”\n\n주변을 한 번 둘러본 재율은 자연스럽게 한 걸음 옆으로 움직여 사람들의 시선을 가렸다.\n\n“저 키 큰 거, 이런 데 쓰라고 있는 건가 보네.”\n\n그가 건넨 손수건은 그에게서 처음 받은 물건이었다.',spoiler:false},
+  {id:'meet-again',folder:'재율의 기록',date:'2017.03.11',title:'우연 말고, 다음 만남',body:'힘들 때마다 우연히 마주치던 사람.\n\n“나, 그쪽 또 보고 싶은데. 이번에는 우연 말고요.”',spoiler:false,proposal:true},
+  {id:'date',folder:'재율의 기록',date:'2017.04.08',title:'조금 특별한 첫 데이트',body:'유저의 신분이 드러나지 않도록 변장하고, 오락실과 인형뽑기 같은 평범한 데이트를 즐긴 날.\n\n세부 날짜는 설정 기준안.',spoiler:false,proposal:true},
+  {id:'confess',folder:'재율의 기록',date:'2017.05.20',title:'한강에서의 고백',body:'한강의 밤, 라면을 먹던 중 그가 말했다.\n\n“나 요즘 욕심나는 거 하나 생겼는데.”\n\n“너.”\n\n“너랑 이렇게 노는 거, 앞으로도 계속하고 싶어. 나랑 사귈래?”\n\n이날부터 연인이 되었다.',spoiler:false},
+  {id:'rain',folder:'재율의 기록',date:'2017.07.22',title:'소나기가 내리던 날',body:'데이트 도중 갑작스러운 소나기를 맞고 재율의 집으로 향했다. 서로의 마음과 의사를 확인하며 더 가까워진 날.\n\n날짜는 제안 중.',spoiler:false,proposal:true},
+  {id:'trip',folder:'재율의 기록',date:'2017.10.13~15',title:'첫 여행',body:'인적이 드문 강원도 산간 지역으로 떠난 첫 국내여행. 둘만의 조용한 2박 3일.\n\n세부 날짜와 장소는 제안 중.',spoiler:false,proposal:true},
+  {id:'arcnode-founding',folder:'재율의 기록',date:'2023.03.14',title:'재율이 아크노드를 창립한 날',body:'2023년 3월 14일. 프로그래머로 쌓아 온 경험을 토대로 재율이 자신의 정보보안 기업 아크노드(ARCNODE)를 설립했다.\n\n그가 오래 준비해 온 중요한 출발점이자, 재율의 인생에서 의미가 큰 날. 2027년 3월 14일은 창립 4주년이다.',spoiler:false},
+  {id:'anniversary',folder:'재율의 기록',date:'2027.05.20',title:'열 번째 기념일',body:'함께한 십 년. 낯선 사람에서 가장 익숙한 사람이 되기까지.',spoiler:false},
+  {id:'iheon-introduction',folder:'이헌의 기록',date:'2027.07.23',title:'황보가 후계자 발표식',body:'황보가가 새 후계자를 공개하던 날.\n\n그 자리에서 발견한 얼굴을 믿을 수 없어 휴대폰 카메라를 확대했다. 분명 알고 있는 그 사람인데, 이제는 황보가의 후계자라고 했다.\n\n멀리 있던 이헌이 갑자기 이쪽을 바라봤다. 놀라 손이 흔들렸고, 화면에는 흔들린 사진만 남았다.',spoiler:false},
+  {id:'iheon-following',folder:'이헌의 기록',date:'2027.09.17',title:'뒤따라오던 사람',body:'이헌이 뒤를 따라오는 것을 알아챘다. 모른 척 거리를 두고 몰래 사진을 찍었다.\n\n찍은 사진 ‘이헌_미행3’을 박이정에게 보냈다.\n“꼬리가 붙었어. 누군지 알아봐”\n\n이정에게서 평소 귀가 동선을 피하라는 답이 왔다. 그 뒤의 일은 아직 기록하지 않았다.',spoiler:false},
+  {id:'family-heir',folder:'가족의 기록',date:'2025.04.02',title:'설가 후계자 발표',body:'설가가 공식 후계자를 발표한 날. 설지완이 아니라 내가 가문의 다음 자리를 맡게 되었다.\n\n후계자라는 이름은 나 개인의 성취이면서, 동시에 가족 모두의 관계를 바꿔 놓은 자리다.',spoiler:false},
+  {id:'family-jiwan-visit',folder:'가족의 기록',date:'2027.09.11',title:'응접실에서 기다리는 지완',body:'박이정에게 설지완이 찾아왔다는 연락을 받았다.\n\n“응접실에서 기다리고 계십니다. 표정은 예상 범위 안입니다.”\n\n가족 사이에서도 가문의 후계자라는 이름이 먼저 떠오르는 날들이 있다. 구체적인 대화는 아직 남기지 않았다.',spoiler:false},
+  {id:'family-sohwa-message',folder:'가족의 기록',date:'2027.09.14',title:'엄마의 부탁',body:'민소화가 연락을 해 왔다. 괜찮을 때 연락해 달라는 말에서 시작해, 이번 한 번만 더 도와달라는 부탁으로 이어졌다.\n\n“혼자서는 도저히 어떻게 해야 할지 모르겠어…”\n\n그리고 마지막에는 언제나처럼 미안하다고 했다.',spoiler:false},
+  {id:'family-jinpyo-summons',folder:'가족의 기록',date:'2027.09.14',title:'가주님의 호출',body:'박이정에게 가주님께서 찾으신다는 연락을 받았다.\n\n오후 3시까지 본가에 들어오라는 말씀이었다.\n\n이후 무슨 대화가 오갔는지는 아직 기록하지 않았다.',spoiler:false},
+  {id:'hidden',folder:'가족의 기록',date:'가족의 비밀',title:'설가의 숨겨진 기록',body:'대외적으로는 설진표와 권태린의 자녀로 알려졌지만, 실제 생모는 민소화다.\n\n재율은 2022년 권태린의 폭언을 우연히 듣고 이 사실을 알게 되었다. 누구에게나 공개할 수 없는 가족의 이야기.',spoiler:true}
 ];
 // Calendar is intentionally limited to 2027. Earlier memories remain in notes,
 // and the 2025 succession announcement remains in the news archive.
