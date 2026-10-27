@@ -6,7 +6,7 @@ export const people = [
   {id:'taerin',name:'권태린',label:'설가 안주인',group:'설가',birth:'1960.11.23',detail:'우아하고 냉정한 정실. 통제욕이 강하다.',spoiler:false},
   {id:'sohwa',name:'민소화',label:'친어머니',group:'설가',birth:'1970.04.08',detail:'생활력이 약하고 유저에게 의존적인 인물.',spoiler:true},
   {id:'jiwan',name:'설지완',label:'설가 장남',group:'설가',birth:'1990.01.30',detail:'똑똑하지만 다혈질이고 선민의식이 강하다. 2025년 결혼.',spoiler:false},
-  {id:'riwon',name:'설리원',label:'설가 차녀 · 인플루언서',group:'설가',birth:'1998.07.19',detail:'사랑스럽고 화려한 이미지 뒤에 질투심과 계산적인 면을 숨기고 있다.',spoiler:false},
+  {id:'riwon',name:'설리원',label:'설가 차녀',group:'설가',birth:'1998.07.19',detail:'사랑스럽고 화려한 이미지 뒤에 질투심과 계산적인 면을 숨기고 있다.',spoiler:false},
   {id:'dokmin',name:'황보독민',label:'황보가 가주',group:'황보가',birth:'1957.07.17',detail:'독립성과 가문의 혈통을 중시하는 황보가의 가주.',spoiler:false},
   {id:'seogyeong',name:'문서경',label:'황보가 안주인',group:'황보가',birth:'1963.03.22',detail:'황보독민의 두 번째 부인.',spoiler:false},
   {id:'jeonghyeon',name:'황보정현',label:'황보가 전 후계자',group:'황보가',birth:'1990.06.13~2024.03.05',detail:'2024년 항공기 사고로 사망.',spoiler:true},
