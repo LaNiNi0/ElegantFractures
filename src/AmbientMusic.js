@@ -10,10 +10,10 @@ import { TEMPO, STEP, BARS, HARMONIES, MELODY, sectionOf } from './MusicScore.js
 const midiHz = midi => 440 * Math.pow(2, (midi - 69) / 12);
 const tiny = 0.0001;
 
-function envelope(gain, when, peak, attack, end, tail = 0.04) {
+function envelope(gain, when, peak, attack, end) {
   gain.gain.setValueAtTime(tiny, when);
   gain.gain.linearRampToValueAtTime(Math.max(tiny, peak), when + attack);
-  gain.gain.exponentialRampToValueAtTime(tiny, when + Math.max(attack + 0.03, end));
+  gain.gain.exponentialRampToValueAtTime(tiny, Math.max(when + attack + 0.03, end));
 }
 
 function releaseNodes(nodes, oscillator, stopAt) {
