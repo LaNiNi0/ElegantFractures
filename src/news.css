@@ -55,3 +55,18 @@
 .news-article-end{
  padding-top:19px;margin-top:26px;border-top:1px solid #E5E8DE;color:#929F91;font-size:11px
 }
+
+/* Editorial distinctions: reported events, developing news, and unverified social gossip. */
+.news-type{
+ display:inline-flex;align-self:flex-start;gap:4px;align-items:center;
+ padding:4px 7px;border-radius:5px;font-size:9px;font-weight:750;letter-spacing:.025em;
+}
+.news-type-gossip{background:#F4EDF0;color:#9A6177}
+.news-type-breaking{background:#F5EAE6;color:#AD5147}
+.seol-news-card:has(.news-type-gossip){border-left:3px solid #C5A2AB}
+.seol-news-card:has(.news-type-breaking){border-left:3px solid #C7877B}
+.seol-news-article .news-source-context{
+ font-size:10px;line-height:1.65;background:#F6F1F3;color:#8E7380;
+ padding:9px 11px;border-radius:8px;margin:0 0 15px;
+}
+.seol-news-article .news-source-context.breaking{color:#9B5C50;background:#F8F0EC}
