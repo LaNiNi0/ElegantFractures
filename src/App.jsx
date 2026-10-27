@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, BatteryFull, BookOpen, CalendarDays, Camera, Check, ChevronRight, Clock3, Compass, Contact, FileText, Folder, Globe2, Heart, Home, Image as ImageIcon, Info, LockKeyhole, Mail, Menu, MessageCircle, Moon, NotebookPen, Phone, PhoneIncoming, PhoneMissed, Search, Settings, Shield, Signal, Sparkles, Star, UserRound, Wifi, X } from 'lucide-react';
-import { people, houses, notes, events, conversations, calls, galleryPhotos } from './data/story';
+import { people, houses, omunAnnualEvents, notes, events, conversations, calls, galleryPhotos } from './data/story';
 import { newsArticles } from './data/news';
 import { NewsArchive, NewsArticle } from './NewsArchive.jsx';
 import PlaySettings from './PlaySettings.jsx';
@@ -111,6 +111,23 @@ function HousesGuide({selectedHouse,onSelect,onPerson}) {
          <p><strong>선우가</strong> · 어느 편에도 깊이 치우치지 않는 중립적 입장</p>
          <p><strong>차가</strong> · 여러 가문을 연결하는 폭넓은 사교 관계</p>
        </div>
+       <section className="omun-annual" aria-label="오문의 연례 모임">
+         <div className="omun-annual-heading">
+           <span className="section-kicker">OMUN · ANNUAL GATHERINGS</span>
+           <h3>오문의 연례 모임</h3>
+           <p>오문은 공식 모임과 사교 행사를 통해 오랜 질서와 관계를 이어 간다. 신년례와 가주 정례회는 참석의 관례가 강하고, 후계자 연회는 사교적인 성격이 두드러진다.</p>
+         </div>
+         <div className="omun-event-list">
+           {omunAnnualEvents.map(event=><div className="omun-annual-event" key={event.date}>
+             <span className="omun-event-date">2027<span>{event.date}</span></span>
+             <div className="omun-event-text">
+               <span className="omun-event-kind">{event.kind}</span>
+               <strong>{event.title}</strong>
+               <p>{event.detail}</p>
+             </div>
+           </div>)}
+         </div>
+       </section>
      </div>
    : <div className="house-profile" key={current.id}>
        <div className="house-banner"><img src={imageRoot+encodeURIComponent(current.banner)} alt={current.name+' 문장과 대표 상징 배너'} loading="lazy" decoding="async"/></div>
@@ -172,6 +189,10 @@ function App() {
  const [photosView,setPhotosView]=useState(null);
  const [showSearch,setShowSearch]=useState(false);
  useEffect(()=>{if(route==='messages'&&picked&&chatScrollRef.current){chatScrollRef.current.scrollTop=chatScrollRef.current.scrollHeight}},[route,picked]);
+ // Reset Notes reading position whenever a folder or individual note opens.
+ useLayoutEffect(()=>{
+   if(route==='notes'&&chatScrollRef.current)chatScrollRef.current.scrollTop=0;
+ },[route,folder,picked]);
  function navigate(to){if(to===route)return;setStack(old=>[...old,route]);setRoute(to);setPicked(null);setFolder(null);setQuery('');setShowSearch(false)}
  function openNewsArticle(id){
   newsScrollRef.current=route==='browser'&&browserPage==='news' ? (browserScrollRef.current?.scrollTop||0) : 0;
@@ -225,6 +246,11 @@ function App() {
  const monthEvents=events.filter(e=>e.date.startsWith('2027-')&&Number(e.date.slice(5,7))===month+1&&calendarMatches(e));
  const calendarData=day=>monthEvents.filter(e=>Number(e.date.slice(8,10))===day);
  const [day,setDay]=useState(23);
+ const notesFolders=[
+   {name:'재율의 기록',emoji:'❤️',sub:'함께한 10년의 추억'},
+   {name:'이헌의 기록',emoji:'🖤',sub:'다시 마주한 순간들'},
+   {name:'가족의 기록',emoji:'🌿',sub:'가족 사이에 남은 일들'}
+ ];
  const appButton=(a)=>{const I=a.icon;return <button key={a.id} className="app-entry" onClick={()=>navigate(a.id)}><span className={'app-icon tile-'+a.id} style={{'--tile':a.color}}><I size={25} strokeWidth={1.6}/></span><span>{a.title}</span></button>};
  const content = () => {
  if(route==='home') return <div className="home-screen">
@@ -232,12 +258,17 @@ function App() {
    <div className="home-pagination" aria-hidden="true"><span className="active"/><span/></div>
    <div className="dock">{apps.slice(0,4).map(appButton)}</div>
  </div>;
- if(route==='notes') return <div className="app-content">
-   {!folder&&!picked?<><div className="section-kicker">FOLDERS</div><h2>메모</h2><p className="muted">내가 기억하고 싶은 것들</p>
-    <div className="folder-grid">{[{name:'재율과의 기록',count:notes.filter(x=>x.folder==='재율과의 기록').length,sub:'10년의 시간'},{name:'명가 기록',count:notes.filter(x=>x.folder==='명가 기록').length,sub:'다섯 가문'}].map(f=><button className="folder-card" key={f.name} onClick={()=>{setFolder(f.name);setQuery('')}}><Folder size={28} fill="currentColor" strokeWidth={1.2}/><strong>{f.name}</strong><small>{f.sub} · {f.count}개</small><ChevronRight size={16}/></button>)}</div>
-    
-   </>:picked?<><div className="section-kicker">{picked.folder} · {picked.date}</div><h2>{picked.title}</h2>{picked.proposal&&<span className="tag proposal">일부 날짜 제안 중</span>}<div className="note-sheet">{picked.body.split('\n').map((line,i)=><p key={i}>{line||'\u00a0'}</p>)}</div></>:
-   <><div className="section-kicker">NOTES / {folder}</div><h2>{folder}</h2><div className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="메모 검색" aria-label="메모 검색"/></div><div className="records">{visible(notes).filter(n=>n.folder===folder&&matched(n.title+' '+n.body)).map(n=><button className="record" key={n.id} onClick={()=>setPicked(n)}><div><strong>{n.title}</strong><small>{n.date} {n.proposal?'· 날짜 기준안':''}</small></div><ChevronRight size={16}/></button>)}</div></>}
+ if(route==='notes') return <div className="app-content notes-app">
+   {!folder&&!picked?<><div className="section-kicker">PERSONAL NOTES</div><h2>메모</h2><p className="muted">함께한 사람들, 잊고 싶지 않은 순간들</p>
+     <div className="folder-grid notes-folder-grid">
+       {notesFolders.map(f=><button className="folder-card notes-folder-card" key={f.name} onClick={()=>{setFolder(f.name);setQuery('')}}>
+         <span className="notes-folder-icon" aria-hidden="true">{f.emoji}</span>
+         <span className="notes-folder-info"><strong>{f.name}</strong><small>{f.sub} · {notes.filter(n=>n.folder===f.name).length}개의 메모</small></span>
+         <ChevronRight size={17}/>
+       </button>)}
+     </div>
+   </>:picked?<><div className="section-kicker">{notesFolders.find(x=>x.name===picked.folder)?.emoji} {picked.folder} · {picked.date}</div><h2>{picked.title}</h2>{picked.proposal&&<span className="tag proposal">일부 날짜 제안 중</span>}<div className="note-sheet">{picked.body.split('\n').map((line,i)=><p key={i}>{line||'\u00a0'}</p>)}</div></>:
+   <><div className="section-kicker">NOTES / {folder}</div><h2>{notesFolders.find(x=>x.name===folder)?.emoji} {folder}</h2><div className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="메모 검색" aria-label="메모 검색"/></div><div className="records">{visible(notes).filter(n=>n.folder===folder&&matched(n.title+' '+n.body)).map(n=><button className="record" key={n.id} onClick={()=>setPicked(n)}><div><strong>{n.title}</strong><small>{n.date} {n.proposal?'· 날짜 기준안':''}</small></div><ChevronRight size={16}/></button>)}</div></>}
  </div>;
  if(route==='contacts') return <div className="app-content"><div className="section-kicker">PEOPLE & CONNECTIONS</div><h2>연락처</h2>{picked?<div className="person-detail"><Avatar name={picked.name} id={picked.id} large/><h2>{picked.name}</h2><span className="muted">{picked.label}</span><div className="detail-grid"><span>소속</span><strong>{picked.group}</strong><span>생년월일</span><strong>{picked.birth}</strong></div><h3>인물 메모</h3><p>{picked.detail}</p></div>:<><div className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="이름 또는 가문 검색" aria-label="연락처 검색"/></div>{Object.keys(segments).map(group=>{const groupPeople=shownPeople.filter(p=>p.group===group);return groupPeople.length?<section className="group-section" key={group}><div className="section-kicker">{segments[group]} · {group}</div>{groupPeople.map(p=><button className="person-row" key={p.id} onClick={()=>setPicked(p)}><Avatar name={p.name} id={p.id}/><span><strong>{p.name}</strong><small>{p.label}</small></span><ChevronRight size={15}/></button>)}</section>:null})}</>}</div>;
  if(route==='calls')return <div className="app-content">
@@ -382,7 +413,7 @@ function App() {
         </div>
       </div> : <>
         {route!=='home'&&<div className="app-toolbar"><button className="back-btn" onClick={back} aria-label="뒤로 가기"><ArrowLeft size={18}/></button><span>{picked?.name||picked?.title||folder||pageTitle(route)}</span><button className="toolbar-home" onClick={home} aria-label="홈으로"><Home size={17}/></button></div>}
-        <div ref={chatScrollRef} className={'screen '+(route==='home'?'screen-home':'screen-app')+(['contacts','calls','settings','messages','calendar'].includes(route)||(route==='gallery'&&photosView===null)?' screen-contained':'')} key={route}>{content()}</div>
+        <div ref={chatScrollRef} className={'screen '+(route==='home'?'screen-home':'screen-app')+(['contacts','calls','settings','messages','calendar','notes'].includes(route)||(route==='gallery'&&photosView===null)?' screen-contained':'')} key={route}>{content()}</div>
         <div className="home-indicator"><button onClick={home} aria-label="홈 화면으로 돌아가기"><span/></button></div>
       </>}
      <button className="phone-side-button" onClick={lock} aria-label="화면 잠그기" title="화면 잠그기"/>
