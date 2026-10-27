@@ -18,6 +18,8 @@ export function NewsArchive({articles,onRead}){
    <div className="seol-news-list">
      {filtered.map((a,i)=><button type="button" className={'seol-news-card'+(i===0?' lead':'')} key={a.id} onClick={()=>onRead(a.id)}>
        <span className="news-card-eyebrow"><span>{a.family} · {a.desk}</span><span>{a.date}</span></span>
+       {a.tone==='rumor'&&<span className="news-type news-type-gossip">사교계 찌라시</span>}
+       {a.tone==='breaking'&&<span className="news-type news-type-breaking">긴급 속보</span>}
        <strong>{a.headline}</strong>
        <span className="news-card-summary">{a.subtitle}</span>
        <span className="news-card-footer">{a.source}<ChevronRight size={15}/></span>
@@ -30,7 +32,9 @@ export function NewsArticle({article,onBack}){
  if(!article)return null;
  return <article className="seol-news-article">
    <button type="button" className="seol-news-back" onClick={onBack}><ArrowLeft size={16}/> 오대명가 뉴스</button>
-   <div className="news-article-masthead"><span>한성경제</span><small>{article.desk}</small></div>
+   <div className="news-article-masthead"><span>{article.source}</span><small>{article.desk}</small></div>
+   {article.tone==='rumor'&&<p className="news-source-context">사교계에 퍼진 미확인 소문을 다룬 기사입니다.</p>}
+   {article.tone==='breaking'&&<p className="news-source-context breaking">속보 · 당시 발표된 내용에 기초한 기사입니다.</p>}
    <div className="news-article-meta">{article.family} <span>·</span> {article.date}</div>
    <h2>{article.headline}</h2>
    <h3>{article.subtitle}</h3>
