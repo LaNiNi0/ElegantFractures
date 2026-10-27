@@ -161,15 +161,16 @@ export const notes = [
   {id:'anniversary',folder:'재율과의 기록',date:'2027.05.20',title:'열 번째 기념일',body:'함께한 십 년. 낯선 사람에서 가장 익숙한 사람이 되기까지.',spoiler:false},
   {id:'seol-note',folder:'명가 기록',date:'설가',title:'설가 · 후계자의 가문',body:'오랜 명예와 전통을 중시하는 집안. 현재 가주는 설진표이며 공식 후계자는 플레이어다.\n\n권가와는 혼인을 통해 연결되어 있다.',spoiler:false},
   {id:'hwangbo-note',folder:'명가 기록',date:'황보가',title:'황보가 · 한여름의 새 후계자',body:'독립적인 기질과 막대한 자산을 지닌 가문.\n\n2027년 한여름, 황보이헌이 공식 후계자로 등장한다.',spoiler:false},
+  {id:'omun-calendar',folder:'명가 기록',date:'2027년 정기 행사',title:'오문의 연례 모임',body:'오대명가는 매년 공식·비공식 모임을 통해 서로의 질서와 관계를 유지한다.\n\n1월 8일 — 오문 신년례. 다섯 가주와 가족·후계자들이 새해 인사를 나누는 자리.\n3월 10일 — 상반기 오문 가주 정례회. 권가 주최, 주요 현안과 가문 간 이해관계를 논의한다.\n9월 10일 — 하반기 오문 가주 정례회. 비공개 교류와 입장 조율의 자리.\n10월 16일 — 오문 후계자 연회. 7월 황보가 후계자 발표 이후 황보이헌이 다른 가문의 후계자들과 나란히 서는 중요한 사교 행사.\n12월 4일 — 오문 공동 자선 만찬. 후원자와 외부 인사도 참석하는 공개적인 연말 교류 행사.\n\n신년례와 정례회는 관례와 의무가 강하고, 후계자 연회는 사교적 성격이 강하다.',spoiler:false},
   {id:'other-note',folder:'명가 기록',date:'기타',title:'선우가 · 차가 · 권가',body:'선우가는 중립적인 거리를 유지하며, 차가는 사교적 네트워크에 능하다.\n\n권가는 설가와 우호적이고 황보가와는 불편한 관계다.',spoiler:false},
   {id:'hidden',folder:'명가 기록',date:'열람 주의',title:'설가의 숨겨진 기록',body:'플레이어는 대외적으로 설진표와 권태린의 자녀로 알려졌으나 실제 생모는 민소화다. 후재율은 2022년 권태린의 폭언을 우연히 듣고 이 사실을 알게 되었다.',spoiler:true}
 ];
 // Calendar is intentionally limited to 2027. Earlier memories remain in notes,
 // and the 2025 succession announcement remains in the news archive.
 export const events = [
- {date:'2027-01-08',title:'신년 행사',type:'업무'},
+ {date:'2027-01-08',title:'오문 신년례',type:'업무'},
  {date:'2027-01-30',title:'설지완 생일',type:'가족'},
- {date:'2027-03-10',title:'권가 행사',type:'업무'},
+ {date:'2027-03-10',title:'오문 가주 정례회 · 권가 주최',type:'업무'},
  {date:'2027-04-08',title:'민소화 생일',type:'가족'},
  {date:'2027-04-30',title:'차가 론칭 행사',type:'업무'},
  {date:'2027-05-20',title:'재율과 10주년',type:'❤️'},
@@ -177,9 +178,12 @@ export const events = [
  {date:'2027-07-19',title:'설리원 생일',type:'가족'},
  {date:'2027-07-23',title:'황보가 행사',type:'업무'},
  {date:'2027-08-03',title:'설진표 생일',type:'가족'},
+ {date:'2027-09-10',title:'오문 가주 정례회 · 하반기',type:'업무'},
  {date:'2027-09-18',title:'초가을 별 보기',type:'❤️'},
+ {date:'2027-10-16',title:'오문 후계자 연회',type:'업무'},
  {date:'2027-10-25',title:'후재율 생일',type:'❤️'},
- {date:'2027-11-23',title:'권태린 생일',type:'가족'}
+ {date:'2027-11-23',title:'권태린 생일',type:'가족'},
+ {date:'2027-12-04',title:'오문 공동 자선 만찬',type:'업무'}
 ];
 // Fictional sample correspondence and a two-week call log (2027-09-05 — 2027-09-18).
 // They convey character dynamics; these are not fixed player choices.
