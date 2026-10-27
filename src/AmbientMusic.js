@@ -1,248 +1,159 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { TEMPO, STEP, BARS, HARMONIES, MELODY, sectionOf } from './MusicScore.js';
+import { STEP, BARS, ROOTS, MELODY, sectionOf } from './MusicScore.js';
 
-// 우아한 균열 — original ~101s five-part main-theme arrangement.
-// A small Web Audio ensemble inspired by the articulations of gayageum,
-// geomungo and saenghwang. These are original synthesized sounds, not
-// recordings of traditional instruments or an imitation of a reference melody.
-// A licensed live-instrument master can replace the synthesis later.
+// '우아한 균열' V2 — darker 28-bar original theme.
+// This is synthesized string timbre inspired by plucked Korean string techniques,
+// NOT real gayageum/geomungo recordings. No piano instrument or piano patch.
+// The reference songs are mood references, not melodies sampled or copied.
 
-const midiHz = midi => 440 * Math.pow(2, (midi - 69) / 12);
-const tiny = 0.0001;
+const freq = midi => 440 * Math.pow(2, (midi - 69) / 12);
 
-function envelope(gain, when, peak, attack, end) {
-  gain.gain.setValueAtTime(tiny, when);
-  gain.gain.linearRampToValueAtTime(Math.max(tiny, peak), when + attack);
-  gain.gain.exponentialRampToValueAtTime(tiny, Math.max(when + attack + 0.03, end));
-}
-
-function releaseNodes(nodes, oscillator, stopAt) {
-  oscillator.onended = () => {
-    for (const node of nodes) {
-      try { node.disconnect(); } catch (_) {}
-    }
+function makePluckBuffer(engine, midi, kind) {
+  const key = kind + ':' + midi;
+  if (engine.buffers.has(key)) return engine.buffers.get(key);
+  const { ctx } = engine;
+  const sr = ctx.sampleRate;
+  const isBass = kind === 'bass';
+  const seconds = isBass ? 3.45 : 2.7;
+  const n = Math.ceil(seconds * sr);
+  const delay = Math.max(8, Math.round(sr / freq(midi)));
+  const ring = new Float32Array(delay);
+  let seed = (Math.imul(midi + 23, 1103515245) + (isBass ? 307 : 509)) >>> 0;
+  const noise = () => {
+    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+    return seed / 2147483648 - 1;
   };
-  oscillator.stop(stopAt);
+  let low = 0;
+  for (let i = 0; i < delay; i++) {
+    low = low * (isBass ? .70 : .63) + noise() * (isBass ? .30 : .37);
+    ring[i] = low;
+  }
+  const buffer = ctx.createBuffer(1, n, sr);
+  const data = buffer.getChannelData(0);
+  const decay = isBass ? .9967 : .9952;
+  for (let i = 0; i < n; i++) {
+    const p = i % delay;
+    const value = ring[p];
+    ring[p] = decay * (.51 * value + .49 * ring[(p + 1) % delay]);
+    const t = i / sr;
+    const attack = Math.min(1, t / (isBass ? .006 : .003));
+    const release = Math.min(1, (seconds - t) / .09);
+    const touch = Math.exp(-t * 27) * noise() * (isBass ? .036 : .025);
+    const bridge = Math.sin(2 * Math.PI * freq(midi) * 3.73 * t) * Math.exp(-t * 27) * .025;
+    const bloom = Math.exp(-t * (isBass ? .28 : .47));
+    data[i] = Math.tanh((value * 2.15 + touch + bridge) * 1.32) * bloom * attack * Math.max(0, release);
+  }
+  engine.buffers.set(key, buffer);
+  return buffer;
 }
 
-function stringPluck(engine, midi, when, volume = 1, duration = STEP * 2.45) {
-  const { ctx, plucks, noise } = engine;
-  const hz = midiHz(midi);
-  const carrier = ctx.createOscillator();
-  const harmonic = ctx.createOscillator();
-  const harmonicGain = ctx.createGain();
-  const filter = ctx.createBiquadFilter();
+function pluck(engine, midi, when, volume = 1, kind = 'lead') {
+  const { ctx } = engine;
+  const src = ctx.createBufferSource();
   const amp = ctx.createGain();
-  carrier.type = 'triangle';
-  carrier.frequency.setValueAtTime(hz * 1.012, when);
-  carrier.frequency.exponentialRampToValueAtTime(hz, when + 0.115);
-  harmonic.type = 'sine';
-  harmonic.frequency.setValueAtTime(hz * 2.006, when);
-  harmonicGain.gain.value = 0.22;
-  filter.type = 'lowpass';
-  filter.frequency.setValueAtTime(3550, when);
-  filter.frequency.exponentialRampToValueAtTime(880, when + duration);
-  envelope(amp, when, 0.085 * volume, 0.006, when + duration);
-  carrier.connect(filter);
-  harmonic.connect(harmonicGain);
-  harmonicGain.connect(filter);
-  filter.connect(amp);
-  amp.connect(plucks);
-
-  const finger = ctx.createBufferSource();
-  const fingerAmp = ctx.createGain();
-  finger.buffer = noise;
-  fingerAmp.gain.setValueAtTime(0.018 * volume, when);
-  fingerAmp.gain.exponentialRampToValueAtTime(tiny, when + 0.055);
-  finger.connect(fingerAmp);
-  fingerAmp.connect(plucks);
-  finger.start(when);
-  finger.stop(when + 0.060);
-
-  carrier.start(when);
-  harmonic.start(when);
-  releaseNodes([carrier, harmonic, harmonicGain, filter, amp, finger, fingerAmp], carrier, when + duration + 0.04);
-  harmonic.stop(when + duration + 0.04);
-}
-
-function geomungo(engine, midi, when, volume = 1) {
-  const { ctx, bass } = engine;
-  const hz = midiHz(midi);
-  const low = ctx.createOscillator();
-  const strike = ctx.createOscillator();
-  const strikeLevel = ctx.createGain();
   const tone = ctx.createBiquadFilter();
-  const amp = ctx.createGain();
-  low.type = 'triangle';
-  low.frequency.setValueAtTime(hz * 1.008, when);
-  low.frequency.exponentialRampToValueAtTime(hz, when + .09);
-  strike.type = 'sawtooth';
-  strike.frequency.value = hz;
-  strikeLevel.gain.value = .16;
+  src.buffer = makePluckBuffer(engine, midi, kind === 'bass' ? 'bass' : 'lead');
   tone.type = 'lowpass';
-  tone.frequency.setValueAtTime(1600, when);
-  tone.frequency.exponentialRampToValueAtTime(350, when + 1.5);
-  envelope(amp, when, .105 * volume, .009, when + 1.8);
-  low.connect(tone);
-  strike.connect(strikeLevel);
-  strikeLevel.connect(tone);
+  tone.frequency.value = kind === 'bass' ? 1200 : 2800;
+  amp.gain.value = volume * (kind === 'bass' ? .16 : .145);
+  src.connect(tone);
   tone.connect(amp);
-  amp.connect(bass);
-  low.start(when);
-  strike.start(when);
-  releaseNodes([low, strike, strikeLevel, tone, amp], low, when + 1.84);
-  strike.stop(when + 1.84);
+  amp.connect(kind === 'bass' ? engine.low : engine.strings);
+  src.start(when);
+  src.onended = () => {
+    try { src.disconnect(); tone.disconnect(); amp.disconnect(); } catch (_) {}
+  };
 }
 
-function saenghwangBreath(engine, midi, when, volume = 1, length = STEP * 7.7) {
-  const { ctx, air } = engine;
-  const freq = midiHz(midi);
-  const reed = ctx.createOscillator();
-  const breath = ctx.createOscillator();
-  const breathLevel = ctx.createGain();
-  const filter = ctx.createBiquadFilter();
-  const amp = ctx.createGain();
-  reed.type = 'sine';
-  reed.frequency.value = freq;
-  breath.type = 'triangle';
-  breath.frequency.value = freq * 1.003;
-  breathLevel.gain.value = .19;
-  filter.type = 'lowpass';
-  filter.frequency.value = 1700;
-  envelope(amp, when, .024 * volume, .52, when + length);
-  reed.connect(filter);
-  breath.connect(breathLevel);
-  breathLevel.connect(filter);
-  filter.connect(amp);
-  amp.connect(air);
-  reed.start(when);
-  breath.start(when);
-  releaseNodes([reed, breath, breathLevel, filter, amp], reed, when + length + .05);
-  breath.stop(when + length + .05);
-}
-
-function distantPiano(engine, midi, when, volume = 1) {
-  const { ctx, plucks } = engine;
-  const freq = midiHz(midi);
+function airTone(engine, midi, when, duration, volume) {
+  const { ctx } = engine;
   const fundamental = ctx.createOscillator();
   const overtone = ctx.createOscillator();
   const overtoneGain = ctx.createGain();
-  const amp = ctx.createGain();
+  const gain = ctx.createGain();
+  const filter = ctx.createBiquadFilter();
   fundamental.type = 'sine';
-  fundamental.frequency.value = freq;
+  fundamental.frequency.setValueAtTime(freq(midi), when);
   overtone.type = 'triangle';
-  overtone.frequency.value = freq * 2;
-  overtoneGain.gain.value = .17;
-  envelope(amp, when, .039 * volume, .012, when + STEP * 4.3);
-  fundamental.connect(amp);
+  overtone.frequency.setValueAtTime(freq(midi) * 1.003, when);
+  overtoneGain.gain.value = .11;
+  filter.type = 'lowpass';
+  filter.frequency.value = 590;
+  gain.gain.setValueAtTime(.0001, when);
+  gain.gain.linearRampToValueAtTime(Math.max(.0002, volume * .02), when + .9);
+  gain.gain.exponentialRampToValueAtTime(.0001, when + duration);
+  fundamental.connect(filter);
   overtone.connect(overtoneGain);
-  overtoneGain.connect(amp);
-  amp.connect(plucks);
+  overtoneGain.connect(filter);
+  filter.connect(gain);
+  gain.connect(engine.air);
   fundamental.start(when);
   overtone.start(when);
-  releaseNodes([fundamental, overtone, overtoneGain, amp], fundamental, when + STEP * 4.35);
-  overtone.stop(when + STEP * 4.35);
-}
-
-function scheduleBar(engine, bar, when) {
-  const chord = HARMONIES[bar];
-  const phrase = MELODY[bar];
-  const section = sectionOf(bar);
-  const endFade = bar >= 29 ? Math.max(.35, (32 - bar) / 3.7) : 1;
-  const tension = section === 'fracture';
-  const intimate = section === 'opening' || section === 'ending';
-  const baseVolume = (intimate ? .65 : .95) * endFade;
-
-  // Low struck string, less regular in the opening and coda.
-  if (bar !== 0 && bar < 31) geomungo(engine, chord[0], when, baseVolume * (tension ? 1.17 : .87));
-  if (tension && bar % 2 === 0) geomungo(engine, chord[0] + 12, when + STEP * 4, .33);
-
-  // The airy organ-like layer makes the old instruments feel contemporary.
-  const upper = chord.slice(-2);
-  upper.forEach((note, i) => saenghwangBreath(engine, note, when + .03 + i * .09, baseVolume * (tension ? .88 : 1) * (i ? .80 : 1)));
-
-  phrase.forEach((note, beat) => {
-    if (note === null) return;
-    const offset = beat * STEP;
-    // Subtle unresolved touch in the middle, never lifted from any reference track.
-    if (tension && (bar + beat) % 7 === 0) {
-      stringPluck(engine, note + 1, when + offset, .18, STEP * .47);
-    }
-    stringPluck(engine, note, when + offset + (beat % 4 === 0 ? 0 : .012), baseVolume * (tension ? .92 : 1), STEP * (beat % 4 === 0 ? 2.9 : 2.2));
-  });
-
-  // Sparse piano 'light': more of a reflection than another foreground melody.
-  if (bar >= 4 && bar < 29 && bar % 2 === 1) {
-    distantPiano(engine, chord.at(-1) + 12, when + STEP * 3.8, .45 * endFade);
-  }
-  if (section === 'return' && bar % 4 === 0) {
-    stringPluck(engine, chord[2] + 12, when + STEP * 5.9, .37, STEP * 3.6);
-  }
-}
-
-function makeReverb(ctx) {
-  const seconds = 1.45;
-  const samples = Math.round(ctx.sampleRate * seconds);
-  const buffer = ctx.createBuffer(2, samples, ctx.sampleRate);
-  let seed = 88112;
-  const random = () => {
-    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
-    return seed / 4294967296 * 2 - 1;
+  fundamental.stop(when + duration + .05);
+  overtone.stop(when + duration + .05);
+  fundamental.onended = () => {
+    try {
+      [fundamental, overtone, overtoneGain, filter, gain].forEach(n => n.disconnect());
+    } catch (_) {}
   };
-  for (let channel = 0; channel < 2; channel++) {
-    const data = buffer.getChannelData(channel);
-    for (let i = 0; i < samples; i++) {
-      const decay = Math.pow(1 - i / samples, 3.7);
-      data[i] = random() * decay * .34;
-    }
-  }
-  const convolver = ctx.createConvolver();
-  convolver.buffer = buffer;
-  return convolver;
 }
 
-function setupAudio(AudioContextClass) {
+function scheduleBar(engine, bar, at) {
+  const root = ROOTS[bar];
+  const section = sectionOf(bar);
+  // Predominantly dry low strings, with asymmetric pulses.
+  if (bar > 0) pluck(engine, root, at, section === 'prologue' ? .52 : .72, 'bass');
+  if (bar >= 4 && bar <= 23 && bar % 3 !== 1) {
+    pluck(engine, root + 7, at + STEP * 4.7, .28, 'bass');
+  }
+  if (section === 'fracture') {
+    pluck(engine, root + 12, at + STEP * 2.5, .15, 'bass');
+  }
+  if (bar % 2 === 0) {
+    airTone(engine, root + 12, at, STEP * 15.6, .75);
+  }
+  if (bar >= 5 && bar < 24 && bar % 4 === 2) {
+    airTone(engine, root + 19, at + STEP * 3, STEP * 8, .22);
+  }
+  MELODY[bar].forEach((midi, i) => {
+    if (midi === null) return;
+    const when = at + i * STEP + (i > 0 ? .013 : 0);
+    if (section === 'fracture' && (bar + i) % 4 === 0) {
+      pluck(engine, midi - 1, when, .12);
+    }
+    const level = section === 'prologue' ? .48 : section === 'theme' ? .73 : .64;
+    pluck(engine, midi, when + (i % 4 ? .009 : 0), level);
+  });
+  if (bar >= 6 && bar <= 24 && bar % 4 === 2) {
+    pluck(engine, root + 24, at + STEP * 6, .19);
+  }
+}
+
+function createEngine(AudioContextClass) {
   const ctx = new AudioContextClass();
   const master = ctx.createGain();
-  master.gain.value = .42;
-  const dry = ctx.createGain();
-  dry.gain.value = .87;
-  const wet = ctx.createGain();
-  wet.gain.value = .20;
-  const reverb = makeReverb(ctx);
-  const comp = ctx.createDynamicsCompressor();
-  comp.threshold.value = -22;
-  comp.ratio.value = 2.1;
-  comp.attack.value = .012;
-  comp.release.value = .22;
-  const eq = ctx.createBiquadFilter();
-  eq.type = 'lowpass';
-  eq.frequency.value = 6300;
-  const mix = ctx.createGain();
-  mix.connect(dry);
-  mix.connect(reverb);
-  reverb.connect(wet);
-  dry.connect(eq);
-  wet.connect(eq);
-  eq.connect(comp);
-  comp.connect(master);
-  master.connect(ctx.destination);
-  const plucks = ctx.createGain();
-  const bass = ctx.createGain();
+  master.gain.value = .65;
+  const compressor = ctx.createDynamicsCompressor();
+  compressor.threshold.value = -20;
+  compressor.ratio.value = 2;
+  const dark = ctx.createBiquadFilter();
+  dark.type = 'lowpass';
+  dark.frequency.value = 3400;
+  const strings = ctx.createGain();
+  const low = ctx.createGain();
   const air = ctx.createGain();
-  plucks.gain.value = 1;
-  bass.gain.value = .67;
-  air.gain.value = 1;
-  plucks.connect(mix);
-  bass.connect(mix);
-  air.connect(mix);
-  const noise = ctx.createBuffer(1, Math.round(.08 * ctx.sampleRate), ctx.sampleRate);
-  const data = noise.getChannelData(0);
-  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-  return { ctx, plucks, bass, air, noise, timer: null, nextAt: 0, bar: 0 };
+  strings.gain.value = 1.0;
+  low.gain.value = .68;
+  air.gain.value = .61;
+  strings.connect(dark);
+  low.connect(dark);
+  air.connect(dark);
+  dark.connect(compressor);
+  compressor.connect(master);
+  master.connect(ctx.destination);
+  return { ctx, master, strings, low, air, buffers: new Map(), timer: null, nextAt: 0, bar: 0 };
 }
 
-// User gesture required. Music survives navigating the in-story phone apps.
 export function useAmbientMusic() {
   const engineRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -268,14 +179,14 @@ export function useAmbientMusic() {
           setMusicError('브라우저에서 오디오 재생을 지원하지 않습니다.');
           return;
         }
-        engine = setupAudio(AudioContextClass);
+        engine = createEngine(AudioContextClass);
         engineRef.current = engine;
       }
       await engine.ctx.resume();
       if (engineRef.current !== engine || engine.timer !== null) return;
-      if (engine.nextAt < engine.ctx.currentTime) engine.nextAt = engine.ctx.currentTime + .06;
+      if (engine.nextAt < engine.ctx.currentTime) engine.nextAt = engine.ctx.currentTime + .075;
       const scheduler = () => {
-        while (engine.nextAt < engine.ctx.currentTime + .62) {
+        while (engine.nextAt < engine.ctx.currentTime + .55) {
           scheduleBar(engine, engine.bar, engine.nextAt);
           engine.bar = (engine.bar + 1) % BARS;
           engine.nextAt += STEP * 8;
