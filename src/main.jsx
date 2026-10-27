@@ -4,6 +4,7 @@ import App from './App.jsx';
 import './styles.css';
 import './theme-seol.css';
 import './photos.css';
+import './player-settings.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
