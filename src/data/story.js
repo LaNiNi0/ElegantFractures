@@ -1,5 +1,5 @@
 export const people = [
-  {id:'jaeyul',name:'후재율 ❤️',label:'10년의 연인',group:'가까운 사람',birth:'1993.10.25',detail:'프로그래머 출신 정보보안 기업 대표. 다정하고 능글맞지만 자기 원칙과 고집이 뚜렷하다.',spoiler:false},
+  {id:'jaeyul',name:'후재율 ❤️',label:'10년의 연인',group:'가까운 사람',birth:'1993.10.25',detail:'프로그래머 출신 아크노드(ARCNODE) 대표. 다정하고 능글맞지만 자기 원칙과 고집이 뚜렷하다.',spoiler:false},
   {id:'iheon',name:'황보이헌',label:'황보가 후계자',group:'황보가',birth:'1997.02.08',detail:'2027년 한여름 후계자로 공식 등장. 과거 서이헌이라는 이름으로 흥신소를 운영했다.',spoiler:true},
   {id:'ijeong',name:'박이정',label:'전담 수행비서',group:'가까운 사람',birth:'1992.11.12',detail:'침착하고 유능한 남성 수행비서. 경호 실무에 익숙하고 특이하게 건조한 유머 감각을 가졌다.',spoiler:false},
   {id:'jinpyo',name:'설진표',label:'설가 가주',group:'설가',birth:'1958.08.03',detail:'계산과 질서를 중시하는 엄격한 가주.',spoiler:false},
@@ -172,7 +172,7 @@ export const events = [
  {date:'2025-04-02',title:'후계자 발표',type:'업무'},
  {date:'2027-01-08',title:'신년 행사',type:'업무'},
  {date:'2027-03-10',title:'권가 행사',type:'업무'},
- {date:'2027-04-30',title:'선우가 행사',type:'업무'},
+ {date:'2027-04-30',title:'차가 론칭 행사',type:'업무'},
  {date:'2027-05-20',title:'10주년',type:'❤️'},
  {date:'2027-06-06',title:'선우가 행사',type:'업무'},
  {date:'2027-07-23',title:'황보가 행사',type:'업무'},
