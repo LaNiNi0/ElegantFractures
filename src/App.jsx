@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowLeft, BatteryFull, BookOpen, CalendarDays, Camera, Check, ChevronRight, Clock3, Compass, Contact, FileText, Folder, Globe2, Heart, Home, Image as ImageIcon, Info, LockKeyhole, Mail, Menu, MessageCircle, Moon, NotebookPen, Phone, PhoneIncoming, PhoneMissed, Search, Settings, Shield, Signal, Sparkles, Star, UserRound, Wifi, X } from 'lucide-react';
 import { people, houses, notes, events, conversations, calls, galleryPhotos } from './data/story';
+import PlaySettings from './PlaySettings.jsx';
 
 const icons = {notes:NotebookPen,calendar:CalendarDays,contacts:Contact,calls:Phone,messages:MessageCircle,browser:Compass,gallery:ImageIcon,settings:Settings};
 const apps = [
@@ -13,10 +14,6 @@ const apps = [
  {id:'contacts',title:'연락처',icon:Contact,color:'#E4E8DB'},
  {id:'settings',title:'설정',icon:Settings,color:'#8B9184'}
 ];
-const initialPrefs = () => {
- try { return {spoilers:false,relationship:'미설정',nickname:'',...(JSON.parse(localStorage.getItem('ef-prefs'))||{})}; }
- catch { return {spoilers:false,relationship:'미설정',nickname:''}; }
-};
 const formatKorean = (d) => new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'long'}).format(d);
 const pageTitle = (id) => apps.find(x=>x.id===id)?.title || '홈';
 const imageRoot = '/ElegantFractures/images/';
@@ -157,7 +154,6 @@ function App() {
  const chatScrollRef=useRef(null);
  const [folder,setFolder]=useState(null);
  const [month,setMonth]=useState(6);
- const [prefs,setPrefs]=useState(initialPrefs);
  const [browserPage,setBrowserPage]=useState('portal');
  const [selectedHouse,setSelectedHouse]=useState(null);
  const [browserInput,setBrowserInput]=useState('');
@@ -165,7 +161,6 @@ function App() {
  const [photosView,setPhotosView]=useState(null);
  const [showSearch,setShowSearch]=useState(false);
  useEffect(()=>{if(route==='messages'&&picked&&chatScrollRef.current){chatScrollRef.current.scrollTop=chatScrollRef.current.scrollHeight}},[route,picked]);
- function updatePrefs(value){setPrefs(prev=>{const n={...prev,...value};try{localStorage.setItem('ef-prefs',JSON.stringify(n));}catch{}return n})}
  function navigate(to){if(to===route)return;setStack(old=>[...old,route]);setRoute(to);setPicked(null);setFolder(null);setQuery('');setShowSearch(false)}
  function back(){
   if(picked){setPicked(null);return}
@@ -176,7 +171,7 @@ function App() {
   setRoute(stack.at(-1)||'home');setStack(old=>old.slice(0,-1));setQuery('');
  }
  function home(){setRoute('home');setStack([]);setPicked(null);setFolder(null);setPhotosView(null);setQuery('');setShowSearch(false)}
- const visible = list => list.filter(x=>!x.spoiler||prefs.spoilers);
+ const visible = list => list;
  const matched = (value)=>value.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase());
  const time = new Intl.DateTimeFormat('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false}).format(now);
  // Story date is an editable placeholder until the narrative's opening day is finalized.
@@ -189,7 +184,7 @@ function App() {
  function quickOpen(app){setLocked(false);setRoute(app);setStack(['home']);setPicked(null);setFolder(null);setQuery('')}
 
  const segments = { '가까운 사람':'MY PEOPLE','설가':'SEOL','황보가':'HWANGBO','선우가':'SEONWOO','차가':'CHA','권가':'KWON' };
- const shownPeople = useMemo(()=>visible(people).filter(p=>matched(p.name+' '+p.label+' '+p.group)),[query,prefs.spoilers]);
+ const shownPeople = useMemo(()=>visible(people).filter(p=>matched(p.name+' '+p.label+' '+p.group)),[query]);
  const monthDays = useMemo(()=>{const days=new Date(2027,month+1,0).getDate();const start=new Date(2027,month,1).getDay();return [...Array(start).fill(null),...Array.from({length:days},(_,i)=>i+1)]},[month]);
  const monthEvents=events.filter(e=>Number(e.date.slice(5,7))===month+1);
  const calendarData = day => events.filter(e=>Number(e.date.slice(5,7))===month+1 && Number(e.date.slice(8,10))===day);
@@ -203,7 +198,7 @@ function App() {
  </div>;
  if(route==='notes') return <div className="app-content">
    {!folder&&!picked?<><div className="section-kicker">FOLDERS</div><h2>메모</h2><p className="muted">내가 기억하고 싶은 것들</p>
-    <div className="folder-grid">{[{name:'재율과의 기록',count:notes.filter(x=>x.folder==='재율과의 기록').length,sub:'10년의 시간'},{name:'명가 기록',count:notes.filter(x=>x.folder==='명가 기록'&&(!x.spoiler||prefs.spoilers)).length,sub:'다섯 가문'}].map(f=><button className="folder-card" key={f.name} onClick={()=>{setFolder(f.name);setQuery('')}}><Folder size={28} fill="currentColor" strokeWidth={1.2}/><strong>{f.name}</strong><small>{f.sub} · {f.count}개</small><ChevronRight size={16}/></button>)}</div>
+    <div className="folder-grid">{[{name:'재율과의 기록',count:notes.filter(x=>x.folder==='재율과의 기록').length,sub:'10년의 시간'},{name:'명가 기록',count:notes.filter(x=>x.folder==='명가 기록').length,sub:'다섯 가문'}].map(f=><button className="folder-card" key={f.name} onClick={()=>{setFolder(f.name);setQuery('')}}><Folder size={28} fill="currentColor" strokeWidth={1.2}/><strong>{f.name}</strong><small>{f.sub} · {f.count}개</small><ChevronRight size={16}/></button>)}</div>
     
    </>:picked?<><div className="section-kicker">{picked.folder} · {picked.date}</div><h2>{picked.title}</h2>{picked.proposal&&<span className="tag proposal">일부 날짜 제안 중</span>}<div className="note-sheet">{picked.body.split('\n').map((line,i)=><p key={i}>{line||'\u00a0'}</p>)}</div></>:
    <><div className="section-kicker">NOTES / {folder}</div><h2>{folder}</h2><div className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="메모 검색" aria-label="메모 검색"/></div><div className="records">{visible(notes).filter(n=>n.folder===folder&&matched(n.title+' '+n.body)).map(n=><button className="record" key={n.id} onClick={()=>setPicked(n)}><div><strong>{n.title}</strong><small>{n.date} {n.proposal?'· 날짜 기준안':''}</small></div><ChevronRight size={16}/></button>)}</div></>}
@@ -255,7 +250,11 @@ function App() {
    </>}
  </div>;
  if(route==='calendar')return <div className="app-content"><div className="section-kicker">SCHEDULE / 2027</div><h2>캘린더</h2><div className="calendar-heading"><button aria-label="이전 달" onClick={()=>{setMonth(m=>(m+11)%12);setDay(1)}}>‹</button><strong>2027년 {month+1}월</strong><button aria-label="다음 달" onClick={()=>{setMonth(m=>(m+1)%12);setDay(1)}}>›</button></div><div className="calendar-grid">{['일','월','화','수','목','금','토'].map(x=><span key={x} className="dow">{x}</span>)}{monthDays.map((d,i)=>d?<button className={'day '+(d===day?'selected':'')+(calendarData(d).length?' has-event':'')} key={i} onClick={()=>setDay(d)}>{d}</button>:<span key={i}/>)}</div><div className="section-kicker">선택한 날짜 · {month+1}월 {day}일</div><div className="records">{calendarData(day).length?calendarData(day).map((e,i)=><div className="event-row" key={i}><span className="event-dot"/><div><strong>{e.title}</strong><small>{e.type}</small></div></div>):<Empty>등록된 주요 일정이 없습니다.</Empty>}</div><div className="section-kicker" style={{marginTop:22}}>이달의 주요 일정</div>{monthEvents.length?monthEvents.map((e,i)=><button className="record" key={i} onClick={()=>setDay(Number(e.date.slice(8,10)))}><div><strong>{e.date.slice(8,10)}일 · {e.title}</strong><small>{e.type}</small></div><ChevronRight size={15}/></button>):<p className="muted">등록된 일정 없음</p>}</div>;
- if(route==='browser')return <div className="app-content browser-app"><div className="browser-bar"><Globe2 size={16}/><form onSubmit={e=>{e.preventDefault();setBrowserPage('search')}}><input aria-label="내부 아카이브 검색" value={browserInput} onChange={e=>setBrowserInput(e.target.value)} placeholder="archive.elegant-fractures.local"/></form></div>{browserPage==='portal'?<><div className="section-kicker">BOOKMARKS</div><div className="browser-hero"><span>ARCHIVE 2027</span><h2>우아한 균열</h2><p>다섯 가문, 그리고 각자의 이야기.</p></div><h3>즐겨찾기</h3>{[{title:'오대명가 · 五大名家',desc:'오문 총람과 각 가문의 기록',page:'houses'},{title:'2027년 주요 일정',desc:'공식 행사와 기념일',page:'schedule'},{title:'스토리 소개',desc:'한 편의 관계극',page:'about'}].map(x=><button className="record" key={x.page} onClick={()=>{setBrowserPage(x.page);if(x.page==='houses')setSelectedHouse(null)}}><div><strong>{x.title}</strong><small>{x.desc}</small></div><ChevronRight size={15}/></button>)}</>:browserPage==='article'?<><div className="article-screen">
+ if(route==='browser')return <div className="app-content browser-app"><div className="browser-bar"><Globe2 size={16}/><form onSubmit={e=>{e.preventDefault();setBrowserPage('search')}}><input aria-label="내부 아카이브 검색" value={browserInput} onChange={e=>setBrowserInput(e.target.value)} placeholder="archive.elegant-fractures.local"/></form></div>{browserPage==='portal'?<><div className="section-kicker">BOOKMARKS</div><button type="button" className="browser-hero world-hero-button" onClick={()=>setBrowserPage('about')} aria-label="우아한 균열 세계관 소개 열기">
+ <span>ELEGANT FRACTURES · 2027</span><h2>우아한 균열</h2>
+ <p>오래된 우아함 아래 감춰진 균열, 그리고 새롭게 시작되는 균열.</p>
+ <span className="world-hero-link">세계관 소개 보기 <ChevronRight size={15}/></span>
+ </button><h3>즐겨찾기</h3>{[{title:'오대명가 · 五大名家',desc:'오문 총람과 각 가문의 기록',page:'houses'},{title:'2027년 주요 일정',desc:'공식 행사와 기념일',page:'schedule'}].map(x=><button className="record" key={x.page} onClick={()=>{setBrowserPage(x.page);if(x.page==='houses')setSelectedHouse(null)}}><div><strong>{x.title}</strong><small>{x.desc}</small></div><ChevronRight size={15}/></button>)}</>:browserPage==='article'?<><div className="article-screen">
   <div className="article-masthead">한성경제 <span>재계</span></div>
   <div className="article-date">2027년 9월 9일</div>
   <h2>설가 후계 구도 재검토?</h2>
@@ -264,9 +263,31 @@ function App() {
   <p>현 후계자가 보여준 역량을 높이 평가하는 의견이 있는 반면, 가문의 전통적 승계 질서를 고려하면 설지완이 적합하다는 주장이 일부에서 제기된다.</p>
   <p>다만 가문 측은 후계 변경 여부에 관해 별도의 입장을 내놓지 않았다. 확인되지 않은 관측이 실제 인사로 이어질지는 미지수다.</p>
   <div className="article-footer">한성경제 · 재계 소식</div>
- </div></>:browserPage==='houses'?<HousesGuide selectedHouse={selectedHouse} onSelect={setSelectedHouse} onPerson={(id)=>{const person=people.find(p=>p.id===id);if(person){navigate('contacts');setPicked(person)}}}/>:browserPage==='schedule'?<><h2>2027년 · 주요 기록</h2>{events.filter(e=>e.date.startsWith('2027')).map((e,i)=><div className="event-row" key={i}><Clock3 size={16}/><div><strong>{e.title}</strong><small>{e.date} · {e.type}</small></div></div>)}</>:browserPage==='about'?<><div className="browser-hero"><span>ELEGANT FRACTURES</span><h2>우아한 균열</h2><p>십 년의 사랑, 서른 날의 유예.</p></div><p className="longtext">2027년 현대 대한민국. 다섯 명가의 화려한 질서 아래, 사랑과 가족과 혈통의 균열이 조용히 번져간다.</p></>:<><h2>아카이브 검색</h2><p className="muted">‘{browserInput}’에 대한 내부 검색 결과</p>{houses.filter(h=>h.name.includes(browserInput)).map(h=><div className="house-card" key={h.name}><h3>{h.name}</h3><p>{h.desc}</p></div>)}{people.filter(p=>p.name.includes(browserInput)&&(!p.spoiler||prefs.spoilers)).map(p=><div className="record" key={p.id}><div><strong>{p.name}</strong><small>{p.label}</small></div></div>)}{!houses.some(h=>h.name.includes(browserInput))&&!people.some(p=>p.name.includes(browserInput))&&<Empty>내부 자료를 찾지 못했습니다.</Empty>}</>}<div className="browser-footer"><button onClick={()=>setBrowserPage('portal')}><Home size={16}/> 시작 페이지</button></div></div>;
+ </div></>:browserPage==='houses'?<HousesGuide selectedHouse={selectedHouse} onSelect={setSelectedHouse} onPerson={(id)=>{const person=people.find(p=>p.id===id);if(person){navigate('contacts');setPicked(person)}}}/>:browserPage==='schedule'?<><h2>2027년 · 주요 기록</h2>{events.filter(e=>e.date.startsWith('2027')).map((e,i)=><div className="event-row" key={i}><Clock3 size={16}/><div><strong>{e.title}</strong><small>{e.date} · {e.type}</small></div></div>)}</>:browserPage==='about'?<div className="world-intro-page">
+ <div className="section-kicker">ELEGANT FRACTURES · WORLD</div>
+ <h2>우아한 균열</h2>
+ <p className="world-intro-tagline">오래된 우아함 아래 감춰진 균열, 그리고 새롭게 시작되는 균열.</p>
+ <div className="world-intro-divider" aria-hidden="true"/>
+ <p className="world-intro-year">2027년, 대한민국.</p>
+ <p>오랜 세월 부와 권력, 영향력을 이어 온 다섯 명가.</p>
+ <p>그중 하나인 <strong>설가(薛家)의 후계자, 당신.</strong></p>
+ <p>능력으로 자신의 자리를 증명하며 완벽한 후계자로 인정받았지만, 세상이 알고 있는 당신의 출생에는 감춰진 진실이 있다.</p>
+ <p>정실의 자녀로 알려진 당신의 친모는 사실 민소화.</p>
+ <p>당신에게 가족은 안식처가 아니다. 오래도록 벗어나지 못한 족쇄이자, 숨통을 조여 오는 목줄과도 같은 존재다.</p>
+ <div className="world-intro-divider" aria-hidden="true"/>
+ <p>그런 당신 곁에는 십 년의 시간을 함께한 연인, <strong>후재율</strong>이 있다.</p>
+ <p>당신의 출생에 얽힌 진실까지 알고도 변함없이 곁을 지켜 온 사람. 차가운 가문의 울타리 밖에서 당신에게 가장 익숙하고 따뜻한 안식처가 되어 준 사람.</p>
+ <p>그러나 어느 여름, 당신과 악연으로 얽혔던 남자 <strong>서이헌</strong>이 황보가의 유일한 후계자, <strong>황보이헌</strong>으로 다시 나타난다.</p>
+ <div className="world-intro-divider" aria-hidden="true"/>
+ <p className="world-intro-lead">오랫동안 이어져 온 사랑.</p>
+ <p className="world-intro-lead">새롭게 시작된 끌림.</p>
+ <p className="world-intro-lead">그리고 그 사이에서 서서히 벌어지는 균열.</p>
+ <p>모든 비밀과 과거를 알고 시작하는 이야기.</p>
+ <p className="world-intro-ending">그들이 어떤 사람인지는 이미 알고 있다.</p>
+ <p className="world-intro-ending">이제 남은 것은, 그들과 어떤 관계를 만들어 갈 것인가.</p>
+ </div>:<><h2>아카이브 검색</h2><p className="muted">‘{browserInput}’에 대한 내부 검색 결과</p>{houses.filter(h=>h.name.includes(browserInput)).map(h=><div className="house-card" key={h.name}><h3>{h.name}</h3><p>{h.desc}</p></div>)}{people.filter(p=>p.name.includes(browserInput)).map(p=><div className="record" key={p.id}><div><strong>{p.name}</strong><small>{p.label}</small></div></div>)}{!houses.some(h=>h.name.includes(browserInput))&&!people.some(p=>p.name.includes(browserInput))&&<Empty>내부 자료를 찾지 못했습니다.</Empty>}</>}<div className="browser-footer"><button onClick={()=>setBrowserPage('portal')}><Home size={16}/> 시작 페이지</button></div></div>;
  if(route==='gallery')return <PhotosGallery photos={galleryPhotos} activeIndex={photosView} onSelect={setPhotosView} onClose={()=>setPhotosView(null)}/>;
- if(route==='settings')return <div className="app-content"><div className="section-kicker">PREFERENCES</div><h2>설정</h2><div className="setting-block"><h3>아카이브 공개 범위</h3><label className="setting-row"><span><strong>스포일러 포함</strong><small>출생 비밀 및 숨겨진 과거 일부 표시</small></span><input type="checkbox" checked={prefs.spoilers} onChange={e=>updatePrefs({spoilers:e.target.checked})}/></label></div><div className="setting-block"><h3>내 선택 (이 기기에만 저장)</h3><label className="field-label">연애 공개 여부</label><select value={prefs.relationship} onChange={e=>updatePrefs({relationship:e.target.value})}><option>미설정</option><option>공개 연애</option><option>비공개 연애</option><option>일부에게만 공개</option></select><label className="field-label">재율과 사용하는 애칭 (선택)</label><input className="text-field" value={prefs.nickname} onChange={e=>updatePrefs({nickname:e.target.value})} placeholder="원하는 경우 직접 입력" maxLength={40}/></div><button className="reset-btn" onClick={()=>updatePrefs({spoilers:false,relationship:'미설정',nickname:''})}>개인 선택 초기화</button></div>;
+ if(route==='settings')return <PlaySettings/>;
  return null;
  };
  return <div className="site-shell"><div className="ambient ambient-left"/><div className="ambient ambient-right"/>
