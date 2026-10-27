@@ -300,3 +300,33 @@ button:focus-visible,input:focus-visible,select:focus-visible {
 }
 .screen-app.screen-contained::-webkit-scrollbar{width:3px}
 .screen-app.screen-contained::-webkit-scrollbar-thumb{background:#BDC9B9;border-radius:7px}
+
+/* Images sent within SMS are real photo bubbles, without filenames or captions. */
+.message-line .bubble.message-photo-bubble{
+ display:block;
+ align-self:flex-start;
+ width:min(225px,78%);
+ max-width:78%;
+ padding:0;
+ overflow:hidden;
+ border:1px solid rgba(69,85,67,.09);
+ border-radius:16px 16px 16px 5px;
+ background:#E7ECE5;
+ box-shadow:0 3px 12px rgba(43,61,46,.08);
+ white-space:normal;
+}
+.message-line.mine .bubble.message-photo-bubble{
+ align-self:flex-end;
+ border-radius:16px 16px 5px 16px;
+}
+.message-attached-image{
+ display:block;
+ width:100%;
+ height:auto;
+ max-height:330px;
+ object-fit:contain;
+ object-position:center;
+ background:#E7ECE5;
+ user-select:none;
+ -webkit-user-drag:none;
+}
