@@ -27,6 +27,10 @@ const portraits = {
  sohwa: 'Sohwa_profile.png',
  jiwan: 'Jiwan_profile.png',
  riwon: 'Leewon_profile.jpg',
+ ijeong: 'Ejeong_profile.png',
+ dokmin: 'Dockmin_profile.png',
+ seogyeong: 'Seogyeong_pofile.png',
+ seon: 'Seon_profile.png',
 };
 const portraitOf = id => portraits[id] ? imageRoot + portraits[id] : null;
 function Avatar({name,id,large=false}) {
