@@ -49,7 +49,7 @@ button:focus-visible,input:focus-visible,select:focus-visible {
   color:var(--seol-ink);
   background-image:
     linear-gradient(180deg,rgba(255,255,255,.08) 0%,transparent 55%,rgba(91,106,79,.12) 100%),
-    url('/ElegantFractures/images/seol-pine-crane-ivory.svg');
+    url('/ElegantFractures/images/seol-silk-ivory.svg');
   background-color:#F7F5EE;
   background-position:center center;
   background-repeat:no-repeat;
@@ -266,7 +266,7 @@ button:focus-visible,input:focus-visible,select:focus-visible {
   .house-overview-row{gap:8px;padding:8px}
 }
 
-/* Seol Family refinement: signature pine + crane wallpaper and cleaner contrast. */
+/* Seol Family refinement: understated silk / architectural lines rather than figurative wallpaper. */
 .screen-lock,.screen-home{
  background-size:cover;
  background-position:center center;
