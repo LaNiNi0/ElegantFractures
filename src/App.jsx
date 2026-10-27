@@ -159,6 +159,7 @@ function App() {
  const chatScrollRef=useRef(null);
  const [folder,setFolder]=useState(null);
  const [month,setMonth]=useState(6);
+ const [calendarFilter,setCalendarFilter]=useState('전체');
  const [browserPage,setBrowserPage]=useState('portal');
  const [activeNewsId,setActiveNewsId]=useState('seol-successor');
  const [newsFilter,setNewsFilter]=useState('전체');
@@ -217,8 +218,12 @@ function App() {
  const segments = { '가까운 사람':'MY PEOPLE','설가':'SEOL','황보가':'HWANGBO','선우가':'SEONWOO','차가':'CHA','권가':'KWON' };
  const shownPeople = useMemo(()=>visible(people).filter(p=>matched(p.name+' '+p.label+' '+p.group)),[query]);
  const monthDays = useMemo(()=>{const days=new Date(2027,month+1,0).getDate();const start=new Date(2027,month,1).getDay();return [...Array(start).fill(null),...Array.from({length:days},(_,i)=>i+1)]},[month]);
- const monthEvents=events.filter(e=>Number(e.date.slice(5,7))===month+1);
- const calendarData = day => events.filter(e=>Number(e.date.slice(5,7))===month+1 && Number(e.date.slice(8,10))===day);
+ const calendarCategories=['전체','❤️ 재율','가족','업무'];
+ const calendarTypeKey=e=>e.type==='❤️'?'jaeyul':e.type==='가족'?'family':'work';
+ const calendarTypeLabel=e=>e.type==='❤️'?'❤️ 재율':e.type;
+ const calendarMatches=e=>calendarFilter==='전체'||calendarTypeLabel(e)===calendarFilter;
+ const monthEvents=events.filter(e=>e.date.startsWith('2027-')&&Number(e.date.slice(5,7))===month+1&&calendarMatches(e));
+ const calendarData=day=>monthEvents.filter(e=>Number(e.date.slice(8,10))===day);
  const [day,setDay]=useState(23);
  const appButton=(a)=>{const I=a.icon;return <button key={a.id} className="app-entry" onClick={()=>navigate(a.id)}><span className={'app-icon tile-'+a.id} style={{'--tile':a.color}}><I size={25} strokeWidth={1.6}/></span><span>{a.title}</span></button>};
  const content = () => {
@@ -285,7 +290,41 @@ function App() {
       </button>)}
    </>}
  </div>;
- if(route==='calendar')return <div className="app-content"><div className="section-kicker">SCHEDULE / 2027</div><h2>캘린더</h2><div className="calendar-heading"><button aria-label="이전 달" onClick={()=>{setMonth(m=>(m+11)%12);setDay(1)}}>‹</button><strong>2027년 {month+1}월</strong><button aria-label="다음 달" onClick={()=>{setMonth(m=>(m+1)%12);setDay(1)}}>›</button></div><div className="calendar-grid">{['일','월','화','수','목','금','토'].map(x=><span key={x} className="dow">{x}</span>)}{monthDays.map((d,i)=>d?<button className={'day '+(d===day?'selected':'')+(calendarData(d).length?' has-event':'')} key={i} onClick={()=>setDay(d)}>{d}</button>:<span key={i}/>)}</div><div className="section-kicker">선택한 날짜 · {month+1}월 {day}일</div><div className="records">{calendarData(day).length?calendarData(day).map((e,i)=><div className="event-row" key={i}><span className="event-dot"/><div><strong>{e.title}</strong><small>{e.type}</small></div></div>):<Empty>등록된 주요 일정이 없습니다.</Empty>}</div><div className="section-kicker" style={{marginTop:22}}>이달의 주요 일정</div>{monthEvents.length?monthEvents.map((e,i)=><button className="record" key={i} onClick={()=>setDay(Number(e.date.slice(8,10)))}><div><strong>{e.date.slice(8,10)}일 · {e.title}</strong><small>{e.type}</small></div><ChevronRight size={15}/></button>):<p className="muted">등록된 일정 없음</p>}</div>;
+ if(route==='calendar')return <div className="app-content calendar-app">
+  <div className="section-kicker">SCHEDULE / 2027</div>
+  <h2>캘린더</h2>
+  <p className="calendar-info-note">2027년 일정 · 지난 추억은 메모의 '재율과의 기록'에서 확인</p>
+  <div className="calendar-categories" role="group" aria-label="일정 분류">
+    {calendarCategories.map(category=><button key={category} type="button" className={calendarFilter===category?'active':''} aria-pressed={calendarFilter===category} onClick={()=>setCalendarFilter(category)}>{category}</button>)}
+  </div>
+  <div className="calendar-heading">
+    <button aria-label="이전 달" onClick={()=>{setMonth(m=>(m+11)%12);setDay(1)}}>‹</button>
+    <strong>2027년 {month+1}월</strong>
+    <button aria-label="다음 달" onClick={()=>{setMonth(m=>(m+1)%12);setDay(1)}}>›</button>
+  </div>
+  <div className="calendar-grid">
+    {['일','월','화','수','목','금','토'].map(x=><span key={x} className="dow">{x}</span>)}
+    {monthDays.map((d,i)=>d?<button type="button" className={'day calendar-day'+(d===day?' selected':'')+(calendarData(d).length?' has-event':'')} key={i} onClick={()=>setDay(d)} aria-label={`2027년 ${month+1}월 ${d}일, 일정 ${calendarData(d).length}개`}>
+      <span>{d}</span>
+      {calendarData(d).length>0&&<span className="calendar-day-markers" aria-hidden="true">
+        {[...new Set(calendarData(d).map(calendarTypeKey))].map(kind=><span key={kind} className={'calendar-category-dot '+kind}/>)}
+      </span>}
+    </button>:<span key={'blank-'+i}/>)}
+  </div>
+  <div className="section-kicker">선택한 날짜 · {month+1}월 {day}일</div>
+  <div className="records">
+    {calendarData(day).length?calendarData(day).map((e,i)=><div className="event-row calendar-event-row" key={e.date+'-'+e.title+i}>
+      <span className={'event-dot calendar-category-dot '+calendarTypeKey(e)}/>
+      <div><strong>{e.title}</strong><small>{calendarTypeLabel(e)}</small></div>
+    </div>):<Empty>선택한 분류에 해당하는 일정이 없습니다.</Empty>}
+  </div>
+  <div className="section-kicker" style={{marginTop:22}}>이달의 주요 일정</div>
+  {monthEvents.length?monthEvents.map((e,i)=><button className="record calendar-month-event" key={e.date+'-'+e.title+i} onClick={()=>setDay(Number(e.date.slice(8,10)))}>
+    <span className={'calendar-category-dot '+calendarTypeKey(e)} aria-hidden="true"/>
+    <div><strong>{Number(e.date.slice(8,10))}일 · {e.title}</strong><small>{calendarTypeLabel(e)}</small></div>
+    <ChevronRight size={15}/>
+  </button>):<p className="muted">선택한 분류에 해당하는 일정이 없습니다.</p>}
+</div>;
  if(route==='browser')return <div className="app-content browser-app"><div className="browser-bar"><Globe2 size={16}/><form onSubmit={e=>{e.preventDefault();setBrowserPage('search')}}><input aria-label="내부 아카이브 검색" value={browserInput} onChange={e=>setBrowserInput(e.target.value)} placeholder="archive.elegant-fractures.local"/></form></div><div className="browser-page-scroll" key={browserPage} ref={browserScrollRef}>{browserPage==='portal'?<><div className="section-kicker">BOOKMARKS</div><button type="button" className="browser-hero world-hero-button" onClick={()=>setBrowserPage('about')} aria-label="우아한 균열 세계관 소개 열기">
  <span>ELEGANT FRACTURES · 2027</span><h2>우아한 균열</h2>
  <p>오래된 우아함 아래 감춰진 균열, 그리고 새롭게 시작되는 균열.</p>
