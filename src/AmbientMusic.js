@@ -44,6 +44,43 @@ function tone(ctx, destination, midi, time, length, peak, shape, attack) {
   };
 }
 
+// Sparse, synthetic plucked-string texture inspired by gayageum articulations.
+// This is a synthesized timbre, not a recording or sample of a real instrument.
+function pluckedString(ctx, destination, midi, time) {
+  const fundamental = ctx.createOscillator();
+  const overtone = ctx.createOscillator();
+  const overtoneGain = ctx.createGain();
+  const amplitude = ctx.createGain();
+  const warmth = ctx.createBiquadFilter();
+  const length = STEP * 2.7;
+  const freq = frequency(midi);
+  fundamental.type = 'triangle';
+  fundamental.frequency.setValueAtTime(freq, time);
+  overtone.type = 'sine';
+  overtone.frequency.setValueAtTime(freq * 2.003, time);
+  overtoneGain.gain.value = 0.19;
+  warmth.type = 'lowpass';
+  warmth.frequency.setValueAtTime(2200, time);
+  warmth.frequency.exponentialRampToValueAtTime(650, time + length);
+  amplitude.gain.setValueAtTime(0.0001, time);
+  amplitude.gain.linearRampToValueAtTime(0.033, time + 0.006);
+  amplitude.gain.exponentialRampToValueAtTime(0.0001, time + length);
+  fundamental.connect(warmth);
+  overtone.connect(overtoneGain);
+  overtoneGain.connect(warmth);
+  warmth.connect(amplitude);
+  amplitude.connect(destination);
+  fundamental.start(time);
+  overtone.start(time);
+  fundamental.stop(time + length + 0.04);
+  overtone.stop(time + length + 0.04);
+  fundamental.onended = () => {
+    [fundamental, overtone, overtoneGain, warmth, amplitude].forEach(node => {
+      try { node.disconnect(); } catch (_) {}
+    });
+  };
+}
+
 function scheduleNote(engine, index, time) {
   const { ctx, output } = engine;
   const bar = Math.floor(index / 8) % HARMONIES.length;
@@ -53,6 +90,11 @@ function scheduleNote(engine, index, time) {
       tone(ctx, output, midi, time, STEP * 7.85, 0.028, 'sine', 0.34);
     }
     tone(ctx, output, HARMONIES[bar][0] - 12, time, STEP * 6.2, 0.024, 'sine', 0.24);
+  }
+  // Only a couple of very soft plucks each bar: traditional color, not a folk lead.
+  if (position === 2 || position === 6) {
+    const voice = position === 2 ? 2 : 1;
+    pluckedString(ctx, output, HARMONIES[bar][voice] + 12, time);
   }
   const melodyNote = MELODY[bar][position];
   if (melodyNote !== null) {
