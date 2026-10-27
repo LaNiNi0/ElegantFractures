@@ -338,7 +338,7 @@ function App() {
         </div>
       </div> : <>
         {route!=='home'&&<div className="app-toolbar"><button className="back-btn" onClick={back} aria-label="뒤로 가기"><ArrowLeft size={18}/></button><span>{picked?.name||picked?.title||folder||pageTitle(route)}</span><button className="toolbar-home" onClick={home} aria-label="홈으로"><Home size={17}/></button></div>}
-        <div ref={chatScrollRef} className={'screen '+(route==='home'?'screen-home':'screen-app')} key={route}>{content()}</div>
+        <div ref={chatScrollRef} className={'screen '+(route==='home'?'screen-home':'screen-app')+(['contacts','calls','settings'].includes(route)?' screen-contained':'')} key={route}>{content()}</div>
         <div className="home-indicator"><button onClick={home} aria-label="홈 화면으로 돌아가기"><span/></button></div>
       </>}
      <button className="phone-side-button" onClick={lock} aria-label="화면 잠그기" title="화면 잠그기"/>
