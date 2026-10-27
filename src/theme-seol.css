@@ -330,3 +330,108 @@ button:focus-visible,input:focus-visible,select:focus-visible {
  user-select:none;
  -webkit-user-drag:none;
 }
+
+/* Notes are personal relationship memories, not a second public encyclopedia. */
+.notes-app .notes-folder-grid{
+ display:grid;
+ grid-template-columns:minmax(0,1fr);
+ gap:11px;
+ margin:20px 0 12px;
+}
+.notes-app .notes-folder-card{
+ display:flex;
+ flex-direction:row;
+ align-items:center;
+ min-height:83px;
+ width:100%;
+ gap:14px;
+ padding:14px 15px;
+ border-radius:15px;
+ background:#FFFEFB;
+ border:1px solid #E3E9DF;
+ box-shadow:0 5px 16px rgba(47,70,50,.04);
+ text-align:left;
+}
+.notes-app .notes-folder-card:hover{border-color:#B6C7B6;background:#F9FAF5}
+.notes-folder-icon{
+ display:grid;place-items:center;
+ flex:0 0 47px;
+ width:47px;height:47px;
+ border-radius:13px;
+ background:#EFF2E9;
+ font-size:23px;
+ line-height:1;
+}
+.notes-folder-info{
+ display:flex;flex:1;min-width:0;
+ flex-direction:column;justify-content:center;gap:5px;
+}
+.notes-app .notes-folder-info strong{
+ color:#344B39;
+ margin:0;
+ font-size:14px;
+}
+.notes-app .notes-folder-info small{
+ color:#889987;
+ font-size:11px;
+}
+.notes-app .notes-folder-card>svg:last-child{
+ align-self:center;
+ flex:0 0 17px;
+ color:#9CAD9C;
+}
+.notes-app .note-sheet{
+ margin-top:17px;
+ margin-bottom:34px;
+ padding:21px 18px;
+ line-height:1.95;
+ overflow-wrap:anywhere;
+}
+.notes-app .note-sheet p{margin:0 0 10px}
+.notes-app .note-sheet p:last-child{margin-bottom:0}
+
+/* Public Five Houses overview: annual Omun gatherings. */
+.omun-annual{margin:25px 0 8px}
+.omun-annual-heading>.section-kicker{color:#9D9175;letter-spacing:.10em}
+.omun-annual-heading h3{
+ font-size:15px;
+ color:#3C513E;
+ margin:8px 0 9px;
+}
+.omun-annual-heading>p{
+ font-size:11px;
+ line-height:1.8;
+ color:#758273;
+ margin:0 0 15px;
+ word-break:keep-all;
+}
+.omun-event-list{display:flex;flex-direction:column;gap:9px}
+.omun-annual-event{
+ display:flex;align-items:stretch;gap:13px;
+ padding:14px 12px;
+ border-radius:13px;
+ border:1px solid #E2E8DD;
+ background:#FFFEFB;
+}
+.omun-event-date{
+ display:flex;flex:0 0 48px;flex-direction:column;
+ align-items:flex-start;gap:5px;
+ padding-top:3px;
+ font-size:9px;font-weight:700;
+ color:#A0A993;
+ font-variant-numeric:tabular-nums;
+}
+.omun-event-date>span{
+ font-size:16px;
+ letter-spacing:-.04em;
+ font-weight:800;
+ color:#71836E;
+}
+.omun-event-text{display:flex;flex:1;min-width:0;flex-direction:column;gap:6px}
+.omun-event-kind{
+ font-size:9px;
+ color:#9A8969;
+ font-weight:700;
+}
+.omun-event-text strong{font-size:12px;color:#34483A;line-height:1.5}
+.omun-event-text p{font-size:11px;line-height:1.65;color:#778574;margin:0;word-break:keep-all}
