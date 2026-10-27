@@ -116,3 +116,48 @@
 .seol-news-archive{padding-top:0}
 .seol-news-article{padding-top:0}
 .seol-news-card{scroll-margin-top:14px}
+
+/* Fictional rumor-board discussion threads. Read-only, like archived screenshots
+   of the story-world internet rather than active social features. */
+.news-card-footer .news-comment-counter{
+ display:inline-flex;align-items:center;gap:4px;
+ margin-left:auto;margin-right:7px;color:#A18A93;font-size:10px;
+}
+.news-comment-section{
+ margin:27px 0 17px;padding:0 0 16px;
+ border-top:2px solid #E0E5DB;
+}
+.news-comment-title{
+ display:flex;align-items:center;gap:8px;
+ padding:18px 0 13px;color:#5D735F;
+}
+.news-comment-title h4{
+ font-size:14px;font-weight:800;letter-spacing:-.03em;margin:0;
+}
+.news-comment-title h4 span{color:#A5768A}
+.news-comment-list{display:flex;flex-direction:column}
+.news-comment{
+ display:flex;align-items:flex-start;gap:9px;
+ padding:14px 0;border-bottom:1px solid #EBECE6;
+}
+.news-comment-avatar{
+ display:grid;place-items:center;flex:0 0 29px;
+ width:29px;height:29px;border-radius:50%;
+ color:#677A68;background:#E9EDE5;
+ font-size:12px;font-weight:800;
+}
+.news-comment-main{display:flex;flex-direction:column;min-width:0;gap:6px;flex:1}
+.news-comment-main strong{
+ display:block;font-size:11px;font-weight:800;color:#536456;
+ overflow-wrap:anywhere;
+}
+.seol-news-article .news-comment-main p{
+ margin:0;font-size:12px;font-weight:400;
+ line-height:1.75;color:#4B574D;
+ overflow-wrap:anywhere;
+ word-break:keep-all;
+}
+.news-comment-likes{
+ align-self:flex-start;display:inline-flex;align-items:center;gap:5px;
+ font-size:10px;color:#9F9F96;
+}
