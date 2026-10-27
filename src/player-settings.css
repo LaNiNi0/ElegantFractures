@@ -145,3 +145,43 @@
  .play-field input,.play-field select,.play-field textarea{font-size:16px}
  .play-export-preview{font-size:14px}
 }
+
+/* Desktop tab navigation: grab-and-drag, arrows, and visible scrollbar. */
+.play-settings-tab-shell{
+ display:flex;align-items:center;gap:5px;margin:0 -7px 19px;
+ width:calc(100% + 14px);min-width:0;
+}
+.play-settings-tab-shell .play-settings-tabs{
+ flex:1;min-width:0;max-width:100%;margin:0;padding:1px 2px 7px;
+ overflow-x:auto;overflow-y:hidden;scroll-snap-type:none;
+ scrollbar-width:thin;scrollbar-color:#B8C3B2 transparent;
+ cursor:grab;touch-action:pan-x;
+ user-select:none;-webkit-user-select:none;
+}
+.play-settings-tab-shell .play-settings-tabs:active{cursor:grabbing;}
+.play-settings-tab-shell .play-settings-tabs::-webkit-scrollbar{display:block;height:4px}
+.play-settings-tab-shell .play-settings-tabs::-webkit-scrollbar-thumb{
+ border-radius:10px;background:#B8C3B2;
+}
+.play-settings-tab-shell .play-settings-tabs button{
+ user-select:none;-webkit-user-select:none;
+}
+.play-settings-tab-arrow{
+ display:grid;place-items:center;flex-shrink:0;width:27px;height:35px;
+ padding:0;border:1px solid #E4E8DF;border-radius:10px;
+ background:#F5F7F0;color:#58765F;
+ font-size:23px;line-height:1;
+}
+.play-settings-tab-arrow:hover{background:#E9EFE6}
+.play-settings-tab-arrow:focus-visible{
+ outline:2px solid #B1BAA1;outline-offset:2px;
+}
+.play-export-preview{overflow-wrap:anywhere;white-space:pre-wrap;}
+@media(max-width:520px){
+ .play-settings-tab-arrow{display:none}
+ .play-settings-tab-shell{margin:0 -21px 19px;width:calc(100% + 42px)}
+ .play-settings-tab-shell .play-settings-tabs{
+   padding:0 21px 8px;scrollbar-width:none;
+ }
+ .play-settings-tab-shell .play-settings-tabs::-webkit-scrollbar{display:none}
+}
