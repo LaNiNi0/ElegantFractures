@@ -70,3 +70,49 @@
  padding:9px 11px;border-radius:8px;margin:0 0 15px;
 }
 .seol-news-article .news-source-context.breaking{color:#9B5C50;background:#F8F0EC}
+
+
+/* In-phone browser viewport: the address field stays beneath the system
+   toolbar. Only the webpage scrolls; text never slides beneath the status bar. */
+.screen-app:has(.browser-app){
+ padding:95px 0 0!important;
+ overflow:hidden!important;
+ overscroll-behavior:none;
+}
+.browser-app{
+ display:flex;flex-direction:column;
+ width:100%;height:100%;min-height:0!important;
+ padding:0!important;margin:0!important;
+ overflow:hidden;
+ background:var(--paper);
+}
+.browser-app>.browser-bar{
+ flex:0 0 56px;height:56px;min-height:56px;
+ display:flex;align-items:center;
+ padding:9px 21px;
+ margin:0!important;
+ border-radius:0;
+ border-bottom:1px solid var(--divider)!important;
+ background:#FCFBF7!important;
+ box-shadow:0 3px 12px rgba(32,49,36,.04);
+ z-index:2;
+}
+.browser-app>.browser-bar form{
+ margin:0;flex:1;min-width:0;
+}
+.browser-app>.browser-bar input{padding:0;line-height:1.35;}
+.browser-page-scroll{
+ flex:1;min-height:0;width:100%;
+ overflow-x:hidden;overflow-y:auto;
+ overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;
+ touch-action:pan-y;
+ padding:17px 21px 52px;
+ scrollbar-width:thin;
+ scrollbar-color:#C6D0C3 transparent;
+}
+.browser-page-scroll::-webkit-scrollbar{width:3px}
+.browser-page-scroll::-webkit-scrollbar-thumb{background:#C6D0C3;border-radius:6px}
+.browser-page-scroll:focus-visible{outline:2px solid #9DAE9A}
+.seol-news-archive{padding-top:0}
+.seol-news-article{padding-top:0}
+.seol-news-card{scroll-margin-top:14px}
