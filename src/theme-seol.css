@@ -438,4 +438,3 @@ button:focus-visible,input:focus-visible,select:focus-visible {
 
 .notes-app .note-memory-photo{margin:19px 0 2px;padding:0;width:100%;border-radius:12px;overflow:hidden;background:#F3F4EF;border:1px solid #E7EBE1}
 .notes-app .note-memory-photo img{display:block;width:100%;height:auto;max-height:420px;object-fit:contain;object-position:center}
-.notes-app .tag.note-draft{margin:3px 0 0 7px;color:#7A6B51;background:#F4EEE0}
