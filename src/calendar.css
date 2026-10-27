@@ -1,0 +1,66 @@
+/* 2027-only personal calendar: important dates split into three human-readable groups. */
+.calendar-app .calendar-info-note{
+ color:#859084;font-size:11px;line-height:1.7;margin:2px 0 14px;
+ word-break:keep-all;
+}
+.calendar-categories{
+ display:flex;flex-wrap:wrap;gap:7px;margin:15px 0 14px;
+}
+.calendar-categories button{
+ border:1px solid #E2E7DF;
+ background:#EEF1EB;color:#6A7C6B;
+ border-radius:999px;padding:9px 12px;min-height:35px;
+ font-size:11px;font-weight:700;white-space:nowrap;
+}
+.calendar-categories button.active{
+ color:white;background:#526F59;border-color:#526F59;
+ box-shadow:0 3px 10px rgba(60,85,65,.08);
+}
+.calendar-categories button:focus-visible{outline:2px solid #9BB39C;outline-offset:3px}
+.calendar-app .calendar-heading{
+ margin:14px 0 15px;
+ padding:11px 0;border-top:1px solid #E9ECE5;
+ border-bottom:1px solid #E9ECE5;
+}
+.calendar-app .calendar-heading button{
+ background:#EBEFE7;color:#5B755E;
+}
+.calendar-app .calendar-grid{
+ gap:4px;margin-bottom:23px;
+}
+.calendar-app .calendar-grid>.calendar-day{
+ position:relative;display:flex;flex-direction:column;align-items:center;
+ justify-content:center;gap:0;
+ min-width:0;min-height:0;overflow:visible;
+ padding:0 0 3px;
+ font-variant-numeric:tabular-nums;
+ border:1px solid transparent;
+}
+.calendar-app .calendar-day.selected{
+ background:#526F59;color:#fff;
+ box-shadow:0 3px 9px rgba(65,92,67,.15);
+}
+.calendar-app .calendar-day.has-event:not(.selected)::after{display:none}
+.calendar-day-markers{
+ position:absolute;bottom:2px;left:0;right:0;
+ display:flex;gap:3px;justify-content:center;align-items:center;
+ pointer-events:none;
+}
+.calendar-category-dot{
+ display:block;flex:0 0 7px;width:7px;height:7px;
+ border-radius:50%;background:#6F8A7E;
+}
+.calendar-day-markers .calendar-category-dot{width:4.5px;height:4.5px;flex-basis:4.5px}
+.calendar-category-dot.jaeyul{background:#CC849A}
+.calendar-category-dot.family{background:#C1A26A}
+.calendar-category-dot.work{background:#78978A}
+.calendar-day.selected .calendar-category-dot.jaeyul{background:#F5BDD0}
+.calendar-day.selected .calendar-category-dot.family{background:#F3DEAA}
+.calendar-day.selected .calendar-category-dot.work{background:#C8DED0}
+.calendar-app .calendar-event-row>.calendar-category-dot{margin:0;flex-basis:8px;width:8px;height:8px}
+.calendar-app .calendar-month-event{align-items:center;gap:10px}
+.calendar-app .calendar-month-event>.calendar-category-dot{flex:0 0 8px;width:8px;height:8px}
+.calendar-app .calendar-month-event>div{flex:1;min-width:0}
+.calendar-app .calendar-month-event>svg{margin-left:auto;flex-shrink:0}
+.calendar-app .event-row small,.calendar-app .record small{color:#7E917E}
+.calendar-app .section-kicker{letter-spacing:.10em}
