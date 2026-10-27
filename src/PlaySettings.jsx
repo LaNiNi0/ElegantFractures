@@ -58,12 +58,14 @@ const GROUPS = [
   }
 ];
 const STORAGE_KEY = 'ef-player-setup-v1';
-const value = (v,k) => (v[k] || '').trim();
+const value = (v,k) => String(v[k] || '').replace(/\s+/g,' ').trim();
 const include = items => items.filter(Boolean);
 const item = (values,key,prefix) => value(values,key) ? prefix + value(values,key) : null;
 const section = (name,clauses) => {
   const text=include(clauses);
-  return text.length ? '- ' + name + ': ' + text.join(' / ') + '.' : null;
+  if(!text.length)return null;
+  const body=text.join(' / ');
+  return '- ' + name + ': ' + body + (/[.!?。！？]$/.test(body) ? '' : '.');
 };
 
 // One continuous, AI-readable line. Only the section heading gets a colon;
