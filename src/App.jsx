@@ -11,9 +11,9 @@ const apps = [
  {id:'messages',title:'메시지',icon:MessageCircle,color:'#79927C'},
  {id:'browser',title:'브라우저',icon:Compass,color:'#607977'},
  {id:'gallery',title:'사진',icon:ImageIcon,color:'#B5A17A'},
- {id:'notes',title:'메모',icon:NotebookPen,color:'#F0E5CC'},
- {id:'calendar',title:'캘린더',icon:CalendarDays,color:'#C5AF80'},
  {id:'contacts',title:'연락처',icon:Contact,color:'#E4E8DB'},
+ {id:'calendar',title:'캘린더',icon:CalendarDays,color:'#C5AF80'},
+ {id:'notes',title:'메모',icon:NotebookPen,color:'#F0E5CC'},
  {id:'settings',title:'설정',icon:Settings,color:'#8B9184'}
 ];
 const formatKorean = (d) => new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'long'}).format(d);
