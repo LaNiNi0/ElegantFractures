@@ -8,6 +8,7 @@ import './player-settings.css';
 import './news.css';
 import './calendar.css';
 import './map.css';
+import './contact-profile.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
