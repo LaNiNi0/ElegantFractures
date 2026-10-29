@@ -300,9 +300,11 @@ function App() {
     ? primaryContactProfiles[picked.id]
       ? <ContactProfile person={picked} profile={primaryContactProfiles[picked.id]}
           avatar={<Avatar name={picked.name} id={picked.id} large/>}
+          hasCalls={calls.some(c=>c.id===picked.id)}
+          hasMessages={conversations.some(c=>c.id===picked.id)}
           onCalls={()=>{navigate('calls');setCallPersonId(picked.id);setCallFilter('전체')}}
           onMessages={()=>{const conversation=conversations.find(c=>c.id===picked.id);navigate('messages');if(conversation)setPicked(conversation)}}
-          onRecords={()=>{navigate('notes');setFolder(primaryContactProfiles[picked.id].notesFolder)}}/>
+          onRecords={()=>{const contactProfile=primaryContactProfiles[picked.id];const record=contactProfile.notesId&&notes.find(n=>n.id===contactProfile.notesId);navigate('notes');if(record){setFolder(record.folder);setPicked(record)}else{setFolder(contactProfile.notesFolder||null)}}}/>
       : <div className="person-detail"><Avatar name={picked.name} id={picked.id} large/><h2>{picked.name}</h2><span className="muted">{picked.label}</span><div className="detail-grid"><span>소속</span><strong>{picked.group}</strong><span>생년월일</span><strong>{picked.birth}</strong></div><h3>인물 메모</h3><p>{picked.detail}</p></div>
     : <>
       <div className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="이름 또는 가문 검색" aria-label="연락처 검색"/></div>
