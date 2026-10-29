@@ -17,7 +17,7 @@ export const people = [
   {id:'udo',name:'차우도',label:'차가 후계자',group:'차가',birth:'1995.06.07',detail:'사교계에서 발이 넓은 후계자.',spoiler:false},
   {id:'jinseong',name:'권진성',label:'권가 가주',group:'권가',birth:'1951.06.30',detail:'영향력과 질서를 중시하는 권가의 가주.',spoiler:false},
   {id:'chaeha',name:'권채하',label:'권가 후계자',group:'권가',birth:'1985.10.16',detail:'경험 많고 냉철한 후계자.',spoiler:false},
-  {id:'seon',name:'윤세온',label:'주변 인물',group:'가까운 사람',birth:'1995.07.24',detail:'후재율의 회사 창립멤버이며 그를 짝사랑하는 인물.',spoiler:true},
+  {id:'seon',name:'윤세온',label:'아크노드 창립 멤버',group:'가까운 사람',birth:'1995.07.24',detail:'2020년 코딩 대회에서 후재율과 만나 아크노드를 함께 창립한 프로그래머. 재율을 오래 좋아해 온 마음은 유저도 알고 있다.',spoiler:false},
 ];
 export const houses = [
   {
