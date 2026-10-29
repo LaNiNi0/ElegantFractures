@@ -123,7 +123,7 @@ export default function MapApp() {
     <div className="section-kicker">ELEGANT FRACTURES · SEOUL</div>
     <div className="ef-map-heading">
       <div><h2>서울 주요 장소</h2><p>오대명가와 사람들의 생활 공간</p></div>
-      <span className="ef-map-count">11 PLACES</span>
+      <span className="ef-map-count">{storyLocations.length} PLACES</span>
     </div>
     <div className="ef-map-filters" aria-label="장소 분류">
       {mapCategories.map(c=><button type="button" key={c.id} className={category===c.id?'selected':''}
