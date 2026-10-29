@@ -7,6 +7,7 @@ import './photos.css';
 import './player-settings.css';
 import './news.css';
 import './calendar.css';
+import './map.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
