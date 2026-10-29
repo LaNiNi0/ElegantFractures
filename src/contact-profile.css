@@ -1,0 +1,99 @@
+/* Elegant Fractures · player-facing character contact cards.
+   Reuses the phone's original portrait/avatar assets; lead-specific accents only. */
+.contact-rich{
+ --contact-accent:#567360;
+ --contact-ink:#314436;
+ --contact-wash:#E8EFE8;
+ --contact-shadow:rgba(52,87,61,.08);
+ width:100%;
+ padding:4px 0 26px;
+ color:#34483A;
+}
+.contact-rich-iheon{
+ --contact-accent:#5D626B;
+ --contact-ink:#333941;
+ --contact-wash:#E9EAEC;
+ --contact-shadow:rgba(65,68,81,.09);
+}
+.contact-rich-hero{
+ position:relative;isolation:isolate;overflow:hidden;
+ display:flex;flex-direction:column;align-items:center;text-align:center;
+ border:1px solid #E5E8DF;border-radius:18px;
+ padding:26px 18px 21px;margin:3px 0 12px;
+ background:
+   radial-gradient(ellipse at 55% -4%,rgba(255,255,255,.95),transparent 65%),
+   linear-gradient(150deg,#EFF4ED,#F8F9F6 78%);
+ box-shadow:0 6px 21px var(--contact-shadow);
+}
+.contact-rich-iheon .contact-rich-hero{
+ background:
+   radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.94),transparent 67%),
+   linear-gradient(150deg,#E6E8EB,#F8F8F8 85%);
+ border-color:#E5E6E9;
+}
+.contact-rich-hero:after{
+ content:'';position:absolute;width:185px;height:185px;border-radius:50%;
+ top:-120px;right:-45px;z-index:-1;border:1px solid rgba(122,143,126,.15);
+}
+.contact-rich-iheon .contact-rich-hero:after{border-color:rgba(80,92,105,.16)}
+.contact-rich-portrait{padding:4px;border:1px solid rgba(99,125,99,.2);background:rgba(255,255,255,.86);border-radius:50%;box-shadow:0 7px 21px rgba(63,83,70,.12);margin:0 auto 12px}
+.contact-rich-iheon .contact-rich-portrait{border-color:#A0A6AF}
+.contact-rich-portrait .avatar-large{
+ width:104px;height:104px;flex:0 0 104px;font-size:34px;
+ border:2px solid #FFFFFF;box-shadow:0 0 0 1px rgba(94,121,102,.12);
+}
+.contact-rich-hero-kicker{font-size:9px;letter-spacing:.15em;color:var(--contact-accent);font-weight:800;margin:5px 0 3px}
+.contact-rich-hero h2{font-size:24px!important;color:var(--contact-ink)!important;margin:4px 0 3px!important;letter-spacing:-.045em!important}
+.contact-rich-label{font-size:11px;color:var(--contact-accent);font-weight:650}
+.contact-rich-tagline{font-size:12px;line-height:1.8;color:#5D7163;margin:13px 0 0;max-width:285px;word-break:keep-all}
+.contact-rich-iheon .contact-rich-tagline{color:#656C76}
+.contact-rich-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 17px}
+.contact-rich-actions button{
+ display:flex;flex-direction:column;align-items:center;gap:6px;
+ padding:12px 5px 11px;border-radius:14px;
+ background:#FFF;border:1px solid #E5E9E1;
+ color:var(--contact-accent);box-shadow:0 3px 11px var(--contact-shadow);
+}
+.contact-rich-actions button:active{transform:scale(.98)}
+.contact-rich-actions button:focus-visible{outline:2px solid var(--contact-accent);outline-offset:2px}
+.contact-rich-actions button>span{
+ display:grid;place-items:center;width:36px;height:36px;
+ border-radius:50%;background:var(--contact-wash);
+}
+.contact-rich-actions small{font-size:11px;font-weight:700;color:var(--contact-ink)}
+.contact-rich-card{
+ border-radius:16px;padding:18px 16px 17px;margin:0 0 12px;
+ background:#fff;border:1px solid #E7EAE2;
+ box-shadow:0 3px 14px rgba(54,76,55,.035)
+}
+.contact-rich-iheon .contact-rich-card{border-color:#E7E8EA}
+.contact-rich-card h3{
+ font-size:15px!important;color:var(--contact-ink)!important;
+ margin:0 0 13px!important;letter-spacing:-.04em!important;
+}
+.contact-rich-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 12px}
+.contact-rich-fact{display:flex;flex-direction:column;gap:4px;min-width:0}
+.contact-rich-fact span,.contact-rich-subtitle{color:#8A998C;font-size:10px;font-weight:650}
+.contact-rich-iheon .contact-rich-fact span,.contact-rich-iheon .contact-rich-subtitle{color:#959BA2}
+.contact-rich-fact strong{color:#405643;font-size:12px;line-height:1.6;font-weight:700;word-break:keep-all}
+.contact-rich-iheon .contact-rich-fact strong{color:#444D55}
+.contact-rich-fact.full{grid-column:1/-1;border-top:1px solid #EEF0EB;padding-top:12px}
+.contact-rich-facts-compact{padding-bottom:10px}
+.contact-rich-subtitle{margin:17px 0 9px}
+.contact-rich-card h3+.contact-rich-subtitle{margin-top:0}
+.contact-rich-chips{display:flex;flex-wrap:wrap;gap:6px}
+.contact-rich-chips>span{
+ border-radius:8px;background:var(--contact-wash);
+ padding:6px 9px;color:var(--contact-accent);
+ font-size:10.5px;line-height:1.5;font-weight:600;word-break:keep-all;
+}
+.contact-rich-chips.dislikes>span{color:#7F7771;background:#F3F1EC}
+.contact-rich-iheon .contact-rich-chips.dislikes>span{background:#F1EFF0;color:#81787C}
+.contact-rich-experience{
+ margin:0;color:#4E6551;font-weight:650;font-size:12px;line-height:1.7;
+}
+.contact-rich-iheon .contact-rich-experience{color:#525A64}
+.contact-rich-footnote{
+ font-size:10px;line-height:1.75;color:#96A397;
+ margin:3px 4px 10px;word-break:keep-all
+}
