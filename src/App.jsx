@@ -1,9 +1,10 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { ArrowLeft, BatteryFull, BookOpen, CalendarDays, Camera, Check, ChevronRight, Clock3, Compass, Contact, FileText, Folder, Globe2, Heart, Home, Image as ImageIcon, Info, LockKeyhole, Mail, Menu, MessageCircle, Moon, NotebookPen, Phone, PhoneIncoming, PhoneMissed, Search, Settings, Shield, Signal, Sparkles, Star, UserRound, Wifi, X } from 'lucide-react';
+import { ArrowLeft, BatteryFull, BookOpen, CalendarDays, Camera, Check, ChevronRight, Clock3, Compass, Contact, FileText, Folder, Globe2, Heart, Home, Image as ImageIcon, Info, LockKeyhole, Mail, Menu, MessageCircle, Moon, NotebookPen, Phone, PhoneIncoming, PhoneMissed, Search, Settings, MapPinned, Shield, Signal, Sparkles, Star, UserRound, Wifi, X } from 'lucide-react';
 import { people, houses, omunAnnualEvents, notes, events, conversations, calls, galleryPhotos } from './data/story';
 import { newsArticles } from './data/news';
 import { NewsArchive, NewsArticle } from './NewsArchive.jsx';
 import PlaySettings from './PlaySettings.jsx';
+import MapApp from './MapApp.jsx';
 
 const icons = {notes:NotebookPen,calendar:CalendarDays,contacts:Contact,calls:Phone,messages:MessageCircle,browser:Compass,gallery:ImageIcon,settings:Settings};
 const apps = [
@@ -14,7 +15,8 @@ const apps = [
  {id:'contacts',title:'연락처',icon:Contact,color:'#E4E8DB'},
  {id:'calendar',title:'캘린더',icon:CalendarDays,color:'#C5AF80'},
  {id:'notes',title:'메모',icon:NotebookPen,color:'#F0E5CC'},
- {id:'settings',title:'설정',icon:Settings,color:'#8B9184'}
+ {id:'settings',title:'설정',icon:Settings,color:'#8B9184'},
+ {id:'map',title:'지도',icon:MapPinned,color:'#8EAA9A'}
 ];
 const formatKorean = (d) => new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'long'}).format(d);
 const pageTitle = (id) => apps.find(x=>x.id===id)?.title || '홈';
@@ -403,6 +405,7 @@ function App() {
  </div>:<><h2>아카이브 검색</h2><p className="muted">‘{browserInput}’에 대한 내부 검색 결과</p>{houses.filter(h=>h.name.includes(browserInput)).map(h=><div className="house-card" key={h.name}><h3>{h.name}</h3><p>{h.desc}</p></div>)}{people.filter(p=>p.name.includes(browserInput)).map(p=><div className="record" key={p.id}><div><strong>{p.name}</strong><small>{p.label}</small></div></div>)}{!houses.some(h=>h.name.includes(browserInput))&&!people.some(p=>p.name.includes(browserInput))&&<Empty>내부 자료를 찾지 못했습니다.</Empty>}</>}<div className="browser-footer"><button onClick={()=>setBrowserPage('portal')}><Home size={16}/> 시작 페이지</button></div></div></div>;
  if(route==='gallery')return <PhotosGallery photos={galleryPhotos} activeIndex={photosView} onSelect={setPhotosView} onClose={()=>setPhotosView(null)}/>;
  if(route==='settings')return <PlaySettings/>;
+ if(route==='map')return <MapApp/>;
  return null;
  };
  return <div className="site-shell"><div className="ambient ambient-left"/><div className="ambient ambient-right"/>
@@ -431,7 +434,7 @@ function App() {
         </div>
       </div> : <>
         {route!=='home'&&<div className="app-toolbar"><button className="back-btn" onClick={back} aria-label="뒤로 가기"><ArrowLeft size={18}/></button><span>{picked?.name||picked?.title||folder||pageTitle(route)}</span><button className="toolbar-home" onClick={home} aria-label="홈으로"><Home size={17}/></button></div>}
-        <div ref={chatScrollRef} className={'screen '+(route==='home'?'screen-home':'screen-app')+(['contacts','calls','settings','messages','calendar','notes'].includes(route)||(route==='gallery'&&photosView===null)?' screen-contained':'')} key={route}>{content()}</div>
+        <div ref={chatScrollRef} className={'screen '+(route==='home'?'screen-home':'screen-app')+(['contacts','calls','settings','messages','calendar','notes','map'].includes(route)||(route==='gallery'&&photosView===null)?' screen-contained':'')} key={route}>{content()}</div>
         <div className="home-indicator"><button onClick={home} aria-label="홈 화면으로 돌아가기"><span/></button></div>
       </>}
      <button className="phone-side-button" onClick={lock} aria-label="화면 잠그기" title="화면 잠그기"/>
