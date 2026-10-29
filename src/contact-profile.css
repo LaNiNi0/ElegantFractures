@@ -97,3 +97,11 @@
  font-size:10px;line-height:1.75;color:#96A397;
  margin:3px 4px 10px;word-break:keep-all
 }
+
+.contact-call-clear{
+ display:inline-flex;align-items:center;gap:4px;
+ background:#EDF2EB;color:#526D57;border:1px solid #DBE6DC;
+ padding:8px 11px;border-radius:10px;margin:4px 0 8px;
+ font-size:11px;font-weight:700;
+}
+.contact-call-clear:focus-visible{outline:2px solid #577960;outline-offset:2px}
