@@ -268,8 +268,8 @@ function App() {
  const [day,setDay]=useState(23);
  const notesFolders=[
    {name:'재율의 기록',emoji:'❤️',sub:'함께한 10년의 추억'},
-   {name:'이헌의 기록',emoji:'🖤',sub:'다시 마주한 순간들'},
-   {name:'가족의 기록',emoji:'🌿',sub:'가족 사이에 남은 일들'}
+   {name:'이헌의 기록',emoji:'🖤',sub:'예상치 못한 균열'},
+   {name:'가족의 기록',emoji:'🌿',sub:'가족이라는 존재'}
  ];
  const appButton=(a)=>{const I=a.icon;return <button key={a.id} className="app-entry" onClick={()=>navigate(a.id)}><span className={'app-icon tile-'+a.id} style={{'--tile':a.color}}><I size={25} strokeWidth={1.6}/></span><span>{a.title}</span></button>};
  const content = () => {
@@ -279,7 +279,7 @@ function App() {
    <div className="dock">{apps.slice(0,4).map(appButton)}</div>
  </div>;
  if(route==='notes') return <div className="app-content notes-app">
-   {!folder&&!picked?<><div className="section-kicker">PERSONAL NOTES</div><h2>메모</h2><p className="muted">함께한 사람들, 잊고 싶지 않은 순간들</p>
+   {!folder&&!picked?<><div className="section-kicker">PERSONAL NOTES</div><h2>메모</h2><p className="muted">함께한 사람들, 그 기억들</p>
      <div className="folder-grid notes-folder-grid">
        {notesFolders.map(f=><button className="folder-card notes-folder-card" key={f.name} onClick={()=>{noteListScrollRef.current=0;restoreNoteScrollRef.current=false;setFolder(f.name);setQuery('')}}>
          <span className="notes-folder-icon" aria-hidden="true">{f.emoji}</span>
