@@ -13,8 +13,8 @@ export const storyLocations = [
   {id:'jiwan-home',type:'home',name:'설지완 부부 자택',area:'반포동 · 한강변',region:'서울 서초구',lat:37.5075,lng:127.0020,subtitle:'설지완·이홍련',description:'결혼한 설지완 부부가 거주하는 고급 아파트.'},
   {id:'arcnode',type:'work',name:'아크노드(ARCNODE)',area:'역삼동 · 테헤란로',region:'서울 강남구',lat:37.50084,lng:127.0355,subtitle:'기업용 정보보안 소프트웨어 회사',description:'후재율이 설립한 아크노드 본사.'},
   {id:'hwangbo-holdings',type:'work',name:'황보홀딩스',area:'여의도',region:'서울 영등포구',lat:37.52851,lng:126.9285,subtitle:'황보가의 투자·사업 전략 업무 거점',description:'황보이헌이 전략투자실장으로 있는 황보 계열사.'},
-  {id:'seol-asset',type:'work',name:'설가 계열 자산운용사',area:'여의도',region:'서울 영등포구',lat:37.5219,lng:126.9235,subtitle:'설지완 · 전략사업본부장(전무)',description:'설지완이 투자 전략·사업 확장·주요 거래처 업무를 담당하는 계열 자산운용사. 가문 후계자 직위와 별개로 실제 경영 권한을 가진다.'},
-  {id:'seol-foundation',type:'work',name:'설가 장학문화재단',area:'광화문',region:'서울 종로구',lat:37.5716,lng:126.9769,subtitle:'설리원 · 비상임 이사',description:'설리원이 대외적 체면을 위해 맡은 비상임 이사직. 주요 후원·홍보 행사에 참석하며 재단의 실제 행정과 운영은 전문 실무진이 담당한다. 리원은 인플루언서 활동을 더 중시한다.'}
+  {id:'seol-asset',type:'work',name:'설가 계열 자산운용사',area:'여의도',region:'서울 영등포구',lat:37.5219,lng:126.9235,subtitle:'설가의 투자 전략·사업 확장 업무 거점',description:'설지완이 전략사업본부장으로 있는 설가 계열사.'},
+  {id:'seol-foundation',type:'work',name:'설가 장학문화재단',area:'광화문',region:'서울 종로구',lat:37.5716,lng:126.9769,subtitle:'설가의 장학문화재단',description:'설리원이 대외적 체면을 위해 비상임 이사직으로 있으며 주요 후원·홍보 행사에 참석.'}
 ];
 
 export const mapCategories = [
