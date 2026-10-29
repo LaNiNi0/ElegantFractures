@@ -105,3 +105,48 @@
  font-size:11px;font-weight:700;
 }
 .contact-call-clear:focus-visible{outline:2px solid #577960;outline-offset:2px}
+
+/* Supporting cast: fewer details than the two lead profiles, same visual language. */
+.contact-rich-secondary{padding-bottom:18px}
+.contact-rich-ijeong{
+ --contact-accent:#58736C;--contact-ink:#354C47;
+ --contact-wash:#E7F0EC;--contact-shadow:rgba(56,90,79,.065);
+}
+.contact-rich-seon{
+ --contact-accent:#737C9F;--contact-ink:#424C6D;
+ --contact-wash:#EDF0FA;--contact-shadow:rgba(82,94,143,.07);
+}
+.contact-rich-secondary .contact-rich-hero{
+ padding:22px 17px 19px;margin-bottom:10px;
+}
+.contact-rich-ijeong .contact-rich-hero{
+ background:radial-gradient(ellipse at 55% 0%,#fff 0,transparent 67%),linear-gradient(150deg,#E7F1EC,#FAFBF9 85%);
+}
+.contact-rich-seon .contact-rich-hero{
+ background:radial-gradient(ellipse at 50% 0%,#fff 0,transparent 67%),linear-gradient(150deg,#EDF0FC,#FBFAFF 85%);
+ border-color:#E8E8F0;
+}
+.contact-rich-secondary .contact-rich-hero:after{border-color:rgba(106,133,145,.13)}
+.contact-rich-secondary .contact-rich-portrait .avatar-large{width:96px;height:96px;flex-basis:96px}
+.contact-rich-secondary .contact-rich-hero h2{font-size:22px!important}
+.contact-rich-secondary .contact-rich-tagline{color:#687974;max-width:295px}
+.contact-rich-seon .contact-rich-tagline{color:#767998}
+.contact-rich-secondary .contact-rich-actions{gap:8px;margin-bottom:12px}
+.contact-rich-secondary .contact-rich-actions button{padding:9px 4px}
+.contact-rich-secondary .contact-rich-card{padding:16px 15px;margin-bottom:10px}
+.contact-rich-secondary .contact-rich-card h3{margin-bottom:12px!important}
+.contact-rich-secondary .contact-rich-facts{gap:12px}
+.contact-rich-secondary .contact-rich-fact strong{color:var(--contact-ink)}
+.contact-rich-secondary .contact-rich-fact span{color:#82918A}
+.contact-rich-secondary .contact-rich-chips>span{background:var(--contact-wash);color:var(--contact-accent)}
+.contact-secondary-memo,.contact-secondary-relationship p{
+ font-size:12px;line-height:1.85;color:#4E635B;margin:0;word-break:keep-all;
+}
+.contact-rich-seon .contact-secondary-memo,
+.contact-rich-seon .contact-secondary-relationship p{color:#525D78}
+.contact-secondary-relationship{
+ border-top:1px solid #E9ECE8;margin-top:12px;padding-top:12px;
+}
+.contact-secondary-relationship>span{
+ display:block;font-size:10px;font-weight:700;color:var(--contact-accent);margin-bottom:5px
+}
