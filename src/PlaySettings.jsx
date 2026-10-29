@@ -6,16 +6,18 @@ const GROUPS = [
   {
     id: 'basic', title: '기본 정보', subtitle: '유저의 직업과 생활',
     fields: [
-      {key:'job',label:'직업',example:'설가 대표 로펌 대표이사'},
-      {key:'residence',label:'거주지',example:'XX동 고급 오피스텔'},
+      {key:'job',label:'직업',required:true,example:'설가 대표 로펌 대표이사'},
+      {key:'residence',label:'거주지',required:true,example:'XX동 고급 오피스텔'},
       {key:'health',label:'건강·특이사항',example:'심한 편두통 있음'},
       {key:'basicOther',label:'기타',example:'추가하고 싶은 기본 정보',long:true}
     ]
   },
   {
-    id:'relationship',title:'재율과의 관계',subtitle:'공개 연애 여부와 서로의 애칭',
+    id:'relationship',title:'재율과의 관계',subtitle:'동거·연애 공개·충실함과 서로의 애칭',
     fields:[
-      {key:'visibility',label:'연애 공개 여부',options:['공개 연애','비공개 연애','가족에게만 공개']},
+      {key:'cohab',label:'동거 여부',required:true,options:['동거 중','각자 거주']},
+      {key:'visibility',label:'연애 공개 여부',required:true,options:['공개 연애','비공개 연애','가족에게만 공개']},
+      {key:'loyalty',label:'재율의 충실함',required:true,options:['흔들리지 않는 사랑','감정적 혼란은 가능','관계의 균열 가능']},
       {key:'callJaeyul',label:'나 → 재율',example:'율'},
       {key:'callMe',label:'재율 → 나',example:'자기'}
     ]
@@ -57,7 +59,14 @@ const GROUPS = [
     ]
   }
 ];
+// Reuse existing storage: preserve existing selections and notes.
 const STORAGE_KEY = 'ef-player-setup-v1';
+const REQUIRED_FIELDS = GROUPS.flatMap(g=>g.fields.filter(f=>f.required).map(f=>({...f,group:g.id})));
+const LOYALTY_TEXT = {
+ '흔들리지 않는 사랑':'재율은 연인에게 충실하며 다른 사람에게 연애 감정으로 흔들리지 않음',
+ '감정적 혼란은 가능':'재율은 기본적으로 충실하려 하지만 심각한 관계 갈등 시 다른 사람의 호의에 감정적으로 흔들릴 수 있음(실제 배신은 확정 아님)',
+ '관계의 균열 가능':'재율은 기본적으로 충실하려 하지만 심각한 관계 위기 시 다른 사람에게 흔들리거나 충동적 선택을 할 수 있음(배신은 필연 아님)'
+};
 const value = (v,k) => String(v[k] || '').replace(/\s+/g,' ').trim();
 const include = items => items.filter(Boolean);
 const item = (values,key,prefix) => value(values,key) ? prefix + value(values,key) : null;
@@ -76,13 +85,16 @@ export function buildPlayerSettingText(v) {
     : visibility==='비공개 연애' ? '후재율과 비공개 연애 중'
     : visibility==='가족에게만 공개' ? '후재율과의 연애는 가족에게만 공개'
     : null;
+  const cohab=value(v,'cohab');
+  const together=cohab==='동거 중'?'후재율과 동거 중':cohab==='각자 거주'?'후재율과 각자 거주':null;
+  const loyalty=LOYALTY_TEXT[value(v,'loyalty')]||null;
   const groups=[
     section('유저',[
       item(v,'job','직업은 '),item(v,'residence','거주지는 '),
       item(v,'health','건강·특이사항은 '),value(v,'basicOther')||null
     ]),
     section('후재율과의 관계',[
-      publicity,
+      together,publicity,loyalty,
       value(v,'callJaeyul') ? "유저는 재율을 '" + value(v,'callJaeyul') + "'이라고 부름" : null,
       value(v,'callMe') ? "재율은 유저를 '" + value(v,'callMe') + "'이라고 부름" : null
     ]),
@@ -124,6 +136,8 @@ export default function PlaySettings(){
  const text=useMemo(()=>buildPlayerSettingText(form),[form]);
  const filled=GROUPS.reduce((n,g)=>n+countGroup(form,g),0);
  const total=GROUPS.reduce((n,g)=>n+g.fields.length,0);
+ const missingRequired=REQUIRED_FIELDS.filter(f=>!value(form,f.key));
+ const requiredComplete=REQUIRED_FIELDS.length-missingRequired.length;
  useEffect(()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(form))}catch{}},[form]);
  const current=GROUPS.find(g=>g.id===tab);
  function update(key,input){setForm(old=>({...old,[key]:input}));setCopyMessage('')}
@@ -159,7 +173,7 @@ export default function PlaySettings(){
    e.stopPropagation();
  }
  async function copy(){
-   if(!text)return;
+   if(!text||missingRequired.length)return;
    try{
      if(!navigator.clipboard?.writeText)throw new Error('Clipboard API unavailable');
      await navigator.clipboard.writeText(text);
@@ -177,8 +191,9 @@ export default function PlaySettings(){
    <div className="section-kicker">PLAYER PROFILE · 2027</div>
    <h2>플레이 설정</h2>
    <p className="play-settings-subtitle">플레이를 시작하기 전, 내 관계와 일상을 자유롭게 정리해 봐</p>
+   <p className="play-settings-required-note"><span aria-hidden="true">*</span> 표시는 플레이 시작 전 꼭 선택하거나 작성할 항목이야.</p>
    <div className="play-settings-progress">
-     <span>작성한 항목 <strong>{filled}</strong> / {total}</span>
+     <span>작성한 항목 <strong>{filled}</strong> / {total}<small className="play-required-progress">필수 {requiredComplete}/{REQUIRED_FIELDS.length} 완료</small></span>
      <button type="button" onClick={()=>setTab('summary')} aria-label="최종 설정 문구 보기">미리보기 <ChevronRight size={14}/></button>
    </div>
    <div className="play-settings-tab-shell">
@@ -201,32 +216,37 @@ export default function PlaySettings(){
        <h3>{current.title}</h3><p>{current.subtitle}</p>
        <div className="play-fields">
          {current.fields.map(field=><label className="play-field" key={field.key}>
-           <span>{field.label}</span>
+           <span>{field.label}{field.required&&<span className="play-required-star" aria-label="필수 항목"> *</span>}</span>
            {field.options
-             ? <select value={form[field.key]||''} onChange={e=>update(field.key,e.target.value)}>
+             ? <select value={form[field.key]||''} aria-required={!!field.required} onChange={e=>update(field.key,e.target.value)}>
                <option value="">선택하지 않음</option>
                {field.options.map(option=><option key={option} value={option}>{option}</option>)}
                </select>
              : field.long
-             ? <textarea rows={3} value={form[field.key]||''}
+             ? <textarea rows={3} aria-required={!!field.required} value={form[field.key]||''}
                  onChange={e=>update(field.key,e.target.value)}
                  placeholder={'예: '+field.example}/>
-             : <input type="text" value={form[field.key]||''}
+             : <input type="text" aria-required={!!field.required} value={form[field.key]||''}
                  onChange={e=>update(field.key,e.target.value)}
                  placeholder={'예: '+field.example}/>}
          </label>)}
        </div>
        <div className="play-panel-foot">
-         <span>선택한 항목만 최종 문구에 포함돼</span>
+         <span>필수 5개를 작성한 뒤 설정 문구를 복사할 수 있어</span>
          <button type="button" onClick={()=>setTab('summary')}>문구 확인 <ChevronRight size={14}/></button>
        </div>
      </section>
      : <section className="play-settings-panel play-summary-panel">
        <h3>최종 플레이 설정</h3>
-       <p>입력한 내용을 줄바꿈 없이 한 줄로 정리했어. 복사해서 플레이 시작 메시지에 붙여넣어 봐</p>
+       <p>입력한 내용을 줄바꿈 없이 한 줄로 정리했어. 필수 항목을 모두 채운 뒤 플레이 시작 메시지에 붙여넣어 봐</p>
+       {missingRequired.length>0&&<div className="play-required-summary" role="status">
+         <strong>필수 항목 {missingRequired.length}개 미입력</strong>
+         <span>{missingRequired.map(f=>f.label).join(' · ')}</span>
+         <button type="button" onClick={()=>setTab(missingRequired[0].group)}>필수 항목 작성하기 <ChevronRight size={14}/></button>
+       </div>}
        <textarea ref={previewRef} className="play-export-preview" readOnly spellCheck={false}
          value={text} placeholder="설정을 작성하면 여기에 자동으로 정리돼" rows={Math.max(7,Math.min(18,text.split('\n').length+5))}/>
-       <button type="button" className="play-copy-button" disabled={!text} onClick={copy}>
+       <button type="button" className="play-copy-button" disabled={!text||missingRequired.length>0} onClick={copy}>
          {copyMessage.startsWith('설정 문구가')?<Check size={17}/>:<ClipboardCopy size={17}/>}
          {copyMessage.startsWith('설정 문구가')?'복사 완료':'설정 문구 복사'}
        </button>
