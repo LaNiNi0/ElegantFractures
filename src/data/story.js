@@ -155,7 +155,7 @@ export const omunAnnualEvents = [
   {date:'01.08',title:'오문 신년례',detail:'다섯 가주와 주요 가족·후계자들이 새해 인사를 나누는 연초의 공식 행사.',kind:'공식 인사회'},
   {date:'03.10',title:'오문 가주 정례회 · 상반기',detail:'권가 주최. 가주들이 주요 현안과 가문 간 이해관계를 비공개로 논의한다.',kind:'비공개 정례회'},
   {date:'09.10',title:'오문 가주 정례회 · 하반기',detail:'가주들의 하반기 비공개 교류 및 입장 조율의 자리.',kind:'비공개 정례회'},
-  {date:'10.16',title:'오문 후계자 연회',detail:'2027년 황보가의 새 후계자 발표 이후 다섯 가문의 후계자들이 한자리에 모이는 사교 행사.',kind:'후계자 사교 행사'},
+  {date:'10.16',title:'오문 후계자 연회',detail:'다섯 가문의 후계자들이 한자리에 모이는 사교 행사.',kind:'후계자 사교 행사'},
   {date:'12.04',title:'오문 공동 자선 만찬',detail:'후원자와 외부 인사도 참석하는 공개적인 연말 자선·교류 행사.',kind:'공개 자선 행사'}
 ];
 // Private memories are stored in Notes, public house records in the browser.
