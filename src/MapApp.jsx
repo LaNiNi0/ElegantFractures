@@ -138,7 +138,7 @@ export default function MapApp() {
       {status==='ready'&&<button className="ef-map-reset" type="button" onClick={resetView} aria-label="지도 전체 보기"><RotateCcw size={15}/><span>전체 보기</span></button>}
     </div>
     <div className="ef-map-legend"><span><i className="ef-dot house"/>오대명가 본가</span><span><i className="ef-dot home"/>주거지</span><span><i className="ef-dot work"/>업무지</span></div>
-    <p className="ef-map-disclaimer">※ 핀은 해당 동네의 참고 위치야. 작중 건물의 정확한 주소를 나타내지 않아.</p>
+   
 
     {selected&&<section className="ef-map-selected" aria-live="polite" style={{'--place-color':colorFor(selected)}}>
       <span className="ef-map-selected-type">{categories[selected.type]}</span>
