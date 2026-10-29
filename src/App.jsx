@@ -5,6 +5,8 @@ import { newsArticles } from './data/news';
 import { NewsArchive, NewsArticle } from './NewsArchive.jsx';
 import PlaySettings from './PlaySettings.jsx';
 import MapApp from './MapApp.jsx';
+import ContactProfile from './ContactProfile.jsx';
+import { primaryContactProfiles } from './data/contact-profiles.js';
 
 const icons = {notes:NotebookPen,calendar:CalendarDays,contacts:Contact,calls:Phone,messages:MessageCircle,browser:Compass,gallery:ImageIcon,settings:Settings};
 const apps = [
@@ -190,6 +192,7 @@ function App() {
  const [selectedHouse,setSelectedHouse]=useState(null);
  const [browserInput,setBrowserInput]=useState('');
  const [callFilter,setCallFilter]=useState('전체');
+ const [callPersonId,setCallPersonId]=useState(null);
  const [photosView,setPhotosView]=useState(null);
  const [showSearch,setShowSearch]=useState(false);
  useEffect(()=>{if(route==='messages'&&picked&&chatScrollRef.current){chatScrollRef.current.scrollTop=chatScrollRef.current.scrollHeight}},[route,picked]);
@@ -209,7 +212,7 @@ function App() {
    restoreNoteScrollRef.current=false;
    setPicked(note);
  }
- function navigate(to){if(to===route)return;setStack(old=>[...old,route]);setRoute(to);setPicked(null);setFolder(null);setQuery('');setShowSearch(false)}
+ function navigate(to){if(to===route)return;setStack(old=>[...old,route]);setRoute(to);setPicked(null);setFolder(null);setQuery('');setShowSearch(false);if(to!=='calls')setCallPersonId(null)}
  function openNewsArticle(id){
   newsScrollRef.current=route==='browser'&&browserPage==='news' ? (browserScrollRef.current?.scrollTop||0) : 0;
   restoreNewsScrollRef.current=false;
@@ -243,7 +246,7 @@ function App() {
   if(route==='browser'&&browserPage!=='portal'){setBrowserPage('portal');setSelectedHouse(null);return}
   setRoute(stack.at(-1)||'home');setStack(old=>old.slice(0,-1));setQuery('');
  }
- function home(){setRoute('home');setStack([]);setPicked(null);setFolder(null);setPhotosView(null);setQuery('');setShowSearch(false)}
+ function home(){setRoute('home');setStack([]);setPicked(null);setFolder(null);setPhotosView(null);setQuery('');setShowSearch(false);setCallPersonId(null)}
  const visible = list => list;
  const matched = (value)=>value.toLocaleLowerCase().includes(query.trim().toLocaleLowerCase());
  const time = new Intl.DateTimeFormat('ko-KR',{hour:'2-digit',minute:'2-digit',hour12:false}).format(now);
@@ -290,11 +293,28 @@ function App() {
    </>:picked?<><div className="section-kicker">{notesFolders.find(x=>x.name===picked.folder)?.emoji} {picked.folder} · {picked.date}</div><h2>{picked.title}</h2><div className="note-sheet">{picked.body.split('\n').map((line,i)=><p key={i}>{line||'\u00a0'}</p>)}{picked.image&&<figure className="note-memory-photo"><img src={imageRoot+encodeURIComponent(picked.image)} alt={picked.imageAlt||picked.title+' 관련 이미지'} loading="lazy" decoding="async"/></figure>}</div></>:
    <><div className="section-kicker">NOTES / {folder}</div><h2>{notesFolders.find(x=>x.name===folder)?.emoji} {folder}</h2><div className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="메모 검색" aria-label="메모 검색"/></div><div className="records">{visible(notes).filter(n=>n.folder===folder&&matched(n.title+' '+n.body)).map(n=><button className="record" key={n.id} onClick={()=>openNote(n)}><div><strong>{n.title}</strong><small>{n.date}</small></div><ChevronRight size={16}/></button>)}</div></>}
  </div>;
- if(route==='contacts') return <div className="app-content"><div className="section-kicker">PEOPLE & CONNECTIONS</div><h2>연락처</h2>{picked?<div className="person-detail"><Avatar name={picked.name} id={picked.id} large/><h2>{picked.name}</h2><span className="muted">{picked.label}</span><div className="detail-grid"><span>소속</span><strong>{picked.group}</strong><span>생년월일</span><strong>{picked.birth}</strong></div><h3>인물 메모</h3><p>{picked.detail}</p></div>:<><div className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="이름 또는 가문 검색" aria-label="연락처 검색"/></div>{Object.keys(segments).map(group=>{const groupPeople=shownPeople.filter(p=>p.group===group);return groupPeople.length?<section className="group-section" key={group}><div className="section-kicker">{segments[group]} · {group}</div>{groupPeople.map(p=><button className="person-row" key={p.id} onClick={()=>setPicked(p)}><Avatar name={p.name} id={p.id}/><span><strong>{p.name}</strong><small>{p.label}</small></span><ChevronRight size={15}/></button>)}</section>:null})}</>}</div>;
+ if(route==='contacts') return <div className="app-content">
+   <div className="section-kicker">PEOPLE & CONNECTIONS</div>
+   {!picked&&<h2>연락처</h2>}
+   {picked
+    ? primaryContactProfiles[picked.id]
+      ? <ContactProfile person={picked} profile={primaryContactProfiles[picked.id]}
+          avatar={<Avatar name={picked.name} id={picked.id} large/>}
+          onCalls={()=>{navigate('calls');setCallPersonId(picked.id);setCallFilter('전체')}}
+          onMessages={()=>{const conversation=conversations.find(c=>c.id===picked.id);navigate('messages');if(conversation)setPicked(conversation)}}
+          onRecords={()=>{navigate('notes');setFolder(primaryContactProfiles[picked.id].notesFolder)}}/>
+      : <div className="person-detail"><Avatar name={picked.name} id={picked.id} large/><h2>{picked.name}</h2><span className="muted">{picked.label}</span><div className="detail-grid"><span>소속</span><strong>{picked.group}</strong><span>생년월일</span><strong>{picked.birth}</strong></div><h3>인물 메모</h3><p>{picked.detail}</p></div>
+    : <>
+      <div className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="이름 또는 가문 검색" aria-label="연락처 검색"/></div>
+      {Object.keys(segments).map(group=>{const groupPeople=shownPeople.filter(p=>p.group===group);return groupPeople.length?<section className="group-section" key={group}><div className="section-kicker">{segments[group]} · {group}</div>{groupPeople.map(p=><button className="person-row" key={p.id} onClick={()=>setPicked(p)}><Avatar name={p.name} id={p.id}/><span><strong>{p.name}</strong><small>{p.label}</small></span><ChevronRight size={15}/></button>)}</section>:null})}
+     </>}
+  </div>;
  if(route==='calls')return <div className="app-content">
-  <div className="section-kicker">RECENTS · 2027.09.05–09.18</div><h2>최근 통화</h2>
+  <div className="section-kicker">RECENTS · 2027.09.05–09.18</div>
+  <h2>{callPersonId ? (people.find(p=>p.id===callPersonId)?.name || '연락처')+' · 통화 기록' : '최근 통화'}</h2>
+  {callPersonId&&<button type="button" className="contact-call-clear" onClick={()=>{setCallPersonId(null);setCallFilter('전체')}}>전체 통화 기록 보기 <ChevronRight size={14}/></button>}
   <div className="pills">{['전체','부재중'].map(v=><button className={callFilter===v?'active':''} onClick={()=>setCallFilter(v)} key={v}>{v}</button>)}</div>
-  {visible(calls).filter(x=>callFilter==='전체'||x.kind==='부재중'||x.kind==='거절').map((c,i)=>
+  {visible(calls).filter(x=>(!callPersonId||x.id===callPersonId)&&(callFilter==='전체'||x.kind==='부재중'||x.kind==='거절')).map((c,i)=>
    <div className={'person-row no-pointer call-record'+((c.kind==='부재중'||c.kind==='거절')?' is-missed':'')} key={c.date+'-'+c.id+'-'+i}>
     <Avatar name={c.name} id={c.id}/>
     <span><strong>{c.name}</strong><small>{c.kind}{c.duration?' · '+c.duration:''}</small></span>
