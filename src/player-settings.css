@@ -97,6 +97,30 @@
 .play-copy-message{font-size:11px!important;color:#4E7752!important;margin:9px 0 0!important}
 .play-panel-foot .play-clear{color:#7F9283;font-weight:500}
 
+
+/* Player-required setup: minimal markers and an actionable incomplete summary. */
+.play-settings-required-note{
+ margin:-6px 0 15px;font-size:11px;line-height:1.65;color:#7B8779;
+}
+.play-settings-required-note>span,.play-required-star{
+ color:#B35354;font-weight:800;
+}
+.play-required-progress{
+ display:block;margin-top:3px;font-size:10px;color:#687A69;
+}
+.play-required-summary{
+ display:flex;flex-direction:column;align-items:flex-start;gap:6px;
+ padding:12px;margin:0 0 14px;
+ background:#F8F4ED;border:1px solid #EAE1D4;border-radius:12px;
+ font-size:11px;line-height:1.65;color:#7F7059;
+}
+.play-required-summary strong{color:#775F42;font-size:12px}
+.play-required-summary button{
+ display:inline-flex;align-items:center;gap:4px;
+ background:transparent;padding:4px 0;margin-top:2px;
+ font-size:11px;font-weight:700;color:#506C54;
+}
+
 /* Confirmed world introduction: deliberately editorial and easy to read. */
 .world-hero-button{
  width:100%;display:block;text-align:left;
