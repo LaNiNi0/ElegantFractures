@@ -10,7 +10,57 @@ function Chips({items,variant=''}) {
 function Fact({label,value}) {
   return <div className="contact-rich-fact"><span>{label}</span><strong>{value}</strong></div>;
 }
-export default function ContactProfile({person,profile,avatar,onCalls,onMessages,onRecords}) {
+
+function CompactContactProfile({person,profile,avatar,onCalls,onMessages,onRecords,hasCalls,hasMessages}) {
+  const shortcuts = [
+    hasCalls && {key:'calls',label:'전화',Icon:Phone,action:onCalls},
+    hasMessages && {key:'messages',label:'메시지',Icon:MessageCircle,action:onMessages},
+    profile.notesId && {key:'records',label:'기록',Icon:NotebookPen,action:onRecords}
+  ].filter(Boolean);
+  return <article className={'contact-rich contact-rich-secondary contact-rich-'+profile.theme}>
+    <header className="contact-rich-hero contact-secondary-hero">
+      <div className="contact-rich-portrait">{avatar}</div>
+      <div className="contact-rich-hero-kicker">MY PEOPLE · 2027</div>
+      <h2>{person.name}</h2>
+      <div className="contact-rich-label">{person.label}</div>
+      <p className="contact-rich-tagline">{profile.tagline}</p>
+    </header>
+    {shortcuts.length>0&&<nav className="contact-rich-actions contact-secondary-actions"
+      style={{gridTemplateColumns:`repeat(${shortcuts.length},minmax(0,1fr))`}}
+      aria-label={person.name+' 기록 바로가기'}>
+      {shortcuts.map(({key,label,Icon,action})=>
+        <button type="button" key={key} onClick={action} aria-label={person.name+' '+label+' 기록 보기'}>
+          <span><Icon size={18}/></span><small>{label}</small>
+        </button>
+      )}
+    </nav>}
+    <section className="contact-rich-card" aria-labelledby={person.id+'-basic'}>
+      <h3 id={person.id+'-basic'}>기본 정보</h3>
+      <div className="contact-rich-facts">
+        <Fact label="성별" value={profile.gender}/>
+        <Fact label="생년월일" value={profile.birth}/>
+        <Fact label="직업" value={profile.occupation}/>
+        <Fact label="신장" value={profile.height}/>
+        <div className="contact-rich-fact full"><span>소속</span><strong>{profile.organization}</strong></div>
+      </div>
+    </section>
+    <section className="contact-rich-card" aria-labelledby={person.id+'-personality'}>
+      <h3 id={person.id+'-personality'}>성격</h3>
+      <Chips items={profile.personality}/>
+    </section>
+    <section className="contact-rich-card" aria-labelledby={person.id+'-memo'}>
+      <h3 id={person.id+'-memo'}>인물 메모</h3>
+      <p className="contact-secondary-memo">{profile.memo}</p>
+      {profile.relationship&&<div className="contact-secondary-relationship">
+        <span>재율과의 관계</span><p>{profile.relationship}</p>
+      </div>}
+    </section>
+    <p className="contact-rich-footnote">전화·메시지는 극중 저장된 기록이며 실제 통화나 문자를 보내지 않아.</p>
+  </article>;
+}
+
+export default function ContactProfile({person,profile,avatar,onCalls,onMessages,onRecords,hasCalls,hasMessages}) {
+  if(profile.compact) return <CompactContactProfile person={person} profile={profile} avatar={avatar} onCalls={onCalls} onMessages={onMessages} onRecords={onRecords} hasCalls={hasCalls} hasMessages={hasMessages}/>;
   return <article className={'contact-rich contact-rich-'+profile.theme}>
     <header className="contact-rich-hero">
       <div className="contact-rich-portrait">{avatar}</div>
