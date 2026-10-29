@@ -1,0 +1,53 @@
+/* The fictional Seoul map belongs to the same ivory/evergreen phone UI. */
+.ef-map-app{padding-bottom:36px}
+.ef-map-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:5px 0 15px}
+.ef-map-heading h2{font-size:24px;margin:0 0 4px}
+.ef-map-heading p{color:#899588;font-size:11px;margin:0;line-height:1.5}
+.ef-map-count{flex-shrink:0;white-space:nowrap;color:#708572;background:#E9EEE5;border:1px solid #DDE5D8;border-radius:99px;font-size:9px;font-weight:800;letter-spacing:.07em;padding:6px 9px;margin-top:3px}
+.ef-map-filters{display:flex;gap:6px;overflow-x:auto;padding:0 0 10px;margin-bottom:3px;scrollbar-width:none}
+.ef-map-filters::-webkit-scrollbar{display:none}
+.ef-map-filters button{flex-shrink:0;display:flex;align-items:center;gap:6px;white-space:nowrap;border-radius:99px;border:1px solid #E0E7DD;background:#F0F2ED;color:#6C806D;font-size:11px;font-weight:700;padding:8px 11px}
+.ef-map-filters button span{font-size:10px;color:#91A092}
+.ef-map-filters button.selected{background:#47654F;border-color:#47654F;color:#fff}
+.ef-map-filters button.selected span{color:#D4E2D1}
+.ef-map-frame{position:relative;border-radius:16px;overflow:hidden;border:1px solid #D8E1D6;background:#E5EBE4;box-shadow:0 8px 23px rgba(56,83,58,.09)}
+.ef-map-canvas{height:320px;width:100%;z-index:0;touch-action:pan-x pan-y}
+.ef-map-canvas .leaflet-container{font-family:'Noto Sans KR',sans-serif}
+.ef-map-canvas .leaflet-tile-pane{filter:saturate(.70) contrast(.97)}
+.ef-map-canvas .leaflet-tooltip{border:1px solid #DDE6DD;border-radius:8px;padding:5px 8px;color:#425448;font-size:11px;font-weight:700;box-shadow:0 5px 15px rgba(24,40,28,.12)}
+.ef-map-canvas .leaflet-control-attribution{font-size:8px!important;background:rgba(255,255,255,.86)!important}
+.ef-map-canvas .leaflet-control-attribution a{color:#56765B!important}
+.ef-map-canvas .leaflet-control-zoom a{color:#3B5843!important;background:#FAFCF8!important;border-color:#E6EBE1!important}
+.ef-map-reset{position:absolute;top:10px;right:9px;z-index:480;background:rgba(255,255,255,.96);color:#47644D;border:1px solid #DCE5D9;border-radius:99px;padding:8px 9px;display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;box-shadow:0 3px 10px #344A3822}
+.ef-map-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:9px;text-align:center;background:linear-gradient(140deg,#E9EFE7,#F5F7F0);color:#58705B;font-size:12px;z-index:530;padding:25px}
+.ef-map-overlay small{color:#819185;line-height:1.6}
+.ef-map-overlay button{background:#48644D;color:#fff;padding:9px 16px;border-radius:99px;font-size:11px;font-weight:700}
+.ef-map-legend{display:flex;align-items:center;justify-content:space-between;gap:5px;margin:10px 0 2px}
+.ef-map-legend span{font-size:10px;color:#708374;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.ef-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+.ef-dot.house{background:#A68D52}.ef-dot.home{background:#527F69}.ef-dot.work{background:#427E95}
+.ef-map-disclaimer{font-size:10px;line-height:1.65;color:#8D998C;margin:8px 0 14px;word-break:keep-all}
+.ef-map-selected{border:1px solid #E4E8DF;border-left:3px solid var(--place-color);border-radius:13px;background:#FFF;padding:13px 14px;margin:13px 0 18px;box-shadow:0 5px 16px rgba(56,65,52,.04)}
+.ef-map-selected-type{color:var(--place-color);font-size:10px;font-weight:800}
+.ef-map-selected h3{font-size:17px;margin:4px 0 7px;letter-spacing:-.04em}
+.ef-map-selected-area{display:flex;align-items:center;gap:4px;font-size:11px;color:#819183;margin:0 0 10px}
+.ef-map-selected>strong{font-size:12px;color:#536754;font-weight:700}
+.ef-map-selected p{font-size:12px;line-height:1.8;color:#687968;margin:8px 0 0;word-break:keep-all}
+.ef-map-list-heading{display:flex;align-items:center;justify-content:space-between;margin:18px 0 6px;color:#526B55}
+.ef-map-list-heading strong{font-size:14px}
+.ef-map-list-heading>span{font-size:11px;color:#8D9C8C}
+.ef-map-place-list{background:#fff;border:1px solid #E7EBE3;border-radius:15px;overflow:hidden}
+.ef-map-place{display:flex;align-items:center;gap:10px;text-align:left;width:100%;min-height:67px;padding:11px 12px;background:#fff;border-bottom:1px solid #ECEFE8;color:#3B503F}
+.ef-map-place:last-child{border-bottom:0}
+.ef-map-place:hover,.ef-map-place.selected{background:#F2F6EF}
+.ef-map-place.selected{box-shadow:inset 3px 0 0 #7F9A78}
+.ef-map-place-icon{flex-shrink:0;display:grid;place-items:center;width:35px;height:35px;border-radius:11px;color:var(--place-color);background:color-mix(in srgb,var(--place-color) 12%,white)}
+.ef-map-place-text{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
+.ef-map-place-text strong{font-size:12px;line-height:1.4}
+.ef-map-place-text small{font-size:10px;color:#8E9C8E;line-height:1.55;word-break:keep-all}
+.ef-map-place>svg:last-child{color:#A9B8AA;flex-shrink:0}
+@media(max-width:350px){
+ .ef-map-canvas{height:280px}
+ .ef-map-legend span{font-size:9px}
+ .ef-map-place-text small{font-size:9px}
+}
