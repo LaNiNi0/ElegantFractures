@@ -93,10 +93,6 @@
  margin:0;color:#4E6551;font-weight:650;font-size:12px;line-height:1.7;
 }
 .contact-rich-iheon .contact-rich-experience{color:#525A64}
-.contact-rich-footnote{
- font-size:10px;line-height:1.75;color:#96A397;
- margin:3px 4px 10px;word-break:keep-all
-}
 
 .contact-call-clear{
  display:inline-flex;align-items:center;gap:4px;
@@ -140,7 +136,7 @@
 .contact-rich-secondary .contact-rich-fact span{color:#82918A}
 .contact-rich-secondary .contact-rich-chips>span{background:var(--contact-wash);color:var(--contact-accent)}
 .contact-secondary-memo,.contact-secondary-relationship p{
- font-size:12px;line-height:1.85;color:#4E635B;margin:0;word-break:keep-all;
+ font-size:12px;line-height:1.85;color:#4E635B;margin:0;word-break:keep-all;white-space:pre-line;
 }
 .contact-rich-seon .contact-secondary-memo,
 .contact-rich-seon .contact-secondary-relationship p{color:#525D78}
