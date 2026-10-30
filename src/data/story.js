@@ -11,12 +11,12 @@ export const people = [
   {id:'seogyeong',name:'문서경',label:'황보가 안주인',group:'황보가',birth:'1963.03.22',detail:'황보독민의 두 번째 부인.',spoiler:false},
   {id:'jeonghyeon',name:'황보정현',label:'황보가 전 후계자',group:'황보가',birth:'1990.06.13~2024.03.05',detail:'2024년 항공기 사고로 사망.',spoiler:true},
   {id:'yunhui',name:'서윤희',label:'황보이헌 생모',group:'황보가',birth:'1965.01.05~2009.12.25',detail:'이헌의 생모. 2009년 교통사고로 사망.',spoiler:true},
-  {id:'boryeong',name:'선우보령',label:'선우가 가주',group:'선우가',birth:'1972.05.01',detail:'다른 가문과 적절한 거리를 유지하는 중립적 가주.',spoiler:false},
-  {id:'haemu',name:'선우해무',label:'선우가 후계자',group:'선우가',birth:'2000.09.09',detail:'선우가의 젊은 후계자.',spoiler:false},
-  {id:'gangsin',name:'차강신',label:'차가 가주',group:'차가',birth:'1966.04.25',detail:'넓은 인맥과 친화력을 지닌 가주.',spoiler:false},
-  {id:'udo',name:'차우도',label:'차가 후계자',group:'차가',birth:'1995.06.07',detail:'사교계에서 발이 넓은 후계자.',spoiler:false},
-  {id:'jinseong',name:'권진성',label:'권가 가주',group:'권가',birth:'1951.06.30',detail:'영향력과 질서를 중시하는 권가의 가주.',spoiler:false},
-  {id:'chaeha',name:'권채하',label:'권가 후계자',group:'권가',birth:'1985.10.16',detail:'경험 많고 냉철한 후계자.',spoiler:false},
+  {id:'boryeong',name:'선우보령',label:'선우가 가주',group:'선우가',birth:'1972.05.01',detail:'인간적인 따뜻함과 다정한 카리스마를 지닌 선우가의 가주.',spoiler:false},
+  {id:'haemu',name:'선우해무',label:'선우가 후계자',group:'선우가',birth:'2000.09.09',detail:'심드렁하고 무기력하지만 묘하게 엉뚱한 사차원 후계자.',spoiler:false},
+  {id:'gangsin',name:'차강신',label:'차가 가주',group:'차가',birth:'1966.04.25',detail:'장난스럽고 유쾌하면서도 흠잡을 곳이 거의 없는 남자.',spoiler:false},
+  {id:'udo',name:'차우도',label:'차가 후계자',group:'차가',birth:'1995.06.07',detail:'자기애가 넘치는 장난꾸러기. 신선놀음 같은 외면과 달리 속에는 꿍꿍이가 많다.',spoiler:false},
+  {id:'jinseong',name:'권진성',label:'권가 가주',group:'권가',birth:'1951.06.30',detail:'다혈질에 독불장군인 부패한 권력자.',spoiler:false},
+  {id:'chaeha',name:'권채하',label:'권가 후계자',group:'권가',birth:'1985.10.16',detail:'겉으로는 나긋하고 순종적이지만 아버지의 퇴진을 기다리는 지능적 야망가.',spoiler:false},
   {id:'seon',name:'윤세온',label:'아크노드 창립 멤버',group:'가까운 사람',birth:'1995.07.24',detail:'2020년 코딩 대회에서 후재율과 만나 아크노드를 함께 창립한 프로그래머. 재율을 오래 좋아해 온 마음은 유저도 알고 있다.',spoiler:false},
 ];
 export const houses = [
