@@ -101,5 +101,43 @@ export const primaryContactProfiles = {
     positionLabel:'가족 관계', position:'황보독민의 두 번째 부인',
     personality:['기품','신중함','관찰력','침착함','사교성'],
     memo:'황보독민의 두 번째 부인. 조용하고 침착한 성격으로, 사람과 상황을 세심하게 관찰한다. 쉽게 속내를 드러내지 않지만 타인에게 예의를 갖추는 사람이다.'
+   },
+
+  // Other houses: compact worldbuilding contacts, with intentional generic avatars.
+  boryeong: {
+    id:'boryeong', theme:'seonwoo-family', family:true, worldOnly:true, familyKicker:'SEONWOO · 2027',
+    tagline:'인간적인 따뜻함과 다정한 카리스마로 사람을 이끄는 선우가의 가주.',
+    birth:'1972.05.01', relationLabel:'신분', relation:'선우가 가주',
+    personality:['다정함','인간미','부드러운 카리스마','배려심']
+  },
+  haemu: {
+    id:'haemu', theme:'seonwoo-family', family:true, worldOnly:true, familyKicker:'SEONWOO · 2027',
+    tagline:'세상만사가 심드렁하고 귀찮아 보이는, 무기력하고 엉뚱한 후계자.',
+    birth:'2000.09.09', relationLabel:'신분', relation:'선우가 후계자',
+    personality:['심드렁함','사차원','무기력','무심함']
+  },
+  gangsin: {
+    id:'gangsin', theme:'cha-family', family:true, worldOnly:true, familyKicker:'CHA · 2027',
+    tagline:'장난스럽고 여유로운데도 좀처럼 흠잡을 데가 없는 남자.',
+    birth:'1966.04.25', relationLabel:'신분', relation:'차가 가주',
+    personality:['장난기','여유','유쾌함','무결점']
+  },
+  udo: {
+    id:'udo', theme:'cha-family', family:true, worldOnly:true, familyKicker:'CHA · 2027',
+    tagline:'신선놀음하듯 세상을 즐기지만, 속에는 꿍꿍이가 가득한 장난꾸러기.',
+    birth:'1995.06.07', relationLabel:'신분', relation:'차가 후계자',
+    personality:['넘치는 자기애','능청스러움','장난기','숨은 속셈']
+  },
+  jinseong: {
+    id:'jinseong', theme:'kwon-family', family:true, worldOnly:true, familyKicker:'KWON · 2027',
+    tagline:'권력을 제멋대로 휘두르는, 다혈질에 부패한 독불장군.',
+    birth:'1951.06.30', relationLabel:'신분', relation:'권가 가주',
+    personality:['다혈질','독불장군','오만함','부패']
+  },
+  chaeha: {
+    id:'chaeha', theme:'kwon-family', family:true, worldOnly:true, familyKicker:'KWON · 2027',
+    tagline:'겉으로는 나긋하게 순종하지만, 아버지가 권좌에서 내려오길 기다리는 야망가.',
+    birth:'1985.10.16', relationLabel:'신분', relation:'권가 후계자',
+    personality:['나긋함','순종적인 겉모습','치밀함','지능적','야망']
   }
 };
