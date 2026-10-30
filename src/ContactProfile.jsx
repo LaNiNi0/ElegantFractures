@@ -11,6 +11,46 @@ function Fact({label,value}) {
   return <div className="contact-rich-fact"><span>{label}</span><strong>{value}</strong></div>;
 }
 
+
+function FamilyContactProfile({person,profile,avatar,onCalls,onMessages,onRecords,hasCalls,hasMessages}) {
+  const shortcuts = [
+    hasCalls && {key:'calls',label:'전화',Icon:Phone,action:onCalls},
+    hasMessages && {key:'messages',label:'메시지',Icon:MessageCircle,action:onMessages},
+    profile.notesId && {key:'records',label:'기록',Icon:NotebookPen,action:onRecords}
+  ].filter(Boolean);
+  return <article className="contact-rich contact-rich-family contact-rich-seol-family">
+    <header className="contact-rich-hero contact-family-hero">
+      <div className="contact-rich-portrait">{avatar}</div>
+      <div className="contact-rich-hero-kicker">SEOL FAMILY · 2027</div>
+      <h2>{person.name}</h2>
+      <div className="contact-rich-label">{person.label}</div>
+      <p className="contact-rich-tagline">{profile.tagline}</p>
+    </header>
+    {shortcuts.length>0&&<nav className="contact-rich-actions contact-family-actions"
+      style={{gridTemplateColumns:`repeat(${shortcuts.length},minmax(0,1fr))`}}
+      aria-label={person.name+' 관련 기록'}>
+      {shortcuts.map(({key,label,Icon,action})=>
+        <button type="button" key={key} onClick={action} aria-label={person.name+' '+label+' 기록 보기'}>
+          <span><Icon size={17}/></span><small>{label}</small>
+        </button>)}
+    </nav>}
+    <section className="contact-rich-card" aria-labelledby={person.id+'-family-basic'}>
+      <h3 id={person.id+'-family-basic'}>기본 정보</h3>
+      <div className="contact-rich-facts contact-family-facts">
+        <Fact label="생년월일" value={profile.birth}/>
+        <Fact label="가족 관계" value={profile.relation}/>
+        {profile.position&&<div className="contact-rich-fact full"><span>직책</span><strong>{profile.position}</strong></div>}
+      </div>
+    </section>
+    <section className="contact-rich-card contact-family-about" aria-labelledby={person.id+'-family-personality'}>
+      <h3 id={person.id+'-family-personality'}>성격</h3>
+      <Chips items={profile.personality}/>
+      <div className="contact-rich-subtitle">인물 메모</div>
+      <p className="contact-secondary-memo">{profile.memo}</p>
+    </section>
+  </article>;
+}
+
 function CompactContactProfile({person,profile,avatar,onCalls,onMessages,onRecords,hasCalls,hasMessages}) {
   const shortcuts = [
     hasCalls && {key:'calls',label:'전화',Icon:Phone,action:onCalls},
@@ -59,6 +99,7 @@ function CompactContactProfile({person,profile,avatar,onCalls,onMessages,onRecor
 }
 
 export default function ContactProfile({person,profile,avatar,onCalls,onMessages,onRecords,hasCalls,hasMessages}) {
+  if(profile.family) return <FamilyContactProfile person={person} profile={profile} avatar={avatar} onCalls={onCalls} onMessages={onMessages} onRecords={onRecords} hasCalls={hasCalls} hasMessages={hasMessages}/>;
   if(profile.compact) return <CompactContactProfile person={person} profile={profile} avatar={avatar} onCalls={onCalls} onMessages={onMessages} onRecords={onRecords} hasCalls={hasCalls} hasMessages={hasMessages}/>;
   return <article className={'contact-rich contact-rich-'+profile.theme}>
     <header className="contact-rich-hero">
