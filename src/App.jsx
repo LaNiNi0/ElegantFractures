@@ -260,7 +260,7 @@ function App() {
  function quickOpen(app){setLocked(false);setRoute(app);setStack(['home']);setPicked(null);setFolder(null);setQuery('')}
 
  const segments = { '가까운 사람':'MY PEOPLE','설가':'SEOL','황보가':'HWANGBO','선우가':'SEONWOO','차가':'CHA','권가':'KWON' };
- const shownPeople = useMemo(()=>visible(people).filter(p=>matched(p.name+' '+p.label+' '+p.group)),[query]);
+ const shownPeople = useMemo(()=>visible(people).filter(p=>!['jeonghyeon','yunhui'].includes(p.id)&&matched(p.name+' '+p.label+' '+p.group)),[query]);
  const monthDays = useMemo(()=>{const days=new Date(2027,month+1,0).getDate();const start=new Date(2027,month,1).getDay();return [...Array(start).fill(null),...Array.from({length:days},(_,i)=>i+1)]},[month]);
  const calendarCategories=['전체','❤️ 재율','가족','업무'];
  const calendarTypeKey=e=>e.type==='❤️'?'jaeyul':e.type==='가족'?'family':'work';
