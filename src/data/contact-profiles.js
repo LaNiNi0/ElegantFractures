@@ -84,5 +84,22 @@ export const primaryContactProfiles = {
     personality:['사랑스러움','사교성','이중성','허영심','욕심','질투심'],
     memo:'누구에게나 착하고 다정해 보이지만, 남이 가진 것은 언제나 더 좋아 보이는 동생. 자신의 욕망마저 자연스럽고 사랑스러운 말로 포장하는 데 능숙하다.',
     notesId:'riwon-overheard'
+   },
+
+  // Hwangbo house contacts: public-facing temperament, not unrevealed lineage.
+  dokmin: {
+    id:'dokmin', theme:'hwangbo-family', family:true, familyKicker:'HWANGBO · 2027',
+    tagline:'강한 자존심과 고집을 지닌, 호방한 황보가의 독불장군.',
+    birth:'1957.07.17', relationLabel:'신분', relation:'황보가 가주',
+    personality:['호방함','강한 자존심','고집','독립적','독단적'],
+    memo:'황보가의 독립성과 자존심을 무엇보다 중요하게 여기는 가주. 호탕하고 시원시원한 성격이지만, 한번 정한 뜻은 좀처럼 굽히지 않는다.'
+  },
+  seogyeong: {
+    id:'seogyeong', theme:'hwangbo-family', family:true, familyKicker:'HWANGBO · 2027',
+    tagline:'기품 있는 태도와 신중한 판단력을 지닌 황보가의 안주인.',
+    birth:'1963.03.22', relationLabel:'신분', relation:'황보가 안주인',
+    positionLabel:'가족 관계', position:'황보독민의 두 번째 부인',
+    personality:['기품','신중함','관찰력','침착함','사교성'],
+    memo:'황보독민의 두 번째 부인. 조용하고 침착한 성격으로, 사람과 상황을 세심하게 관찰한다. 쉽게 속내를 드러내지 않지만 타인에게 예의를 갖추는 사람이다.'
   }
 };
