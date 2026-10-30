@@ -21,7 +21,7 @@ function FamilyContactProfile({person,profile,avatar,onCalls,onMessages,onRecord
   return <article className="contact-rich contact-rich-family contact-rich-seol-family">
     <header className="contact-rich-hero contact-family-hero">
       <div className="contact-rich-portrait">{avatar}</div>
-      <div className="contact-rich-hero-kicker">SEOL FAMILY · 2027</div>
+      <div className="contact-rich-hero-kicker">{profile.familyKicker||'SEOL FAMILY · 2027'}</div>
       <h2>{person.name}</h2>
       <div className="contact-rich-label">{person.label}</div>
       <p className="contact-rich-tagline">{profile.tagline}</p>
@@ -38,8 +38,8 @@ function FamilyContactProfile({person,profile,avatar,onCalls,onMessages,onRecord
       <h3 id={person.id+'-family-basic'}>기본 정보</h3>
       <div className="contact-rich-facts contact-family-facts">
         <Fact label="생년월일" value={profile.birth}/>
-        <Fact label="가족 관계" value={profile.relation}/>
-        {profile.position&&<div className="contact-rich-fact full"><span>직책</span><strong>{profile.position}</strong></div>}
+        <Fact label={profile.relationLabel||'가족 관계'} value={profile.relation}/>
+        {profile.position&&<div className="contact-rich-fact full"><span>{profile.positionLabel||'직책'}</span><strong>{profile.position}</strong></div>}
       </div>
     </section>
     <section className="contact-rich-card contact-family-about" aria-labelledby={person.id+'-family-personality'}>
