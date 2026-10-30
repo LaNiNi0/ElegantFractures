@@ -55,7 +55,6 @@ function CompactContactProfile({person,profile,avatar,onCalls,onMessages,onRecor
         <span>재율과의 관계</span><p>{profile.relationship}</p>
       </div>}
     </section>
-    <p className="contact-rich-footnote">전화·메시지는 극중 저장된 기록이며 실제 통화나 문자를 보내지 않아.</p>
   </article>;
 }
 
@@ -112,6 +111,5 @@ export default function ContactProfile({person,profile,avatar,onCalls,onMessages
       <div className="contact-rich-subtitle">싫어하는 것</div>
       <Chips items={profile.dislikes} variant="dislikes"/>
     </section>
-    <p className="contact-rich-footnote">전화·메시지는 극중 저장된 기록이며 실제 통화나 문자를 보내지 않아.</p>
   </article>;
 }
