@@ -175,3 +175,20 @@
 .contact-rich-family .contact-rich-chips>span{background:#F5F0E6;color:#80684A;font-size:10px;padding:5px 8px}
 .contact-rich-family .contact-rich-subtitle{margin:12px 0 6px}
 .contact-rich-family .contact-secondary-memo{color:#5C554A;font-size:11.5px;line-height:1.75}
+
+/* Hwangbo family: same concise card layout, muted charcoal accents. */
+.contact-rich-hwangbo-family{
+ --contact-accent:#646A73;--contact-ink:#3E434C;
+ --contact-wash:#EDEEF0;--contact-shadow:rgba(65,70,80,.07);
+}
+.contact-rich-hwangbo-family .contact-rich-hero{
+ background:radial-gradient(ellipse at 50% -4%,rgba(255,255,255,.97),transparent 68%),linear-gradient(145deg,#EDEEF0,#FAFAFA 86%);
+ border-color:#E4E6E8;
+}
+.contact-rich-hwangbo-family .contact-rich-tagline{color:#686C76}
+.contact-rich-hwangbo-family .contact-rich-card{border-color:#E5E7E9}
+.contact-rich-hwangbo-family .contact-rich-fact strong{color:#464C56}
+.contact-rich-hwangbo-family .contact-rich-fact span,
+.contact-rich-hwangbo-family .contact-rich-subtitle{color:#878D98}
+.contact-rich-hwangbo-family .contact-rich-chips>span{background:#EDEEF0;color:#616874}
+.contact-rich-hwangbo-family .contact-secondary-memo{color:#545B65}
