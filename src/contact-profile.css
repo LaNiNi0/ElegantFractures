@@ -192,3 +192,53 @@
 .contact-rich-hwangbo-family .contact-rich-subtitle{color:#878D98}
 .contact-rich-hwangbo-family .contact-rich-chips>span{background:#EDEEF0;color:#616874}
 .contact-rich-hwangbo-family .contact-secondary-memo{color:#545B65}
+
+/* Other noble houses: intentionally minimal profiles, without portrait assets. */
+.contact-rich-world{
+ padding-bottom:10px;
+}
+.contact-rich-world .contact-rich-hero{
+ padding:16px 14px 15px;
+ margin-bottom:8px;
+}
+.contact-rich-world .contact-rich-portrait{
+ border:0;background:transparent;padding:0;margin-bottom:8px;box-shadow:none;
+}
+.contact-world-avatar{
+ display:grid;place-items:center;
+ width:70px;height:70px;border-radius:50%;
+ background:var(--contact-wash);color:var(--contact-accent);
+ border:1px solid rgba(105,113,112,.13);
+}
+.contact-rich-world .contact-rich-hero h2{font-size:20px!important}
+.contact-rich-world .contact-rich-tagline{max-width:300px;font-size:11.5px;margin-top:8px}
+.contact-rich-world .contact-rich-card{padding:13px;margin-bottom:8px}
+.contact-rich-world .contact-rich-card h3{margin-bottom:9px!important}
+.contact-rich-world .contact-rich-facts{gap:9px}
+.contact-rich-world .contact-rich-chips>span{padding:5px 8px}
+.contact-rich-seonwoo-family{
+ --contact-accent:#6A8384;--contact-ink:#425B5D;
+ --contact-wash:#EDF3F1;--contact-shadow:rgba(72,101,97,.055);
+}
+.contact-rich-seonwoo-family .contact-rich-hero{
+ background:linear-gradient(145deg,#F0F5F3,#FCFDFB 88%);
+ border-color:#E5EEEA;
+}
+.contact-rich-cha-family{
+ --contact-accent:#557B99;--contact-ink:#36566B;
+ --contact-wash:#EAF1F8;--contact-shadow:rgba(60,94,125,.06);
+}
+.contact-rich-cha-family .contact-rich-hero{
+ background:linear-gradient(145deg,#EAF1F8,#FBFCFE 88%);
+ border-color:#E3EBF3;
+}
+.contact-rich-kwon-family{
+ --contact-accent:#966365;--contact-ink:#68464A;
+ --contact-wash:#F6EDEE;--contact-shadow:rgba(118,73,80,.06);
+}
+.contact-rich-kwon-family .contact-rich-hero{
+ background:linear-gradient(145deg,#F7EEEE,#FEFBFB 88%);
+ border-color:#F0E4E6;
+}
+.contact-rich-world .contact-rich-chips>span{color:var(--contact-accent);background:var(--contact-wash)}
+.contact-rich-world .contact-rich-fact strong{color:var(--contact-ink)}
