@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageCircle, NotebookPen, Phone } from 'lucide-react';
+import { MessageCircle, NotebookPen, Phone, UserRound } from 'lucide-react';
 
 // Player-facing contact view. All text is supplied by the approved Player Version data.
 function Chips({items,variant=''}) {
@@ -18,9 +18,9 @@ function FamilyContactProfile({person,profile,avatar,onCalls,onMessages,onRecord
     hasMessages && {key:'messages',label:'메시지',Icon:MessageCircle,action:onMessages},
     profile.notesId && {key:'records',label:'기록',Icon:NotebookPen,action:onRecords}
   ].filter(Boolean);
-  return <article className="contact-rich contact-rich-family contact-rich-seol-family">
+  return <article className={'contact-rich contact-rich-family contact-rich-'+profile.theme+(profile.worldOnly?' contact-rich-world':'')}>
     <header className="contact-rich-hero contact-family-hero">
-      <div className="contact-rich-portrait">{avatar}</div>
+      <div className="contact-rich-portrait">{profile.worldOnly?<span className="contact-world-avatar" aria-label={person.name+' 기본 아바타'}><UserRound size={34}/></span>:avatar}</div>
       <div className="contact-rich-hero-kicker">{profile.familyKicker||'SEOL FAMILY · 2027'}</div>
       <h2>{person.name}</h2>
       <div className="contact-rich-label">{person.label}</div>
@@ -45,8 +45,8 @@ function FamilyContactProfile({person,profile,avatar,onCalls,onMessages,onRecord
     <section className="contact-rich-card contact-family-about" aria-labelledby={person.id+'-family-personality'}>
       <h3 id={person.id+'-family-personality'}>성격</h3>
       <Chips items={profile.personality}/>
-      <div className="contact-rich-subtitle">인물 메모</div>
-      <p className="contact-secondary-memo">{profile.memo}</p>
+      {profile.memo&&<><div className="contact-rich-subtitle">인물 메모</div>
+      <p className="contact-secondary-memo">{profile.memo}</p></>}
     </section>
   </article>;
 }
