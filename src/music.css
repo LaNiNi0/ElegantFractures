@@ -1,0 +1,36 @@
+/* 《우아한 균열》 — small in-world music player, matching the phone's lock UI. */
+.lock-player-wrap{
+  flex-shrink:0;width:100%;padding:11px 12px 8px;
+  border:1px solid #FFFFFFD0;border-radius:17px;
+  background:#FFFFFFC8;box-shadow:0 4px 17px #745A710E;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  color:#42313E;
+}
+.lock-now-playing{display:flex;align-items:center;gap:11px;min-height:53px}
+.lock-album-art{
+  flex:0 0 44px;height:44px;display:grid;place-items:center;
+  background:linear-gradient(140deg,#836A80,#4E3B53);
+  color:#FFF;border-radius:11px;
+}
+.lock-track-info{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+.lock-track-info>small{font-size:9px;letter-spacing:.11em;color:#806C7A;font-weight:600}
+.lock-track-info>strong{font-size:14px;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lock-track-info>span{font-size:10px;color:#796A7A}
+.lock-music-toggle{
+  flex:0 0 40px;height:40px;border-radius:50%;display:grid;place-items:center;
+  color:#4D3448;background:#F4ECF2;border:1px solid #D7C7D2;
+}
+.lock-music-toggle:hover:not(:disabled){background:#EBDDDF}
+.lock-music-toggle:disabled{opacity:.4;cursor:not-allowed}
+.lock-player-error{margin:5px 0 0;font-size:10px;color:#785B71;line-height:1.45}
+.lock-player-error a{color:#583D53;text-decoration:underline;text-underline-offset:2px}
+.statusbar .status-music-toggle{
+  border:0;background:transparent;color:#714B65;
+  height:22px;width:21px;padding:0;
+  display:grid;place-items:center;cursor:pointer;
+}
+@media(max-width:350px){
+  .statusbar .status-music-toggle{width:16px}
+  .lock-now-playing{gap:8px}
+  .lock-album-art{flex-basis:40px;height:40px}
+}
