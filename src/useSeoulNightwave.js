@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-// Add the downloaded, licensed MP3 to public/audio/seoul-nightwave.mp3.
+// Add the downloaded, licensed MP3 to public/audio/u_98673jp944-seoul-nightwave-448478.mp3.
 export const NIGHTWAVE_SOURCE = 'https://pixabay.com/music/electro-seoul-nightwave-448478/';
-const NIGHTWAVE_AUDIO = import.meta.env.BASE_URL + 'audio/seoul-nightwave.mp3';
+const NIGHTWAVE_AUDIO = import.meta.env.BASE_URL + 'audio/u_98673jp944-seoul-nightwave-448478.mp3';
 
 export function useSeoulNightwave() {
   const audioRef = useRef(null);
