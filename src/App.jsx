@@ -1,9 +1,10 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { ArrowLeft, BatteryFull, BookOpen, CalendarDays, Camera, Check, ChevronRight, Clock3, Compass, Contact, FileText, Folder, Globe2, Heart, Home, Image as ImageIcon, Info, LockKeyhole, Mail, Menu, MessageCircle, Moon, NotebookPen, Phone, PhoneIncoming, PhoneMissed, Search, Settings, MapPinned, Shield, Signal, Sparkles, Star, UserRound, Wifi, X } from 'lucide-react';
+import { ArrowLeft, BatteryFull, BookOpen, CalendarDays, Camera, Check, ChevronRight, Clock3, Compass, Contact, FileText, Folder, Globe2, Heart, Home, Image as ImageIcon, Info, LockKeyhole, Mail, Menu, MessageCircle, Moon, Music2, Play, Pause, NotebookPen, Phone, PhoneIncoming, PhoneMissed, Search, Settings, MapPinned, Shield, Signal, Sparkles, Star, UserRound, Wifi, X } from 'lucide-react';
 import { people, houses, omunAnnualEvents, notes, events, conversations, calls, galleryPhotos } from './data/story';
 import { newsArticles } from './data/news';
 import { NewsArchive, NewsArticle } from './NewsArchive.jsx';
 import PlaySettings from './PlaySettings.jsx';
+import { useSeoulNightwave, NIGHTWAVE_SOURCE } from './useSeoulNightwave.js';
 import MapApp from './MapApp.jsx';
 import ContactProfile from './ContactProfile.jsx';
 import { primaryContactProfiles } from './data/contact-profiles.js';
@@ -195,6 +196,7 @@ function App() {
  const [callPersonId,setCallPersonId]=useState(null);
  const [photosView,setPhotosView]=useState(null);
  const [showSearch,setShowSearch]=useState(false);
+ const {isPlaying,isReady:isMusicReady,isMissing:isMusicMissing,musicError,toggleMusic}=useSeoulNightwave();
  useEffect(()=>{if(route==='messages'&&picked&&chatScrollRef.current){chatScrollRef.current.scrollTop=chatScrollRef.current.scrollHeight}},[route,picked]);
  // Keep the exact list position when returning from a diary entry.
  // Fresh folders and freshly opened entries still begin at the top.
@@ -433,10 +435,24 @@ function App() {
  return <div className="site-shell"><div className="ambient ambient-left"/><div className="ambient ambient-right"/>
  <main className="phone" aria-label="2027년 설가 후계자의 휴대폰">
    <div className="phone-inner">
-     <div className="statusbar"><span>{time}</span><span className="island" aria-hidden="true"/><div><Signal size={14}/><Wifi size={14}/><BatteryFull size={18}/></div></div>
+     <div className="statusbar"><span>{time}</span><span className="island" aria-hidden="true"/><div>{!locked&&isMusicReady&&<button className="status-music-toggle" type="button" onClick={toggleMusic} aria-label={isPlaying?'배경음악 일시정지':'배경음악 재생'} title={isPlaying?'Seoul Nightwave 일시정지':'Seoul Nightwave 재생'}>{isPlaying?<Pause size={15} fill="currentColor"/>:<Music2 size={15}/>}</button>}<Signal size={14}/><Wifi size={14}/><BatteryFull size={18}/></div></div>
      {locked ? <div className="screen screen-lock" onPointerDown={onSwipeStart} onPointerUp={onSwipeEnd} onPointerCancel={()=>{swipeOrigin.current=null}}>
         <div className="lock-timebox"><div className="lock-date">{lockDate}</div><div className="lock-clock">{time}</div></div>
         <div className="lock-notifications" aria-label="잠금화면 알림">
+          <div className="lock-player-wrap" onPointerDown={e=>e.stopPropagation()} onPointerUp={e=>e.stopPropagation()}>
+            <div className="lock-now-playing">
+              <span className="lock-album-art" aria-hidden="true"><Music2 size={21} strokeWidth={1.6}/></span>
+              <span className="lock-track-info">
+                <small>THEME MUSIC · PIXABAY</small>
+                <strong>Seoul Nightwave</strong>
+                <span>{isMusicMissing?'음원 파일 등록 대기':isPlaying?'재생 중':isMusicReady?'재생 준비 완료':'음원 확인 중'}</span>
+              </span>
+              <button type="button" className="lock-music-toggle" onClick={toggleMusic} disabled={!isMusicReady} aria-label={isPlaying?'배경음악 일시정지':'배경음악 재생'} title={isMusicReady?(isPlaying?'일시정지':'재생'):'음원 파일 필요'}>
+                {isPlaying?<Pause size={21} fill="currentColor"/>:<Play size={21} fill="currentColor"/>}
+              </button>
+            </div>
+            {(isMusicMissing||musicError)&&<p className="lock-player-error" role="status">{isMusicMissing?'음원 파일이 아직 등록되지 않았습니다.':musicError} <a href={NIGHTWAVE_SOURCE} target="_blank" rel="noopener noreferrer">곡 정보</a></p>}
+          </div>
           <button className="lock-notification" onClick={()=>quickOpen('calls')}>
             <span className="notification-icon"><Phone size={17}/></span><span className="notification-copy"><strong>전화 · 부재중</strong><span>후재율 ❤️</span></span><small>20:53</small>
           </button>
