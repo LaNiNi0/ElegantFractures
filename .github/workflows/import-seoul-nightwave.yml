@@ -1,0 +1,83 @@
+name: Import verified Seoul Nightwave audio
+on:
+  push:
+    branches:
+      - feature/seoul-nightwave-bgm
+    paths:
+      - .github/workflows/import-seoul-nightwave.yml
+
+permissions:
+  contents: write
+
+jobs:
+  import-audio:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out BGM branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/seoul-nightwave-bgm
+          persist-credentials: true
+
+      - name: Locate and fetch the publicly licensed original
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import html
+          import re
+          import urllib.request
+          import urllib.error
+          from pathlib import Path
+
+          source = 'https://pixabay.com/music/electro-seoul-nightwave-448478/'
+          expected = '26f114eff5a3819602ebc6e3f5081800f488886d14a8765feec83b3684a63d6f'
+          headers = {
+              'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+              'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+              'Referer': source,
+          }
+          def fetch(url):
+              request = urllib.request.Request(url, headers=headers)
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  return response.read(), response.headers.get('Content-Type', '')
+          try:
+              body, mime = fetch(source)
+              page = body.decode('utf-8', errors='replace')
+              print('Read Pixabay track page:', len(page), 'characters')
+          except Exception as error:
+              print('Unable to load original track page:', repr(error))
+              raise SystemExit(1)
+
+          page = html.unescape(page)
+          page = page.replace('\\u002F', '/').replace('\\/', '/').replace('\\u0026', '&')
+          candidates = re.findall(r'https?://(?:cdn\\.)?pixabay\\.com/[^\\s\\"\'<>]+?\\.mp3(?:\\?[^\\s\\"\'<>]+)?', page, re.I)
+          candidates.extend(['https://pixabay.com/music/download/448478/'])
+          unique = list(dict.fromkeys(candidates))
+          print('Potential source links:', len(unique))
+          for candidate in unique[:35]:
+              try:
+                  data, content_type = fetch(candidate)
+                  digest = hashlib.sha256(data).hexdigest()
+                  print('Retrieved candidate:', len(data), 'bytes; SHA256:', digest)
+                  if digest != expected:
+                      continue
+                  target = Path('public/audio/seoul-nightwave.mp3')
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  target.write_bytes(data)
+                  print('Exact SHA256 match with user-uploaded MP3 verified.')
+                  break
+              except Exception as error:
+                  print('Candidate could not be fetched:', str(error)[:150])
+          else:
+              raise SystemExit('Verified Pixabay audio could not be retrieved; no file was modified.')
+          PY
+
+      - name: Commit verified audio to feature branch
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/audio/seoul-nightwave.mp3
+          git commit -m "Add verified Seoul Nightwave BGM from Pixabay"
+          git push origin HEAD:feature/seoul-nightwave-bgm
