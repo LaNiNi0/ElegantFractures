@@ -1,24 +1,27 @@
-# Seoul Nightwave — BGM asset
+# Seoul Nightwave — background music
 
-The lock-screen music player expects this file:
+The official website for 《우아한 균열》 embeds this track as an optional background soundtrack.
 
-    public/audio/u_98673jp944-seoul-nightwave-448478.mp3
+- Track title: **Seoul Nightwave**
+- Contributor: **u_98673jp944**
+- Original recording: https://pixabay.com/music/electro-seoul-nightwave-448478/
+- License information: https://pixabay.com/service/license-summary/
+- Site asset: `public/audio/u_98673jp944-seoul-nightwave-448478.mp3`
 
-**The MP3 is intentionally NOT included in this branch.** Download the track from its original Pixabay page and add the actual licensed MP3 here before merging.
+## Verified asset
 
-- Title: Seoul Nightwave
-- Contributor: u_98673jp944
-- Original track: https://pixabay.com/music/electro-seoul-nightwave-448478/
-- License: https://pixabay.com/service/license-summary/
+The original MP3 was uploaded by the site owner on 2026-10-31 and checked against the MP3 provided in the conversation:
 
-## How to finish
+- File size: 3,759,124 bytes
+- Length: approximately 1 minute 57 seconds
+- SHA-256: `26f114eff5a3819602ebc6e3f5081800f488886d14a8765feec83b3684a63d6f`
 
-1. Visit the track page above and use **Free download**.
-2. Keep its original file name **u_98673jp944-seoul-nightwave-448478.mp3** (no renaming needed).
-3. In GitHub, open this branch's `public/audio/` folder and choose **Add file → Upload files**. Upload the MP3.
-4. Open the branch preview (or merge after checking the source and license). Tap Play on the lock screen once. Music should loop quietly (25% volume) and continue navigating between apps.
-5. After unlocking, use the little music icon near the top-right status area to pause/resume. No autoplay occurs before a visitor taps.
+## Web player behavior
 
-The UI tests for a real MP3 asset before enabling the Play button; it will show an informative message if the file is still missing.
+- Visitors start playback by pressing Play on the phone's lock-screen player.
+- The audio loops at a quiet default volume (25%) and continues while exploring the site's apps.
+- A small music button in the phone's top status area lets users pause and resume after unlocking.
+- Browsers' user-interaction requirements are respected; no automatic playback begins on load.
+- The player checks whether the actual MP3 file is available before enabling playback.
 
-Use the MP3 only as an embedded asset of this creative site, not as a standalone music distribution or separately downloadable product. Preserve the original track link and a record of the Pixabay license.
+This music is used as part of the interactive fictional phone experience. Do not redistribute, sell, or offer the source music as a separate standalone asset. Follow the original Pixabay Content License.
