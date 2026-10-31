@@ -9,6 +9,7 @@ import './news.css';
 import './calendar.css';
 import './map.css';
 import './contact-profile.css';
+import './music.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
