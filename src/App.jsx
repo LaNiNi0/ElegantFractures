@@ -120,7 +120,7 @@ function HousesGuide({selectedHouse,onSelect,onPerson}) {
          <div className="omun-annual-heading">
            <span className="section-kicker">OMUN · ANNUAL GATHERINGS</span>
            <h3>오문의 연례 모임</h3>
-           <p>오문은 공식 모임과 사교 행사를 통해 오랜 질서와 관계를 이어 간다. 신년례와 가주 정례회는 참석의 관례가 강하고, 후계자 연회는 사교적인 성격이 두드러진다.</p>
+           <p>오문은 공식 모임과 사교 행사를 통해 오랜 질서와 관계를 이어 간다. 신년의례와 가주회의는 격식이 강하고, 후계자 모임은 사교적 성격이 두드러진다. 각 행사는 서로 다른 명가가 주최한다.</p>
          </div>
          <div className="omun-event-list">
            {omunAnnualEvents.map(event=><div className="omun-annual-event" key={event.date}>
@@ -148,6 +148,8 @@ function HousesGuide({selectedHouse,onSelect,onPerson}) {
          <div><span>뿌리 지역</span><strong>{current.root}</strong></div>
          <div className="family-wide"><span>서울 본가</span><strong>{current.residence}</strong></div>
        </div>
+       <h3 className="family-subhead">본가 저택</h3>
+       <p className="house-relationship">{current.mansion}</p>
        <div className="house-nicknames">
          <div><span>통용되는 별칭</span><strong>{current.nickname}</strong></div>
          <div><span>비꼬는 별명</span><strong>{current.teasingNickname}</strong></div>

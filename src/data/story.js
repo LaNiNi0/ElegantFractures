@@ -32,6 +32,7 @@ export const houses = [
     "animal": "학",
     "root": "서울·경기",
     "residence": "서울 성북동",
+    "mansion": "석벽과 소나무가 있는 전통 한옥·현대 건축의 결합. 본채와 별채가 구분된 위계적인 저택.",
     "nickname": "금눈",
     "teasingNickname": "설꼰",
     "domains": [
@@ -58,6 +59,7 @@ export const houses = [
     "animal": "거북",
     "root": "평안도",
     "residence": "서울 평창동",
+    "mansion": "검은 기와와 어두운 석재가 특징인 폐쇄적 대저택. 숨은 안뜰과 매화정원을 품고 있다.",
     "nickname": "북부황보",
     "teasingNickname": "황빈씨",
     "domains": [
@@ -69,8 +71,8 @@ export const houses = [
     "headId": "dokmin",
     "heir": "황보이헌",
     "heirId": "iheon",
-    "desc": "막대한 자산과 독자적인 기질로 알려진 가문. 금융·산업·부동산에 기반을 두며, 다른 가문들과도 일정한 거리를 두는 편이다.",
-    "note": "차가와 비교적 가까운 반면 권가와는 사이가 원만하지 않다. 2027년 한여름 황보이헌이 새 후계자로 공식 등장했다."
+    "desc": "막대한 자산과 독자적인 기질로 알려진 가문. 금융·산업·부동산에 기반을 두며, 독립성과 혈통을 중시한다. 전통적으로 자손이 귀한 것으로도 유명하다.",
+    "note": "차가와 비교적 가깝지만 권가와는 1970~80년대 정치·경제적 사건에서 비롯된 오랜 불화가 있다. 양측 모두 명분을 지닌 갈등이다. 2027년 한여름 황보이헌이 새 후계자로 공식 등장했다."
   },
   {
     "name": "권가",
@@ -84,6 +86,7 @@ export const houses = [
     "animal": "봉황",
     "root": "경북·대구",
     "residence": "서울 한남동",
+    "mansion": "한강을 조망하는 현대식 대저택. 권위적인 분위기가 흐른다.",
     "nickname": "킹권",
     "teasingNickname": "뱁새",
     "domains": [
@@ -110,6 +113,7 @@ export const houses = [
     "animal": "호랑이",
     "root": "강원 동해안",
     "residence": "서울 청담동",
+    "mansion": "대형 유리창을 갖춘 현대식 저택. 수공간과 대나무정원이 어우러진 개방적이고 세련된 공간.",
     "nickname": "국보차",
     "teasingNickname": "차광대",
     "domains": [
@@ -121,7 +125,7 @@ export const houses = [
     "headId": "gangsin",
     "heir": "차우도",
     "heirId": "udo",
-    "desc": "언론·엔터테인먼트·유통을 중심으로 대중적 영향력과 인맥을 넓혀 온 가문. 오문 사이를 자연스럽게 오가는 마당발로 알려져 있다.",
+    "desc": "언론·엔터테인먼트·유통을 중심으로 대중적 영향력과 인맥을 넓혀 온 가문. 오문 사이를 오가는 마당발이며 전통적으로 뛰어난 외모를 지닌 인물이 많아 그 점으로도 유명하다.",
     "note": "다섯 가문과 두루 가깝게 지내며 특히 황보가와 비교적 우호적이다."
   },
   {
@@ -136,6 +140,7 @@ export const houses = [
     "animal": "사슴",
     "root": "충남·서해안",
     "residence": "서울 연희동",
+    "mansion": "석조와 목조가 조화를 이루는 차분한 저택. 서재와 장서, 난초가 학구적인 분위기를 만든다.",
     "nickname": "꽃사슴",
     "teasingNickname": "선비우",
     "domains": [
@@ -152,11 +157,11 @@ export const houses = [
   }
 ];
 export const omunAnnualEvents = [
-  {date:'01.08',title:'오문 신년례',detail:'다섯 가주와 주요 가족·후계자들이 새해 인사를 나누는 연초의 공식 행사.',kind:'공식 인사회'},
-  {date:'03.10',title:'오문 가주 정례회 · 상반기',detail:'권가 주최. 가주들이 주요 현안과 가문 간 이해관계를 비공개로 논의.',kind:'비공개 정례회'},
-  {date:'09.10',title:'오문 가주 정례회 · 하반기',detail:'가주들의 하반기 비공개 교류 및 입장 조율의 자리.',kind:'비공개 정례회'},
-  {date:'10.16',title:'오문 후계자 연회',detail:'다섯 가문의 후계자들이 한자리에 모이는 사교 행사.',kind:'후계자 사교 행사'},
-  {date:'12.04',title:'오문 공동 자선 만찬',detail:'후원자와 외부 인사도 참석하는 공개적인 연말 자선·교류 행사.',kind:'공개 자선 행사'}
+  {date:'01.08',title:'오문 신년의례',detail:'설가 주최. 다섯 가문의 가주와 주요 가족·후계자가 전통 의례와 신년 인사를 나누는 공식 행사.',kind:'전통·신년 인사'},
+  {date:'03.10',title:'오문 춘계 가주회의',detail:'권가 주최. 가주들이 주요 현안과 가문 간 이권·협력을 비공개로 논의하는 자리.',kind:'현안·이권 논의'},
+  {date:'09.10',title:'오문 추계 가주회의',detail:'황보가 주최. 가주들이 주요 현안과 가문 간 이권·협력을 비공개로 논의하는 자리.',kind:'현안·이권 논의'},
+  {date:'10.16',title:'오문 후계자 모임',detail:'차가 주최. 다섯 가문의 후계자들이 교류하고 인맥을 쌓는 사교 행사.',kind:'사교·교류'},
+  {date:'12.04',title:'오문 공동 자선 만찬',detail:'선우가 주최. 후원자와 외부 인사가 참여하는 공익·후원 중심의 연말 만찬.',kind:'공익·후원'}
 ];
 // Private memories are stored in Notes, public house records in the browser.
 export const notes = [
@@ -191,9 +196,9 @@ export const notes = [
 // Calendar is intentionally limited to 2027. Earlier memories remain in notes,
 // and the 2025 succession announcement remains in the news archive.
 export const events = [
- {date:'2027-01-08',title:'오문 신년례',type:'업무'},
+ {date:'2027-01-08',title:'오문 신년의례 · 설가 주최',type:'업무'},
  {date:'2027-01-30',title:'설지완 생일',type:'가족'},
- {date:'2027-03-10',title:'오문 가주 정례회 · 권가 주최',type:'업무'},
+ {date:'2027-03-10',title:'오문 춘계 가주회의 · 권가 주최',type:'업무'},
  {date:'2027-03-14',title:'아크노드 창립 4주년',type:'❤️'},
  {date:'2027-04-08',title:'민소화 생일',type:'가족'},
  {date:'2027-04-30',title:'차가 론칭 행사',type:'업무'},
@@ -202,12 +207,12 @@ export const events = [
  {date:'2027-07-19',title:'설리원 생일',type:'가족'},
  {date:'2027-07-23',title:'황보가 행사',type:'업무'},
  {date:'2027-08-03',title:'설진표 생일',type:'가족'},
- {date:'2027-09-10',title:'오문 가주 정례회 · 하반기',type:'업무'},
- {date:'2027-09-18',title:'초가을 별 보기',type:'❤️'},
- {date:'2027-10-16',title:'오문 후계자 연회',type:'업무'},
+ {date:'2027-09-10',title:'오문 추계 가주회의 · 황보가 주최',type:'업무'},
+ {date:'2027-09-25',title:'재율과 캠핑·별보기 (9월 마지막 주말)',type:'❤️'},
+ {date:'2027-10-16',title:'오문 후계자 모임 · 차가 주최',type:'업무'},
  {date:'2027-10-25',title:'후재율 생일',type:'❤️'},
  {date:'2027-11-23',title:'권태린 생일',type:'가족'},
- {date:'2027-12-04',title:'오문 공동 자선 만찬',type:'업무'}
+ {date:'2027-12-04',title:'오문 공동 자선 만찬 · 선우가 주최',type:'업무'}
 ];
 // Fictional sample correspondence and a two-week call log (2027-09-05 — 2027-09-18).
 // They convey character dynamics; these are not fixed player choices.

@@ -49,13 +49,15 @@ const GROUPS = [
     ]
   },
   {
-    id:'iheon',title:'이헌과의 관계',subtitle:'플레이 시작 시점까지의 연락과 관계 진도',
+    id:'iheon',title:'이헌과의 관계',subtitle:'플레이 시작 시점의 교류·관계와 재율의 인지 범위',
     fields:[
       {key:'iheonContact',label:'연락',example:'이헌의 연락은 대부분 무시함'},
       {key:'iheonMeeting',label:'만남',example:'황보가와의 협업으로 2주에 한 번 관계자 미팅'},
       {key:'iheonSkinship',label:'스킨십·진도',example:'술에 취한 상태에서 키스'},
       {key:'iheonEvents',label:'기억에 남는 사건',example:'파파라치에게 쫓길 때 이헌이 구해줌',long:true},
-      {key:'iheonOther',label:'기타',example:'이헌과의 관계에 관해 추가할 내용',long:true}
+      {key:'iheonOther',label:'기타',example:'이헌과의 관계에 관해 추가할 내용',long:true},
+      {key:'jaeyulAwareness',label:'재율이 유저·이헌 사이를 아는 정도',required:true,options:['개인적 접점 자체를 모름','서로 아는 사이라는 것만 앎','연락·만남까지 알고 있음','가까운 사이라고 의심 중','일부 사정을 구체적으로 앎','상당 부분 알고 있음']},
+      {key:'jaeyulKnowledgeDetail',label:'재율이 아는 사실·알게 된 경위',example:'이헌이 연락한다는 사실만 알고, 두 사람의 과거는 모름',long:true}
     ]
   }
 ];
@@ -66,6 +68,14 @@ const LOYALTY_TEXT = {
  '흔들리지 않는 사랑':'재율은 연인에게 충실하며 다른 사람에게 연애 감정으로 흔들리지 않음',
  '감정적 혼란은 가능':'재율은 기본적으로 충실하려 하지만 심각한 관계 갈등 시 다른 사람의 호의에 감정적으로 흔들릴 수 있음(실제 배신은 확정 아님)',
  '관계의 균열 가능':'재율은 기본적으로 충실하려 하지만 심각한 관계 위기 시 다른 사람에게 흔들리거나 충동적 선택을 할 수 있음(배신은 필연 아님)'
+};
+const JAEYUL_AWARENESS_TEXT = {
+ '개인적 접점 자체를 모름':'재율은 유저와 이헌의 개인적 접점 자체를 알지 못함',
+ '서로 아는 사이라는 것만 앎':'재율은 유저와 이헌이 서로 아는 사이라는 사실만 앎',
+ '연락·만남까지 알고 있음':'재율은 유저와 이헌의 연락·만남 사실까지 알지만 관계의 성격은 모름',
+ '가까운 사이라고 의심 중':'재율은 유저와 이헌이 단순한 안면 이상일 수 있다고 의심하지만 확인하지 못함',
+ '일부 사정을 구체적으로 앎':'재율은 유저와 이헌 사이의 일부 사실을 구체적으로 알고 있음',
+ '상당 부분 알고 있음':'재율은 유저와 이헌 사이의 상당 부분을 알고 있음'
 };
 const value = (v,k) => String(v[k] || '').replace(/\s+/g,' ').trim();
 const include = items => items.filter(Boolean);
@@ -116,6 +126,10 @@ export function buildPlayerSettingText(v) {
       item(v,'iheonSkinship','스킨십·진도는 '),
       item(v,'iheonEvents','기억에 남는 사건은 '),
       value(v,'iheonOther')||null
+    ]),
+    section('후재율의 유저·이헌 관련 초기 인지',[
+      JAEYUL_AWARENESS_TEXT[value(v,'jaeyulAwareness')]||null,
+      item(v,'jaeyulKnowledgeDetail','구체적으로 아는 사실·경위는 ')
     ])
   ];
   return include(groups).join(' | ');
@@ -232,7 +246,7 @@ export default function PlaySettings(){
          </label>)}
        </div>
        <div className="play-panel-foot">
-         <span>필수 5개를 작성한 뒤 설정 문구를 복사할 수 있어</span>
+         <span>필수 {REQUIRED_FIELDS.length}개를 작성한 뒤 설정 문구를 복사할 수 있어</span>
          <button type="button" onClick={()=>setTab('summary')}>문구 확인 <ChevronRight size={14}/></button>
        </div>
      </section>
