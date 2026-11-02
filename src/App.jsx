@@ -146,10 +146,7 @@ function HousesGuide({selectedHouse,onSelect,onPerson}) {
          <div><span>대표 식물</span><strong>{current.plant}</strong></div>
          <div><span>대표 동물</span><strong>{current.animal}</strong></div>
          <div><span>뿌리 지역</span><strong>{current.root}</strong></div>
-         <div className="family-wide"><span>서울 본가</span><strong>{current.residence}</strong></div>
        </div>
-       <h3 className="family-subhead">본가 저택</h3>
-       <p className="house-relationship">{current.mansion}</p>
        <div className="house-nicknames">
          <div><span>통용되는 별칭</span><strong>{current.nickname}</strong></div>
          <div><span>비꼬는 별명</span><strong>{current.teasingNickname}</strong></div>
