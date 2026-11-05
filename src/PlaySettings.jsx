@@ -8,7 +8,7 @@ const GROUPS = [
     fields: [
       {key:'job',label:'직업',required:true,example:'설가 대표 로펌 대표이사'},
       {key:'residence',label:'거주지',required:true,example:'XX동 고급 오피스텔'},
-      {key:'health',label:'건강·특이사항',example:'심한 편두통 있음'},
+      {key:'health',label:'특이사항',example:'심한 편두통 있음'},
       {key:'basicOther',label:'기타',example:'추가하고 싶은 기본 정보',long:true}
     ]
   },
@@ -51,13 +51,13 @@ const GROUPS = [
   {
     id:'iheon',title:'이헌과의 관계',subtitle:'플레이 시작 시점의 교류·관계와 재율의 인지 범위',
     fields:[
+      {key:'jaeyulAwareness',label:'재율이 유저·이헌 사이를 아는 정도',required:true,options:['개인적 접점 자체를 모름','서로 아는 사이라는 것만 앎','연락·만남까지 알고 있음','가까운 사이라고 의심 중','일부 사정을 구체적으로 앎','상당 부분 알고 있음']},
+      {key:'jaeyulKnowledgeDetail',label:'재율이 아는 사실·알게 된 경위',example:'이헌이 연락한다는 사실만 알고, 두 사람의 과거는 모름',long:true},
       {key:'iheonContact',label:'연락',example:'이헌의 연락은 대부분 무시함'},
       {key:'iheonMeeting',label:'만남',example:'황보가와의 협업으로 2주에 한 번 관계자 미팅'},
       {key:'iheonSkinship',label:'스킨십·진도',example:'술에 취한 상태에서 키스'},
       {key:'iheonEvents',label:'기억에 남는 사건',example:'파파라치에게 쫓길 때 이헌이 구해줌',long:true},
-      {key:'iheonOther',label:'기타',example:'이헌과의 관계에 관해 추가할 내용',long:true},
-      {key:'jaeyulAwareness',label:'재율이 유저·이헌 사이를 아는 정도',required:true,options:['개인적 접점 자체를 모름','서로 아는 사이라는 것만 앎','연락·만남까지 알고 있음','가까운 사이라고 의심 중','일부 사정을 구체적으로 앎','상당 부분 알고 있음']},
-      {key:'jaeyulKnowledgeDetail',label:'재율이 아는 사실·알게 된 경위',example:'이헌이 연락한다는 사실만 알고, 두 사람의 과거는 모름',long:true}
+      {key:'iheonOther',label:'기타',example:'이헌과의 관계에 관해 추가할 내용',long:true}
     ]
   }
 ];
@@ -101,7 +101,7 @@ export function buildPlayerSettingText(v) {
   const groups=[
     section('유저',[
       item(v,'job','직업은 '),item(v,'residence','거주지는 '),
-      item(v,'health','건강·특이사항은 '),value(v,'basicOther')||null
+      item(v,'health','특이사항은 '),value(v,'basicOther')||null
     ]),
     section('후재율과의 관계',[
       together,publicity,loyalty,
