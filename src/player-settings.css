@@ -211,3 +211,8 @@
 }
 
 .play-field .play-field-hint{display:block;font-size:10px;font-weight:400;color:#869185;line-height:1.6;margin-top:1px}
+
+/* Compact/expanded export switch: fit small phone screens. */
+.play-export-modes{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0 0 12px}
+.play-export-modes button{min-width:0;border:1px solid #E1E7DC;border-radius:10px;background:#F1F4EE;color:#697D6B;min-height:37px;padding:8px 5px;font-size:10px;font-weight:650;line-height:1.35}
+.play-export-modes button.active{background:#4C6751;border-color:#4C6751;color:#fff}
