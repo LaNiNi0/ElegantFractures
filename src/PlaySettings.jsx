@@ -195,10 +195,9 @@ export function buildCompactInitialRelationshipText(v){
   const iheon=[
     compactFrom(v,'iheonContact','연락'),compactFrom(v,'iheonMeeting','만남'),
     compactFrom(v,'iheonSkinship','진도'),compactFrom(v,'iheonEvents','사건'),
-    compactLine('재율의이헌관련인지',[
-      compactPart('재율의이헌관련인지',COMPACT_AWARENESS[value(v,'jaeyulAwareness')]),
-      compactFrom(v,'jaeyulKnowledgeDetail','인지경위')
-    ]).replace(/^재율의이헌관련인지: /,''),
+    [COMPACT_AWARENESS[value(v,'jaeyulAwareness')],compactFrom(v,'jaeyulKnowledgeDetail','인지경위')].filter(Boolean).length
+      ? '재율의이헌관련인지='+[COMPACT_AWARENESS[value(v,'jaeyulAwareness')],compactFrom(v,'jaeyulKnowledgeDetail','인지경위')].filter(Boolean).join('/')
+      : null,
     compactFrom(v,'iheonOther','기타')
   ].filter(Boolean);
   const lines=['#초기관계'];
