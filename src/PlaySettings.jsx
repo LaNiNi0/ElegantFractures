@@ -134,6 +134,70 @@ export function buildPlayerSettingText(v) {
   ];
   return include(groups).join(' | ');
 }
+
+// Compact, line-based AI notes. Keep every filled field, but avoid explanatory prose.
+// An unpublished relationship is not equivalent to a relationship publicly confirmed by the press.
+const compactPart=(key,text)=>text?key+'='+text:null;
+const compactFrom=(v,key,name)=>compactPart(name,value(v,key));
+const compactLine=(heading,parts)=>{
+  const valid=parts.filter(Boolean);
+  return valid.length?heading+': '+valid.join(' / '):null;
+};
+const COMPACT_LOYALTY={
+  '흔들리지 않는 사랑':'충실·타인연애감정X',
+  '감정적 혼란은 가능':'기본충실·심각한갈등시감정흔들림가능(배신확정X)',
+  '관계의 균열 가능':'기본충실·심각한위기시흔들림·충동가능(배신필연X)'
+};
+const COMPACT_AWARENESS={
+  '개인적 접점 자체를 모름':'개인적접점모름',
+  '서로 아는 사이라는 것만 앎':'서로아는사이만인지',
+  '연락·만남까지 알고 있음':'연락·만남인지(관계성격모름)',
+  '흔들림 감지':'이헌향한흔들림감지(경위모름)',
+  '일부 사건을 구체적으로 앎':'일부사건인지',
+  '상당 부분 알고 있음':'상당부분인지'
+};
+export function buildCompactPlayerSettingText(v){
+  const privacy={
+    '공개 연애':'공개',
+    '비공개 연애':'비공개(대외공인X·소문도근거필요)',
+    '가족에게만 공개':'가족에게만공개(대외공인X·소문도근거필요)'
+  }[value(v,'visibility')];
+  const cohab={'동거 중':'동거중','각자 거주':'각자거주'}[value(v,'cohab')];
+  return [
+    '[플레이어 초기설정]',
+    compactLine('유저',[
+      compactFrom(v,'job','직업'),compactFrom(v,'residence','거주'),
+      compactFrom(v,'health','특이'),compactFrom(v,'basicOther','기타')
+    ]),
+    compactLine('재율관계',[
+      compactPart('동거',cohab),compactPart('공개범위',privacy),
+      compactPart('충실',COMPACT_LOYALTY[value(v,'loyalty')]),
+      compactFrom(v,'callJaeyul','유저→재율호칭'),compactFrom(v,'callMe','재율→유저호칭')
+    ]),
+    compactLine('재율추억',[
+      compactFrom(v,'gift','선물'),compactFrom(v,'restaurant','단골식당'),
+      compactFrom(v,'travel','여행'),compactFrom(v,'food','음식'),
+      compactFrom(v,'memoriesOther','기타')
+    ]),
+    compactLine('연애습관',[
+      compactFrom(v,'comfort','위로'),compactFrom(v,'sulk','삐짐'),
+      compactFrom(v,'angry','화남'),compactFrom(v,'reconcile','화해'),
+      compactFrom(v,'contact','연락'),compactFrom(v,'date','데이트'),
+      compactFrom(v,'affection','애정표현'),compactFrom(v,'special','특별한날'),
+      compactFrom(v,'skinship','스킨십'),compactFrom(v,'intimacy','친밀관계'),
+      compactFrom(v,'habitsOther','기타')
+    ]),
+    compactLine('이헌관계(초기)',[
+      compactFrom(v,'iheonContact','연락'),compactFrom(v,'iheonMeeting','만남'),
+      compactFrom(v,'iheonSkinship','진도'),compactFrom(v,'iheonEvents','사건'),
+      compactFrom(v,'iheonOther','기타')
+    ]),
+    compactLine('재율의이헌관련인지(초기)',[
+      COMPACT_AWARENESS[value(v,'jaeyulAwareness')],
+      compactFrom(v,'jaeyulKnowledgeDetail','인지경위')
+    ])
+  ].filter(Boolean).join('\n');
+}
 function readSaved(){
   try{
     const v=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
@@ -150,11 +214,12 @@ export default function PlaySettings(){
  const [form,setForm]=useState(readSaved);
  const [tab,setTab]=useState('basic');
  const [copyMessage,setCopyMessage]=useState('');
+ const [format,setFormat]=useState('compact');
  const previewRef=useRef(null);
  const tabsRef=useRef(null);
  const dragRef=useRef(null);
  const draggedRef=useRef(false);
- const text=useMemo(()=>buildPlayerSettingText(form),[form]);
+ const text=useMemo(()=>format==='compact'?buildCompactPlayerSettingText(form):buildPlayerSettingText(form),[form,format]);
  const filled=GROUPS.reduce((n,g)=>n+countGroup(form,g),0);
  const total=GROUPS.reduce((n,g)=>n+g.fields.length,0);
  const missingRequired=REQUIRED_FIELDS.filter(f=>!value(form,f.key));
@@ -260,7 +325,11 @@ export default function PlaySettings(){
      </section>
      : <section className="play-settings-panel play-summary-panel">
        <h3>최종 플레이 설정</h3>
-       <p>입력한 내용을 줄바꿈 없이 한 줄로 정리했어. 필수 항목을 모두 채운 뒤 플레이 시작 메시지에 붙여넣어 봐</p>
+       <p>압축형은 유저노트용으로 글자 수를 줄이고, 상세형은 시작 메시지에 쓰기 좋아. 비공개 연애의 대외 인지 제한도 설정에 반영돼.</p>
+       <div className="play-export-modes" role="group" aria-label="설정 문구 형식">
+         <button type="button" className={format==='compact'?'active':''} aria-pressed={format==='compact'} onClick={()=>{setFormat('compact');setCopyMessage('')}}>압축형 · 유저노트</button>
+         <button type="button" className={format==='detailed'?'active':''} aria-pressed={format==='detailed'} onClick={()=>{setFormat('detailed');setCopyMessage('')}}>상세형 · 시작 메시지</button>
+       </div>
        {missingRequired.length>0&&<div className="play-required-summary" role="status">
          <strong>필수 항목 {missingRequired.length}개 미입력</strong>
          <span>{missingRequired.map(f=>f.label).join(' · ')}</span>
@@ -274,7 +343,7 @@ export default function PlaySettings(){
        </button>
        {copyMessage&&<p className="play-copy-message" role="status">{copyMessage}</p>}
        <div className="play-panel-foot">
-         <span>{text.length}자</span>
+         <span>{text.length}자 · {format==='compact'?'압축형':'상세형'}</span>
          <button type="button" className="play-clear" onClick={reset}><RotateCcw size={13}/> 입력 내용 초기화</button>
        </div>
      </section>}
