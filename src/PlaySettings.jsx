@@ -51,7 +51,7 @@ const GROUPS = [
   {
     id:'iheon',title:'이헌과의 관계',subtitle:'플레이 시작 시점의 교류·관계와 재율의 인지 범위',
     fields:[
-      {key:'jaeyulAwareness',label:'재율이 유저·이헌 사이를 아는 정도',required:true,options:['개인적 접점 자체를 모름','서로 아는 사이라는 것만 앎','연락·만남까지 알고 있음','가까운 사이라고 의심 중','일부 사정을 구체적으로 앎','상당 부분 알고 있음']},
+      {key:'jaeyulAwareness',label:'재율이 유저·이헌 사이를 아는 정도',required:true,options:['개인적 접점 자체를 모름','서로 아는 사이라는 것만 앎','연락·만남까지 알고 있음','흔들림 감지','일부 사건을 구체적으로 앎','상당 부분 알고 있음']},
       {key:'jaeyulKnowledgeDetail',label:'재율이 아는 사실·알게 된 경위',example:'이헌이 연락한다는 사실만 알고, 두 사람의 과거는 모름',long:true},
       {key:'iheonContact',label:'연락',example:'이헌의 연락은 대부분 무시함'},
       {key:'iheonMeeting',label:'만남',example:'황보가와의 협업으로 2주에 한 번 관계자 미팅'},
@@ -73,8 +73,8 @@ const JAEYUL_AWARENESS_TEXT = {
  '개인적 접점 자체를 모름':'재율은 유저와 이헌의 개인적 접점 자체를 알지 못함',
  '서로 아는 사이라는 것만 앎':'재율은 유저와 이헌이 서로 아는 사이라는 사실만 앎',
  '연락·만남까지 알고 있음':'재율은 유저와 이헌의 연락·만남 사실까지 알지만 관계의 성격은 모름',
- '가까운 사이라고 의심 중':'재율은 유저와 이헌이 단순한 안면 이상일 수 있다고 의심하지만 확인하지 못함',
- '일부 사정을 구체적으로 앎':'재율은 유저와 이헌 사이의 일부 사실을 구체적으로 알고 있음',
+ '흔들림 감지':'재율은 유저가 이헌에게 흔들리는 것을 눈치챘지만 구체적 경위는 모름',
+ '일부 사건을 구체적으로 앎':'재율은 유저와 이헌 사이의 일부 사건을 구체적으로 알고 있음',
  '상당 부분 알고 있음':'재율은 유저와 이헌 사이의 상당 부분을 알고 있음'
 };
 const value = (v,k) => String(v[k] || '').replace(/\s+/g,' ').trim();
@@ -135,7 +135,14 @@ export function buildPlayerSettingText(v) {
   return include(groups).join(' | ');
 }
 function readSaved(){
-  try{const v=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');return v&&typeof v==='object'&&!Array.isArray(v)?v:{}}catch{return {}}
+  try{
+    const v=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+    if(!v||typeof v!=='object'||Array.isArray(v))return {};
+    // Older saved option labels should remain usable after the wording update.
+    if(v.jaeyulAwareness==='가까운 사이라고 의심 중')v.jaeyulAwareness='흔들림 감지';
+    if(v.jaeyulAwareness==='일부 사정을 구체적으로 앎')v.jaeyulAwareness='일부 사건을 구체적으로 앎';
+    return v;
+  }catch{return {}}
 }
 const countGroup=(values,group)=>group.fields.filter(f=>value(values,f.key)).length;
 
@@ -243,6 +250,7 @@ export default function PlaySettings(){
              : <input type="text" aria-required={!!field.required} value={form[field.key]||''}
                  onChange={e=>update(field.key,e.target.value)}
                  placeholder={'예: '+field.example}/>}
+           {field.key==='jaeyulAwareness'&&<small className="play-field-hint">시작설정 《사랑의 유예》는 재율이 유저의 흔들림을 눈치챈 상태로 시작합니다. 최소 '흔들림 감지'를 선택해 주세요.</small>}
          </label>)}
        </div>
        <div className="play-panel-foot">
