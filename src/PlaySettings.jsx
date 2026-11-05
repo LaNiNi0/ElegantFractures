@@ -107,8 +107,8 @@ export function buildPlayerSettingText(v){
     ]),
     detailedSection('재율과의 관계',[
       cohab,publicity,loyalty,
-      value(v,'callJaeyul')?"유저는 재율을 '"+value(v,'callJaeyul')+"'이라 부름":null,
-      value(v,'callMe')?"재율은 유저를 '"+value(v,'callMe')+"'라고 부름":null
+      value(v,'callJaeyul')?"유저가 재율을 부르는 호칭은 '"+value(v,'callJaeyul')+"'":null,
+      value(v,'callMe')?"재율이 유저를 부르는 호칭은 '"+value(v,'callMe')+"'":null
     ]),
     detailedSection('재율과의 추억',[
       detailedItem(v,'gift','재율의 주요 선물은 '),
