@@ -134,7 +134,7 @@ export function buildPlayerSettingText(v){
     textField('재율의유저·이헌관련초기인지',JAEYUL_AWARENESS_TEXT[value(v,'jaeyulAwareness')]),
     field(v,'jaeyulKnowledgeDetail','재율이아는사실·경위')
   ]);
-  const relationship=jaeyul||iheon?['#초기관계',...include([jaeyul,iheon])].join('\n\n'):null;
+  const relationship=jaeyul||iheon?'#초기관계\n'+include([jaeyul,iheon]).join('\n\n'):null;
   return include([profile,relationship]).join('\n\n');
 }
 
