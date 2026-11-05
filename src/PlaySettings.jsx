@@ -79,60 +79,63 @@ const JAEYUL_AWARENESS_TEXT = {
 };
 const value = (v,k) => String(v[k] || '').replace(/\s+/g,' ').trim();
 const include = items => items.filter(Boolean);
-const item = (values,key,prefix) => value(values,key) ? prefix + value(values,key) : null;
-const section = (name,clauses) => {
-  const text=include(clauses);
-  if(!text.length)return null;
-  const body=text.join(' / ');
-  return '- ' + name + ': ' + body + (/[.!?。！？]$/.test(body) ? '' : '.');
+const field=(v,key,label)=>value(v,key)?'-'+label+'='+value(v,key):null;
+const textField=(label,text)=>text?'-'+label+'='+text:null;
+const group=(heading,entries)=>{
+  const lines=include(entries);
+  return lines.length?[heading,...lines].join('\n'):null;
 };
 
-// One continuous, AI-readable line. Only the section heading gets a colon;
-// empty inputs disappear, and the user's original details are preserved.
-export function buildPlayerSettingText(v) {
-  const visibility=value(v,'visibility');
-  const publicity=visibility==='공개 연애' ? '후재율과 공개 연애 중'
-    : visibility==='비공개 연애' ? '후재율과 비공개 연애 중'
-    : visibility==='가족에게만 공개' ? '후재율과의 연애는 가족에게만 공개'
-    : null;
-  const cohab=value(v,'cohab');
-  const together=cohab==='동거 중'?'후재율과 동거 중':cohab==='각자 거주'?'후재율과 각자 거주':null;
-  const loyalty=LOYALTY_TEXT[value(v,'loyalty')]||null;
-  const groups=[
-    section('유저',[
-      item(v,'job','직업은 '),item(v,'residence','거주지는 '),
-      item(v,'health','특이사항은 '),value(v,'basicOther')||null
-    ]),
-    section('후재율과의 관계',[
-      together,publicity,loyalty,
-      value(v,'callJaeyul') ? "유저는 재율을 '" + value(v,'callJaeyul') + "'이라고 부름" : null,
-      value(v,'callMe') ? "재율은 유저를 '" + value(v,'callMe') + "'이라고 부름" : null
-    ]),
-    section('후재율과의 추억',[
-      item(v,'gift','주요 선물은 '),item(v,'restaurant','단골 식당은 '),
-      item(v,'travel','자주 가는 여행지는 '),item(v,'food','자주 먹는 음식은 '),
-      value(v,'memoriesOther')||null
-    ]),
-    section('후재율과의 연애 습관',[
-      item(v,'comfort','위로할 때 '),item(v,'sulk','삐졌을 때 '),
-      item(v,'angry','화났을 때 '),item(v,'reconcile','화해할 때 '),
-      item(v,'contact','연락은 '),item(v,'date','데이트는 '),
-      item(v,'affection','애정 표현은 '),item(v,'special','특별한 날은 '),
-      item(v,'skinship','스킨십은 '),item(v,'intimacy','잠자리·친밀한 관계는 '),
-      value(v,'habitsOther')||null
-    ]),
-    section('황보이헌과의 관계 (플레이 시작 시점)',[
-      item(v,'iheonContact','연락은 '),item(v,'iheonMeeting','만남은 '),
-      item(v,'iheonSkinship','스킨십·진도는 '),
-      item(v,'iheonEvents','기억에 남는 사건은 '),
-      value(v,'iheonOther')||null
-    ]),
-    section('후재율의 유저·이헌 관련 초기 인지',[
-      JAEYUL_AWARENESS_TEXT[value(v,'jaeyulAwareness')]||null,
-      item(v,'jaeyulKnowledgeDetail','구체적으로 아는 사실·경위는 ')
-    ])
-  ];
-  return include(groups).join(' | ');
+// Detailed export: explicit headings and one fact per line, as in the main prompt.
+// The personal profile and initial relationships remain distinct; empty fields disappear.
+export function buildPlayerSettingText(v){
+  const visibility={
+    '공개 연애':'공개 연애',
+    '비공개 연애':'비공개 연애(대외공인X·소문도 합리적 근거 필요)',
+    '가족에게만 공개':'가족에게만 공개(대외공인X·소문도 합리적 근거 필요)'
+  }[value(v,'visibility')];
+  const loyalty=LOYALTY_TEXT[value(v,'loyalty')];
+  const names=[
+    value(v,'callJaeyul')?'유저→재율='+value(v,'callJaeyul'):null,
+    value(v,'callMe')?'재율→유저='+value(v,'callMe'):null
+  ].filter(Boolean);
+  const profile=group('#유저프로필',[
+    field(v,'job','직업'),field(v,'residence','거주지'),
+    field(v,'health','특이사항'),field(v,'basicOther','기타')
+  ]);
+  const jaeyul=group('##재율',[
+    field(v,'cohab','동거'),
+    textField('연애공개',visibility),
+    textField('충실함',loyalty),
+    textField('호칭',names.join('/')),
+    field(v,'gift','주요선물'),
+    field(v,'restaurant','단골식당'),
+    field(v,'travel','자주가는여행지'),
+    field(v,'food','자주먹는음식'),
+    field(v,'memoriesOther','추억·기타'),
+    field(v,'comfort','위로'),
+    field(v,'sulk','삐졌을때'),
+    field(v,'angry','화났을때'),
+    field(v,'reconcile','화해'),
+    field(v,'contact','연락습관'),
+    field(v,'date','데이트습관'),
+    field(v,'affection','애정표현'),
+    field(v,'special','특별한날'),
+    field(v,'skinship','스킨십'),
+    field(v,'intimacy','잠자리·친밀관계'),
+    field(v,'habitsOther','연애습관·기타')
+  ]);
+  const iheon=group('##이헌',[
+    field(v,'iheonContact','연락'),
+    field(v,'iheonMeeting','만남'),
+    field(v,'iheonSkinship','스킨십·진도'),
+    field(v,'iheonEvents','기억에남는사건'),
+    field(v,'iheonOther','기타'),
+    textField('재율의유저·이헌관련초기인지',JAEYUL_AWARENESS_TEXT[value(v,'jaeyulAwareness')]),
+    field(v,'jaeyulKnowledgeDetail','재율이아는사실·경위')
+  ]);
+  const relationship=jaeyul||iheon?['#초기관계',...include([jaeyul,iheon])].join('\n\n'):null;
+  return include([profile,relationship]).join('\n\n');
 }
 
 // Compact notes: copy the user's own profile separately from initial relationships.
