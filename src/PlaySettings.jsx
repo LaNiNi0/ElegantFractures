@@ -135,13 +135,13 @@ export function buildPlayerSettingText(v) {
   return include(groups).join(' | ');
 }
 
-// Compact, line-based AI notes. Keep every filled field, but avoid explanatory prose.
-// An unpublished relationship is not equivalent to a relationship publicly confirmed by the press.
+// Compact notes: copy the user's own profile separately from initial relationships.
+// Only include populated inputs; preserve the user's free text and selection meanings.
 const compactPart=(key,text)=>text?key+'='+text:null;
 const compactFrom=(v,key,name)=>compactPart(name,value(v,key));
 const compactLine=(heading,parts)=>{
   const valid=parts.filter(Boolean);
-  return valid.length?heading+': '+valid.join(' / '):null;
+  return valid.length?heading+': '+valid.join('/'):null;
 };
 const COMPACT_LOYALTY={
   '흔들리지 않는 사랑':'충실·타인연애감정X',
@@ -156,26 +156,30 @@ const COMPACT_AWARENESS={
   '일부 사건을 구체적으로 앎':'일부사건인지',
   '상당 부분 알고 있음':'상당부분인지'
 };
-export function buildCompactPlayerSettingText(v){
+export function buildCompactPlayerProfileText(v){
+  const lines=[
+    compactFrom(v,'job','직업'),compactFrom(v,'residence','거주지'),
+    compactFrom(v,'health','특이사항'),compactFrom(v,'basicOther','기타')
+  ].filter(Boolean);
+  return lines.length?['#유저프로필',...lines.map(x=>'-'+x)].join('\n'):'';
+}
+export function buildCompactInitialRelationshipText(v){
   const privacy={
     '공개 연애':'공개',
     '비공개 연애':'비공개(대외공인X·소문도근거필요)',
     '가족에게만 공개':'가족에게만공개(대외공인X·소문도근거필요)'
   }[value(v,'visibility')];
   const cohab={'동거 중':'동거중','각자 거주':'각자거주'}[value(v,'cohab')];
-  return [
-    '[플레이어 초기설정]',
-    compactLine('유저',[
-      compactFrom(v,'job','직업'),compactFrom(v,'residence','거주'),
-      compactFrom(v,'health','특이'),compactFrom(v,'basicOther','기타')
+  const re=[
+    compactPart('동거',cohab),
+    compactPart('공개범위',privacy),
+    compactPart('충실',COMPACT_LOYALTY[value(v,'loyalty')]),
+    compactLine('호칭',[
+      compactFrom(v,'callJaeyul','유저→재율'),
+      compactFrom(v,'callMe','재율→유저')
     ]),
-    compactLine('재율관계',[
-      compactPart('동거',cohab),compactPart('공개범위',privacy),
-      compactPart('충실',COMPACT_LOYALTY[value(v,'loyalty')]),
-      compactFrom(v,'callJaeyul','유저→재율호칭'),compactFrom(v,'callMe','재율→유저호칭')
-    ]),
-    compactLine('재율추억',[
-      compactFrom(v,'gift','선물'),compactFrom(v,'restaurant','단골식당'),
+    compactLine('추억',[
+      compactFrom(v,'gift','재율선물'),compactFrom(v,'restaurant','단골식당'),
       compactFrom(v,'travel','여행'),compactFrom(v,'food','음식'),
       compactFrom(v,'memoriesOther','기타')
     ]),
@@ -186,17 +190,25 @@ export function buildCompactPlayerSettingText(v){
       compactFrom(v,'affection','애정표현'),compactFrom(v,'special','특별한날'),
       compactFrom(v,'skinship','스킨십'),compactFrom(v,'intimacy','친밀관계'),
       compactFrom(v,'habitsOther','기타')
-    ]),
-    compactLine('이헌관계(초기)',[
-      compactFrom(v,'iheonContact','연락'),compactFrom(v,'iheonMeeting','만남'),
-      compactFrom(v,'iheonSkinship','진도'),compactFrom(v,'iheonEvents','사건'),
-      compactFrom(v,'iheonOther','기타')
-    ]),
-    compactLine('재율의이헌관련인지(초기)',[
+    ])
+  ].filter(Boolean);
+  const iheon=[
+    compactFrom(v,'iheonContact','연락'),compactFrom(v,'iheonMeeting','만남'),
+    compactFrom(v,'iheonSkinship','진도'),compactFrom(v,'iheonEvents','사건'),
+    compactFrom(v,'iheonOther','기타'),
+    compactLine('재율의이헌관련인지',[
       COMPACT_AWARENESS[value(v,'jaeyulAwareness')],
       compactFrom(v,'jaeyulKnowledgeDetail','인지경위')
     ])
-  ].filter(Boolean).join('\n');
+  ].filter(Boolean);
+  const lines=['#초기관계'];
+  if(re.length)lines.push('##재율',...re.map(x=>'-'+x));
+  if(iheon.length)lines.push('', '##이헌',...iheon.map(x=>'-'+x));
+  return re.length||iheon.length?lines.join('\n'):'';
+}
+// Backward-compatible combined export helper.
+export function buildCompactPlayerSettingText(v){
+  return [buildCompactPlayerProfileText(v),buildCompactInitialRelationshipText(v)].filter(Boolean).join('\n\n');
 }
 function readSaved(){
   try{
@@ -216,14 +228,20 @@ export default function PlaySettings(){
  const [copyMessage,setCopyMessage]=useState('');
  const [format,setFormat]=useState('compact');
  const previewRef=useRef(null);
+ const profilePreviewRef=useRef(null);
+ const relationPreviewRef=useRef(null);
  const tabsRef=useRef(null);
  const dragRef=useRef(null);
  const draggedRef=useRef(false);
- const text=useMemo(()=>format==='compact'?buildCompactPlayerSettingText(form):buildPlayerSettingText(form),[form,format]);
+ const profileText=useMemo(()=>buildCompactPlayerProfileText(form),[form]);
+ const relationshipText=useMemo(()=>buildCompactInitialRelationshipText(form),[form]);
+ const detailedText=useMemo(()=>buildPlayerSettingText(form),[form]);
  const filled=GROUPS.reduce((n,g)=>n+countGroup(form,g),0);
  const total=GROUPS.reduce((n,g)=>n+g.fields.length,0);
  const missingRequired=REQUIRED_FIELDS.filter(f=>!value(form,f.key));
  const requiredComplete=REQUIRED_FIELDS.length-missingRequired.length;
+ const missingProfile=missingRequired.filter(f=>f.group==='basic');
+ const missingRelationship=missingRequired.filter(f=>f.group!=='basic');
  useEffect(()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(form))}catch{}},[form]);
  const current=GROUPS.find(g=>g.id===tab);
  function update(key,input){setForm(old=>({...old,[key]:input}));setCopyMessage('')}
@@ -258,15 +276,15 @@ export default function PlaySettings(){
    e.preventDefault();
    e.stopPropagation();
  }
- async function copy(){
-   if(!text||missingRequired.length)return;
+ async function copy(content,ref,target){
+   if(!content)return;
    try{
      if(!navigator.clipboard?.writeText)throw new Error('Clipboard API unavailable');
-     await navigator.clipboard.writeText(text);
-     setCopyMessage('설정 문구가 복사됐어');
+     await navigator.clipboard.writeText(content);
+     setCopyMessage(target+':복사 완료');
    }catch{
-     previewRef.current?.focus();previewRef.current?.select();
-     setCopyMessage('복사할 문구가 선택됐어. 직접 복사해 줘');
+     ref.current?.focus();ref.current?.select();
+     setCopyMessage(target+':문구가 선택됐어. 직접 복사해 줘');
    }
  }
  function reset(){
@@ -325,9 +343,9 @@ export default function PlaySettings(){
      </section>
      : <section className="play-settings-panel play-summary-panel">
        <h3>최종 플레이 설정</h3>
-       <p>압축형은 유저노트용으로 글자 수를 줄이고, 상세형은 시작 메시지에 쓰기 좋아. 비공개 연애의 대외 인지 제한도 설정에 반영돼.</p>
+       <p>유저 프로필과 초기 관계를 각각 복사해 필요한 설정란에 붙여넣을 수 있어. 상세형도 선택할 수 있어.</p>
        <div className="play-export-modes" role="group" aria-label="설정 문구 형식">
-         <button type="button" className={format==='compact'?'active':''} aria-pressed={format==='compact'} onClick={()=>{setFormat('compact');setCopyMessage('')}}>압축형 · 유저노트</button>
+         <button type="button" className={format==='compact'?'active':''} aria-pressed={format==='compact'} onClick={()=>{setFormat('compact');setCopyMessage('')}}>분리형 · 압축 설정</button>
          <button type="button" className={format==='detailed'?'active':''} aria-pressed={format==='detailed'} onClick={()=>{setFormat('detailed');setCopyMessage('')}}>상세형 · 시작 메시지</button>
        </div>
        {missingRequired.length>0&&<div className="play-required-summary" role="status">
@@ -335,15 +353,47 @@ export default function PlaySettings(){
          <span>{missingRequired.map(f=>f.label).join(' · ')}</span>
          <button type="button" onClick={()=>setTab(missingRequired[0].group)}>필수 항목 작성하기 <ChevronRight size={14}/></button>
        </div>}
-       <textarea ref={previewRef} className="play-export-preview" readOnly spellCheck={false}
-         value={text} placeholder="설정을 작성하면 여기에 자동으로 정리돼" rows={Math.max(7,Math.min(18,text.split('\n').length+5))}/>
-       <button type="button" className="play-copy-button" disabled={!text||missingRequired.length>0} onClick={copy}>
-         {copyMessage.startsWith('설정 문구가')?<Check size={17}/>:<ClipboardCopy size={17}/>}
-         {copyMessage.startsWith('설정 문구가')?'복사 완료':'설정 문구 복사'}
-       </button>
-       {copyMessage&&<p className="play-copy-message" role="status">{copyMessage}</p>}
+       {format==='compact' ? <div className="play-compact-exports">
+         <div className="play-export-section">
+           <div className="play-export-section-head">
+             <strong>유저 프로필</strong><span>{profileText.length}자</span>
+           </div>
+           <p>직업·거주지·특이사항 등 유저 개인 설정</p>
+           <textarea ref={profilePreviewRef} className="play-export-preview" readOnly spellCheck={false}
+             value={profileText} placeholder="기본 정보를 입력하면 여기에 정리돼" rows={Math.max(4,Math.min(10,profileText.split('\n').length+2))}/>
+           <button type="button" className="play-copy-button" disabled={!profileText||missingProfile.length>0}
+             onClick={()=>copy(profileText,profilePreviewRef,'profile')}>
+             {copyMessage==='profile:복사 완료'?<Check size={17}/>:<ClipboardCopy size={17}/>}
+             {copyMessage==='profile:복사 완료'?'복사 완료':'유저 프로필 복사'}
+           </button>
+           {copyMessage.startsWith('profile:')&&<p className="play-copy-message">{copyMessage.split(':').slice(1).join(':')}</p>}
+         </div>
+         <div className="play-export-section">
+           <div className="play-export-section-head">
+             <strong>초기 관계</strong><span>{relationshipText.length}자</span>
+           </div>
+           <p>재율·이헌과의 초기 관계와 인지 범위</p>
+           <textarea ref={relationPreviewRef} className="play-export-preview" readOnly spellCheck={false}
+             value={relationshipText} placeholder="관계 설정을 입력하면 여기에 정리돼" rows={Math.max(8,Math.min(20,relationshipText.split('\n').length+2))}/>
+           <button type="button" className="play-copy-button" disabled={!relationshipText||missingRelationship.length>0}
+             onClick={()=>copy(relationshipText,relationPreviewRef,'relationship')}>
+             {copyMessage==='relationship:복사 완료'?<Check size={17}/>:<ClipboardCopy size={17}/>}
+             {copyMessage==='relationship:복사 완료'?'복사 완료':'초기 관계 복사'}
+           </button>
+           {copyMessage.startsWith('relationship:')&&<p className="play-copy-message">{copyMessage.split(':').slice(1).join(':')}</p>}
+         </div>
+       </div> : <>
+         <textarea ref={previewRef} className="play-export-preview" readOnly spellCheck={false}
+           value={detailedText} placeholder="설정을 작성하면 여기에 자동으로 정리돼" rows={Math.max(7,Math.min(18,detailedText.split('\n').length+5))}/>
+         <button type="button" className="play-copy-button" disabled={!detailedText||missingRequired.length>0}
+           onClick={()=>copy(detailedText,previewRef,'detailed')}>
+           {copyMessage==='detailed:복사 완료'?<Check size={17}/>:<ClipboardCopy size={17}/>}
+           {copyMessage==='detailed:복사 완료'?'복사 완료':'상세 설정 복사'}
+         </button>
+         {copyMessage.startsWith('detailed:')&&<p className="play-copy-message">{copyMessage.split(':').slice(1).join(':')}</p>}
+       </>}
        <div className="play-panel-foot">
-         <span>{text.length}자 · {format==='compact'?'압축형':'상세형'}</span>
+         <span>{format==='compact'?'프로필 '+profileText.length+'자 · 관계 '+relationshipText.length+'자':'상세 '+detailedText.length+'자'}</span>
          <button type="button" className="play-clear" onClick={reset}><RotateCcw size={13}/> 입력 내용 초기화</button>
        </div>
      </section>}
