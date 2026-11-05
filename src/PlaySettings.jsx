@@ -8,7 +8,7 @@ const GROUPS = [
     fields: [
       {key:'job',label:'직업',required:true,example:'설가 대표 로펌 대표이사'},
       {key:'residence',label:'거주지',required:true,example:'XX동 고급 오피스텔'},
-      {key:'health',label:'특이사항',example:'심한 편두통 있음'},
+      {key:'health',label:'특이사항',example:'왼손잡이, 특별한 습관 등'},
       {key:'basicOther',label:'기타',example:'추가하고 싶은 기본 정보',long:true}
     ]
   },
