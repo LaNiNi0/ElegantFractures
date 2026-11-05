@@ -5,6 +5,7 @@ import './styles.css';
 import './theme-seol.css';
 import './photos.css';
 import './player-settings.css';
+import './shortcut-guide.css';
 import './news.css';
 import './calendar.css';
 import './map.css';
