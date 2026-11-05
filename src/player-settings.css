@@ -209,3 +209,5 @@
  }
  .play-settings-tab-shell .play-settings-tabs::-webkit-scrollbar{display:none}
 }
+
+.play-field .play-field-hint{display:block;font-size:10px;font-weight:400;color:#869185;line-height:1.6;margin-top:1px}
