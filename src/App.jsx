@@ -4,6 +4,7 @@ import { people, houses, omunAnnualEvents, notes, events, conversations, calls, 
 import { newsArticles } from './data/news';
 import { NewsArchive, NewsArticle } from './NewsArchive.jsx';
 import PlaySettings from './PlaySettings.jsx';
+import ShortcutGuide from './ShortcutGuide.jsx';
 import { useSeoulNightwave, NIGHTWAVE_SOURCE } from './useSeoulNightwave.js';
 import MapApp from './MapApp.jsx';
 import ContactProfile from './ContactProfile.jsx';
@@ -19,7 +20,8 @@ const apps = [
  {id:'calendar',title:'캘린더',icon:CalendarDays,color:'#C5AF80'},
  {id:'notes',title:'메모',icon:NotebookPen,color:'#F0E5CC'},
  {id:'settings',title:'설정',icon:Settings,color:'#8B9184'},
- {id:'map',title:'지도',icon:MapPinned,color:'#8EAA9A'}
+ {id:'map',title:'지도',icon:MapPinned,color:'#8EAA9A'},
+ {id:'shortcuts',title:'단축어',icon:BookOpen,color:'#B4BDA4'}
 ];
 const formatKorean = (d) => new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'long'}).format(d);
 const pageTitle = (id) => apps.find(x=>x.id===id)?.title || '홈';
@@ -429,6 +431,7 @@ function App() {
  if(route==='gallery')return <PhotosGallery photos={galleryPhotos} activeIndex={photosView} onSelect={setPhotosView} onClose={()=>setPhotosView(null)}/>;
  if(route==='settings')return <PlaySettings/>;
  if(route==='map')return <MapApp/>;
+ if(route==='shortcuts')return <ShortcutGuide/>;
  return null;
  };
  return <div className="site-shell"><div className="ambient ambient-left"/><div className="ambient ambient-right"/>
@@ -471,7 +474,7 @@ function App() {
         </div>
       </div> : <>
         {route!=='home'&&<div className="app-toolbar"><button className="back-btn" onClick={back} aria-label="뒤로 가기"><ArrowLeft size={18}/></button><span>{picked?.name||picked?.title||folder||pageTitle(route)}</span><button className="toolbar-home" onClick={home} aria-label="홈으로"><Home size={17}/></button></div>}
-        <div ref={chatScrollRef} className={'screen '+(route==='home'?'screen-home':'screen-app')+(['contacts','calls','settings','messages','calendar','notes','map'].includes(route)||(route==='gallery'&&photosView===null)?' screen-contained':'')} key={route}>{content()}</div>
+        <div ref={chatScrollRef} className={'screen '+(route==='home'?'screen-home':'screen-app')+(['contacts','calls','settings','messages','calendar','notes','map','shortcuts'].includes(route)||(route==='gallery'&&photosView===null)?' screen-contained':'')} key={route}>{content()}</div>
         <div className="home-indicator"><button onClick={home} aria-label="홈 화면으로 돌아가기"><span/></button></div>
       </>}
      <button className="phone-side-button" onClick={lock} aria-label="화면 잠그기" title="화면 잠그기"/>
