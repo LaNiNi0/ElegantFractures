@@ -1,0 +1,31 @@
+.shortcuts-app{padding-bottom:35px;color:#394939}
+.shortcuts-app h2{margin-top:4px}
+.shortcuts-app h3{font-size:13px;margin:21px 0 10px;color:#405747}
+.shortcut-lead{font-size:12px;line-height:1.85;color:#738373;margin:8px 0 18px}
+.shortcut-filters{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin:15px -21px 15px;padding:2px 21px 8px}
+.shortcut-filters::-webkit-scrollbar{display:none}
+.shortcut-filters button{border-radius:99px;padding:8px 11px;white-space:nowrap;font-size:11px;color:#617462;background:#ECF0E8;border:1px solid #E1E7DD;font-weight:600}
+.shortcut-filters button.active{background:#536E58;color:#fff;border-color:#536E58}
+.shortcut-list{display:flex;flex-direction:column;gap:8px}
+.shortcut-entry{display:flex;align-items:center;gap:12px;width:100%;padding:12px 11px;text-align:left;border-radius:14px;border:1px solid #E4E9E1;background:#fff;color:#445646;box-shadow:0 4px 14px rgba(67,84,65,.035)}
+.shortcut-icon{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:40px;height:40px;border-radius:12px;background:#EDF2EA;color:#5E8066}
+.shortcut-entry-text{min-width:0;display:flex;flex:1;flex-direction:column;gap:3px}
+.shortcut-entry-text strong{font-size:13px;color:#344E3A}
+.shortcut-entry-text small{font-size:10.5px;line-height:1.55;color:#809181}
+.shortcut-chevron{flex-shrink:0;color:#99AA9D}
+.shortcut-footer-note{font-size:10.5px;color:#8C9B8D;line-height:1.7;margin:15px 2px}
+.shortcut-return{display:inline-flex;align-items:center;gap:6px;margin:3px 0 17px;padding:6px 0;background:transparent;color:#56735B;font-weight:600;font-size:11px}
+.shortcut-detail-head{display:flex;align-items:center;gap:12px}
+.shortcut-detail-head .shortcut-icon{width:48px;height:48px}
+.shortcut-detail-head h2{margin:0}
+.shortcut-detail-head .section-kicker{margin:0 0 2px}
+.shortcut-usage-list{display:flex;flex-direction:column;gap:9px}
+.shortcut-usage{background:#F5F7F2;border:1px solid #E7ECE3;padding:12px;border-radius:12px}
+.shortcut-usage code{display:block;font:600 12px/1.6 'DM Sans','Noto Sans KR',sans-serif;color:#48634E;overflow-wrap:anywhere}
+.shortcut-usage p{font-size:11px;color:#7B8B7C;margin:5px 0 0;line-height:1.7}
+.shortcut-notes{background:#fff;border:1px solid #E7EAE3;border-radius:13px;padding:6px 13px}
+.shortcut-notes p{position:relative;padding-left:12px;margin:8px 0;font-size:11px;line-height:1.75;color:#708071}
+.shortcut-notes p:before{content:'·';position:absolute;left:0;color:#66896A;font-weight:bold}
+.shortcut-preview{padding:15px;border:1px dashed #CFDACD;border-radius:13px;background:#F7F9F5}
+.shortcut-preview strong{font-size:12px;color:#67816A}
+.shortcut-preview p{font-size:11px;line-height:1.7;color:#899989;margin:8px 0 0}
