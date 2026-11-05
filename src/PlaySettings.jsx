@@ -171,7 +171,7 @@ export function buildCompactInitialRelationshipText(v){
   }[value(v,'visibility')];
   const cohab={'동거 중':'동거중','각자 거주':'각자거주'}[value(v,'cohab')];
   const re=[
-    compactPart('동거',cohab),
+    cohab?'동거: '+cohab:null,
     compactPart('공개범위',privacy),
     compactPart('충실',COMPACT_LOYALTY[value(v,'loyalty')]),
     compactLine('호칭',[
@@ -195,11 +195,11 @@ export function buildCompactInitialRelationshipText(v){
   const iheon=[
     compactFrom(v,'iheonContact','연락'),compactFrom(v,'iheonMeeting','만남'),
     compactFrom(v,'iheonSkinship','진도'),compactFrom(v,'iheonEvents','사건'),
-    compactFrom(v,'iheonOther','기타'),
     compactLine('재율의이헌관련인지',[
-      COMPACT_AWARENESS[value(v,'jaeyulAwareness')],
+      compactPart('재율의이헌관련인지',COMPACT_AWARENESS[value(v,'jaeyulAwareness')]),
       compactFrom(v,'jaeyulKnowledgeDetail','인지경위')
-    ])
+    ]).replace(/^재율의이헌관련인지: /,''),
+    compactFrom(v,'iheonOther','기타')
   ].filter(Boolean);
   const lines=['#초기관계'];
   if(re.length)lines.push('##재율',...re.map(x=>'-'+x));
