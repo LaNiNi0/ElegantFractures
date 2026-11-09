@@ -26,6 +26,9 @@ const apps = [
 const formatKorean = (d) => new Intl.DateTimeFormat('ko-KR',{month:'long',day:'numeric',weekday:'long'}).format(d);
 const pageTitle = (id) => apps.find(x=>x.id===id)?.title || '홈';
 const imageRoot = '/ElegantFractures/images/';
+// The build SHA changes whenever GitHub Pages is redeployed, refreshing same-name image replacements.
+const assetVersion = import.meta.env.VITE_ASSET_VERSION;
+const imageUrl = (file) => imageRoot + encodeURIComponent(file) + (assetVersion ? '?v=' + assetVersion.slice(0,12) : '');
 const portraits = {
  jaeyul: 'Jaeyoul_profile.jpg',
  iheon: 'Ehun_profile.png',
@@ -39,7 +42,7 @@ const portraits = {
  seogyeong: 'Seogyeong_pofile.jpg',
  seon: 'Seon_profile.jpg',
 };
-const portraitOf = id => portraits[id] ? imageRoot + portraits[id] : null;
+const portraitOf = id => portraits[id] ? imageUrl(portraits[id]) : null;
 function Avatar({name,id,large=false}) {
  const portrait=portraitOf(id);
  return <span className={'avatar '+(large?'avatar-large':'')+(portrait?' avatar-photo':'')} aria-label={name+' 프로필'}>
@@ -64,14 +67,14 @@ function PhotosGallery({photos,activeIndex,onSelect,onClose}) {
       onTouchStart={e=>{touchX.current=e.touches[0].clientX}}
       onTouchEnd={e=>{if(touchX.current===null)return;const dx=e.changedTouches[0].clientX-touchX.current;touchX.current=null;if(dx>48)move(-1);else if(dx< -48)move(1)}}
     >
-      <img key={photo.id} src={imageRoot+encodeURIComponent(photo.file)} alt={photo.title} decoding="async"/>
+      <img key={photo.id} src={imageUrl(photo.file)} alt={photo.title} decoding="async"/>
       <button className="ios-photo-nav ios-photo-prev" onClick={()=>move(-1)} disabled={activeIndex===0} aria-label="이전 사진"><ArrowLeft size={22}/></button>
       <button className="ios-photo-nav ios-photo-next" onClick={()=>move(1)} disabled={activeIndex===photos.length-1} aria-label="다음 사진"><ChevronRight size={22}/></button>
     </div>
     <div className="ios-photo-filmstrip" aria-label="사진 미리보기">
       {photos.map((p,i)=><button key={p.id} className={'ios-film-thumb'+(i===activeIndex?' selected':'')}
          onClick={()=>onSelect(i)} aria-label={p.title} aria-pressed={i===activeIndex}>
-          <img src={imageRoot+encodeURIComponent(p.file)} alt="" loading="lazy" decoding="async"/>
+          <img src={imageUrl(p.file)} alt="" loading="lazy" decoding="async"/>
         </button>)}
     </div>
   </div>;
@@ -80,7 +83,7 @@ function PhotosGallery({photos,activeIndex,onSelect,onClose}) {
    <div className="ios-gallery-heading"><span className="ios-gallery-overline">보관함</span><h2>사진</h2><span className="ios-gallery-count">{photos.length}장의 사진</span></div>
    <div className="ios-photos-grid">
      {photos.map((p,i)=><button className="ios-photo-tile" key={p.id} onClick={()=>onSelect(i)} aria-label={p.title}>
-       <img src={imageRoot+encodeURIComponent(p.file)} alt="" loading="lazy" decoding="async"/>
+       <img src={imageUrl(p.file)} alt="" loading="lazy" decoding="async"/>
      </button>)}
    </div>
    <div className="ios-gallery-footer"><span>전체 사진</span><span>{photos.length}장</span></div>
@@ -106,7 +109,7 @@ function HousesGuide({selectedHouse,onSelect,onPerson}) {
    ? <div className="houses-overview">
        <h3>다섯 가문</h3>
        {houses.map(h=><button key={h.id} className="house-overview-row" onClick={()=>onSelect(h.id)}>
-         <span className="house-overview-art"><img src={imageRoot+encodeURIComponent(h.banner)} alt={h.name+' 문장 배너'} loading="lazy" decoding="async"/></span>
+         <span className="house-overview-art"><img src={imageUrl(h.banner)} alt={h.name+' 문장 배너'} loading="lazy" decoding="async"/></span>
          <span className="house-overview-label"><strong>{h.name} <small>{h.en}</small></strong><span>{h.domains.join(' · ')}</span></span>
          <ChevronRight size={17}/>
        </button>)}
@@ -137,7 +140,7 @@ function HousesGuide({selectedHouse,onSelect,onPerson}) {
        </section>
      </div>
    : <div className="house-profile" key={current.id}>
-       <div className="house-banner"><img src={imageRoot+encodeURIComponent(current.banner)} alt={current.name+' 문장과 대표 상징 배너'} loading="lazy" decoding="async"/></div>
+       <div className="house-banner"><img src={imageUrl(current.banner)} alt={current.name+' 문장과 대표 상징 배너'} loading="lazy" decoding="async"/></div>
        <header className="house-profile-header" style={{'--house-tint':current.tint}}>
          <span className="house-profile-roman">{current.en} · {current.color}</span>
          <div className="house-profile-heading"><span className="house-crest house-crest-large">{current.name.charAt(0)}</span><div><h3>{current.name} <small>{current.hanja}</small></h3><p>{current.domains.join(' · ')}</p></div></div>
@@ -293,7 +296,7 @@ function App() {
          <ChevronRight size={17}/>
        </button>)}
      </div>
-   </>:picked?<><div className="section-kicker">{notesFolders.find(x=>x.name===picked.folder)?.emoji} {picked.folder} · {picked.date}</div><h2>{picked.title}</h2><div className="note-sheet">{picked.body.split('\n').map((line,i)=><p key={i}>{line||'\u00a0'}</p>)}{picked.image&&<figure className="note-memory-photo"><img src={imageRoot+encodeURIComponent(picked.image)} alt={picked.imageAlt||picked.title+' 관련 이미지'} loading="lazy" decoding="async"/></figure>}</div></>:
+   </>:picked?<><div className="section-kicker">{notesFolders.find(x=>x.name===picked.folder)?.emoji} {picked.folder} · {picked.date}</div><h2>{picked.title}</h2><div className="note-sheet">{picked.body.split('\n').map((line,i)=><p key={i}>{line||'\u00a0'}</p>)}{picked.image&&<figure className="note-memory-photo"><img src={imageUrl(picked.image)} alt={picked.imageAlt||picked.title+' 관련 이미지'} loading="lazy" decoding="async"/></figure>}</div></>:
    <><div className="section-kicker">NOTES / {folder}</div><h2>{notesFolders.find(x=>x.name===folder)?.emoji} {folder}</h2><div className="search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="메모 검색" aria-label="메모 검색"/></div><div className="records">{visible(notes).filter(n=>n.folder===folder&&matched(n.title+' '+n.body)).map(n=><button className="record" key={n.id} onClick={()=>openNote(n)}><div><strong>{n.title}</strong><small>{n.date}</small></div><ChevronRight size={16}/></button>)}</div></>}
  </div>;
  if(route==='contacts') return <div className="app-content">
@@ -345,7 +348,7 @@ function App() {
                 </button>
               : m.image
                 ? <img className="message-attached-image"
-                    src={imageRoot+encodeURIComponent(m.image)}
+                    src={imageUrl(m.image)}
                     alt={m.alt||'대화에서 받은 사진'}
                     loading="lazy" decoding="async"/>
                 : m.text}
