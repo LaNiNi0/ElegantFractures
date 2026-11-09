@@ -29,15 +29,15 @@ const imageRoot = '/ElegantFractures/images/';
 const portraits = {
  jaeyul: 'Jaeyoul_profile.jpg',
  iheon: 'Ehun_profile.png',
- jinpyo: 'Jinpyo_profile.png',
- taerin: 'Taelin_profile.png',
- sohwa: 'Sohwa_profile.png',
+ jinpyo: 'Jinpyo_profile.jpg',
+ taerin: 'Taelin_profile.jpg',
+ sohwa: 'Sohwa_profile.jpg',
  jiwan: 'Jiwan_profile.png',
  riwon: 'Leewon_profile.jpg',
- ijeong: 'Ejeong_profile.png',
- dokmin: 'Dockmin_profile.png',
- seogyeong: 'Seogyeong_pofile.png',
- seon: 'Seon_profile.png',
+ ijeong: 'Ejeong_profile.jpg',
+ dokmin: 'Dockmin_profile.jpg',
+ seogyeong: 'Seogyeong_pofile.jpg',
+ seon: 'Seon_profile.jpg',
 };
 const portraitOf = id => portraits[id] ? imageRoot + portraits[id] : null;
 function Avatar({name,id,large=false}) {
