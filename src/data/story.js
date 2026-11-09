@@ -738,6 +738,11 @@ export const galleryPhotos = [
     "file": "재율_셀피5.jpg"
   },
   {
+    "id": "photo-14",
+    "title": "재율_눈사람",
+    "file": "재율_눈사람.jpeg"
+  },
+  {
     "id": "photo-6",
     "title": "재율_일하는중",
     "file": "재율_일하는중.jpg"
@@ -778,11 +783,6 @@ export const galleryPhotos = [
     "file": "재율_셀피4.jpg"
   },
   {
-    "id": "photo-14",
-    "title": "재율_눈사람",
-    "file": "재율_눈사람.jpeg"
-  },
-  {
     "id": "photo-15",
     "title": "이헌_미행1",
     "file": "이헌_미행1.png"
@@ -806,5 +806,10 @@ export const galleryPhotos = [
     "id": "photo-19",
     "title": "이헌_후계자",
     "file": "이헌_후계자.png"
+  },
+  {
+    "id": "photo-20",
+    "title": "Ehun_rain",
+    "file": "Ehun_rain.PNG"
   }
 ];
