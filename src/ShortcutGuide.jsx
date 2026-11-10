@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, BookOpenText, ChevronRight, Clock3, Eye, Heart, MessageCircle, Newspaper, RefreshCw, Smartphone, Sparkles, Users, Zap } from 'lucide-react';
+import { ArrowLeft, BookOpenText, ChevronRight, Clock3, Eye, Heart, History, MessageCircle, Newspaper, RefreshCw, Smartphone, Sparkles, Users, Zap } from 'lucide-react';
 
 // Player-facing guide only. Command execution takes place in the Crack story platform.
 const COMMANDS = [
@@ -50,6 +50,14 @@ const COMMANDS = [
     detail:'인물 또는 사건·장소 같은 키워드를 지정할 수 있어요. NPC는 현재까지의 관계, 목적, 정보 범위를 바탕으로 독립적으로 행동합니다.',
     cautions:['막간에서 발생한 사건은 실제 서사에 남습니다.','플레이어가 본 장면을 극중 유저가 자동으로 알지는 못해요.','이후 일반 진행은 원래의 유저 시점으로 돌아옵니다.'],
     output:'해당 키워드에 맞는 NPC 중심 장면'
+  },
+  {
+    id:'memories', name:'/그때', category:'장면 연출', icon:History,
+    short:'후재율과 함께한 10년의 연애 기억을 떠올려요.',
+    usages:[['/그때','두 사람의 과거 연애사에서 에피소드 하나를 펼쳐 봅니다.'],['/그때 첫눈','첫눈에 얽힌 두 사람의 기억을 봅니다.'],['/그때 다툼','서로 서운하거나 다퉜던 날의 기억을 봅니다.'],['/그때 2020년 겨울','특정 시기의 에피소드를 요청합니다.']],
+    detail:'키워드로 시기·감정·장소·사건을 지정할 수 있어요. 2017년 2월 11일 첫 만남 이후부터 현재까지, 당시의 날짜·시간·장소와 재율의 말·행동이 담긴 과거 장면 한 편을 보여줘요.',
+    cautions:['기존에 확정된 사건·관계 단계·인물 성격을 지키며, 유저의 대사·내면·중요 선택을 함부로 정하지 않아요.','생성된 에피소드는 실제 있었던 과거사로 취급되어 이후 회상과 서사에 반영될 수 있어요.','과거를 회상할 뿐 현재 시점의 시간이나 행동·사건을 강제로 진행하지 않아요.'],
+    output:'「📖 그때, 우리 | 제목」과 날짜·시간·장소, 당시 상황·행동·대사 중심의 회상 장면 1건'
   },
   {
     id:'event', name:'/사건', category:'장면 연출', icon:Zap,
