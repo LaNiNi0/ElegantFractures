@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Building2, ChevronRight, House, MapPin, RotateCcw } from 'lucide-react';
+import { Building2, ChevronRight, House, Image as ImageIcon, MapPin, RotateCcw } from 'lucide-react';
 import { houses } from './data/story';
 import { mapCategories, storyLocations } from './data/map-locations';
 
@@ -27,6 +27,7 @@ function loadLeaflet() {
 }
 
 const categories = {house:'오대명가 본가',home:'개인 주거지',work:'회사 · 업무지'};
+const placeImageUrl = filename => `${import.meta.env.BASE_URL}images/${encodeURIComponent(filename)}`;
 const groupColors = {home:'#527F69',work:'#427E95'};
 function colorFor(place) {
   return place.houseId ? houses.find(h=>h.id===place.houseId)?.tint || '#A68D52' : groupColors[place.type];
@@ -39,6 +40,7 @@ export default function MapApp() {
   const [selectedId,setSelectedId] = useState(null);
   const [status,setStatus] = useState('loading');
   const [retry,setRetry] = useState(0);
+  const [failedImages,setFailedImages] = useState(()=>new Set());
   const mapElement = useRef(null);
   const mapRef = useRef(null);
   const leafletRef = useRef(null);
@@ -144,6 +146,15 @@ export default function MapApp() {
       <span className="ef-map-selected-type">{categories[selected.type]}</span>
       <h3>{selected.name}</h3>
       <div className="ef-map-selected-area"><MapPin size={14}/>{selected.region} · {selected.area}</div>
+      {selected.image && !failedImages.has(selected.image) && <img
+        className="ef-map-selected-image"
+        key={selected.id}
+        src={placeImageUrl(selected.image)}
+        alt={`${selected.name} 장소 이미지`}
+        loading="lazy"
+        decoding="async"
+        onError={()=>setFailedImages(previous=>new Set([...previous,selected.image]))}
+      />}
       <strong>{selected.subtitle}</strong>
       <p>{selected.description}</p>
     </section>}
@@ -155,7 +166,7 @@ export default function MapApp() {
     <div className="ef-map-place-list">
       {visible.map(place=><button className={'ef-map-place'+(selectedId===place.id?' selected':'')} type="button" aria-pressed={selectedId===place.id} key={place.id} onClick={()=>setSelectedId(place.id)}>
         <span className="ef-map-place-icon" style={{'--place-color':colorFor(place)}}><LocationSymbol type={place.type}/></span>
-        <span className="ef-map-place-text"><strong>{place.name}</strong><small>{place.area} · {place.subtitle}</small></span>
+        <span className="ef-map-place-text"><strong>{place.name}{place.image&&<ImageIcon className="ef-map-photo-indicator" size={13} aria-label="장소 이미지 있음"/>}</strong><small>{place.area} · {place.subtitle}</small></span>
         <ChevronRight size={16}/>
       </button>)}
     </div>
