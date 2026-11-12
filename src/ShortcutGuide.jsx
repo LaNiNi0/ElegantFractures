@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ShortcutExample from './ShortcutExamples.jsx';
 import { ArrowLeft, BookOpenText, ChevronRight, Clock3, Eye, Heart, History, MessageCircle, Newspaper, RefreshCw, Smartphone, Sparkles, Users, Zap } from 'lucide-react';
 
 // Player-facing guide only. Command execution takes place in the Crack story platform.
@@ -48,15 +49,15 @@ const COMMANDS = [
     short:"유저가 없는 NPC 장면을 펼침.",
     usages:[["/막간","직전 흐름과 연결된 NPC 장면을 확인함."],["/막간 재율","재율을 중심으로 한 장면을 확인함."],["/막간 황보가","황보가와 관련된 장면을 요청함."]],
     detail:"인물·사건·장소 등의 키워드로 유저가 등장하지 않는 장면을 요청함. NPC는 현재까지의 관계·목적·정보 인지 범위에 따라 독립적으로 행동함.",
-    cautions:["막간에서 발생한 사건은 실제 서사에 반영됨.","플레이어가 본 장면을 극중 유저가 자동으로 알지는 못함.","막간 종료 후 일반 진행은 기존 유저 시점으로 돌아감."],
+    cautions:["막간에서 발생한 사건은 실제 서사에 반영됨.","플레이어가 본 장면을 극중 유저가 자동으로 알지는 못함.","막간 종료 후 일반 진행은 기존 유저 시점으로 돌아감.","이어서 보려면 직전 명령어와 동일한 키워드를 바로 다시 입력함. 예: /막간 재율 → /막간 재율."],
     output:'해당 키워드에 맞는 NPC 중심 장면'
   },
   {
     id:'memories', name:'/그때', category:'장면 연출', icon:History,
     short:"재율과의 10년 연애 기억을 회상함.",
-    usages:[["/그때","두 사람의 과거 연애 에피소드 하나를 회상함."],["/그때 첫눈","첫눈에 얽힌 두 사람의 기억을 회상함."],["/그때 다툼","서운함이나 다툼이 있었던 날을 회상함."],["/그때 2020년 겨울","특정 시기의 에피소드를 요청함."]],
+    usages:[["/그때","두 사람의 과거 연애 에피소드 하나를 회상함."],["/그때 첫눈","첫눈에 얽힌 두 사람의 기억을 회상함."],["/그때 화해","화해에 얽힌 과거 연애 에피소드를 회상함."],["/그때 2020년 겨울","특정 시기의 에피소드를 요청함."]],
     detail:"시기·감정·장소·사건 등을 키워드로 지정함. 2017년 2월 11일 첫 만남부터 현재까지, 당시 날짜·시간·장소와 재율의 말·행동을 담은 과거 장면 한 편을 보여줌.",
-    cautions:["확정된 사건·관계 단계·인물 성격을 지키며, 유저의 대사·내면·중요한 선택을 임의로 정하지 않음.","생성된 에피소드는 실제 과거사로 취급되며 이후 회상과 서사에 반영될 수 있음.","과거를 회상할 뿐 현재 시점의 시간·행동·사건을 강제로 진행하지 않음."],
+    cautions:["확정된 사건·관계 단계·인물 성격을 지키며, 유저의 대사·내면·중요한 선택을 임의로 정하지 않음.","생성된 에피소드는 실제 과거사로 취급되며 이후 회상과 서사에 반영될 수 있음.","과거를 회상할 뿐 현재 시점의 시간·행동·사건을 강제로 진행하지 않음.","이어서 보려면 직전 명령어와 동일한 키워드를 바로 다시 입력함. 예: /그때 화해 → /그때 화해."],
     output:'「📖 그때, 우리 | 제목」과 날짜·시간·장소, 당시 상황·행동·대사 중심의 회상 장면 1건'
   },
   {
@@ -78,7 +79,7 @@ const COMMANDS = [
   {
     id:'thoughts', name:'/속마음', category:'메타 감상', icon:MessageCircle,
     short:"NPC의 드러나지 않은 속마음을 확인함.",
-    usages:[["/속마음","현재 장면에 적합한 NPC의 속마음을 확인함."],["/속마음 재율","재율의 속마음을 확인함."],["/속마음 재율, 이헌","두 사람의 속마음을 각각 확인함."]],
+    usages:[["/속마음","현재 장면에 적합한 NPC의 속마음을 확인함."],["/속마음 재율","재율의 속마음을 확인함."],["/속마음 이헌","이헌의 속마음을 확인함."],["/속마음 재율 이헌","두 사람의 속마음을 각각 확인함."]],
     detail:"한 명 또는 여러 명의 인물을 지정해 현재 감정과 관계에 따른 생각을 인용문 형태로 확인함.",
     cautions:["유저의 속마음을 대신 생성하지 않음.","플레이어를 위한 정보이며 극중 유저가 직접 들은 대사로 처리하지 않음."],
     output:'인물별 인용문 형태의 속마음'
@@ -86,7 +87,7 @@ const COMMANDS = [
   {
     id:'perception', name:'/인식', category:'메타 감상', icon:Eye,
     short:"NPC가 유저를 보는 시각을 확인함.",
-    usages:[["/인식 재율","재율이 유저를 바라보는 인식·감정·생각을 확인함."],["/인식 이헌, 지완","두 인물의 시각을 각각 비교함."]],
+    usages:[["/인식 재율","재율이 유저를 바라보는 인식·감정·생각을 확인함."],["/인식 재율 이헌","재율과 이헌의 인식·감정·속마음을 각각 확인함."]],
     detail:"현재까지의 사건과 신뢰·호감·경계·관계 의향 등을 인물마다 다른 관점에서 정리함.",
     cautions:["명령어 사용만으로 관계 상태가 바뀌지는 않음.","미공개 사건이나 배후의 비밀을 확정된 정답처럼 폭로하지 않음."],
     output:'인물별 인식·감정·속마음 요약'
@@ -127,10 +128,14 @@ export default function ShortcutGuide(){
       </div>
       {!['check','skip','event','serendipity'].includes(current.id) && <>
         <h3>출력 예시</h3>
-        <div className="shortcut-preview shortcut-preview-muted">
-          <strong>플레이 예시 준비 중</strong>
-          <p>예상 형식: {current.output}</p>
-        </div>
+        {['phone','perception','reactions','thoughts','memories'].includes(current.id) ? (
+          <ShortcutExample id={current.id} />
+        ) : (
+          <div className="shortcut-preview shortcut-preview-muted">
+            <strong>플레이 예시 준비 중</strong>
+            <p>예상 형식: {current.output}</p>
+          </div>
+        )}
       </>}
     </> : <>
       <div className="section-kicker">PLAYER GUIDE · ELEGANT FRACTURES</div>
