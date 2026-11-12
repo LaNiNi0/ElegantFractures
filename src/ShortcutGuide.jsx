@@ -126,7 +126,7 @@ export default function ShortcutGuide(){
       <div className="shortcut-notes">
         {current.cautions.map(note=><p key={note}>{note}</p>)}
       </div>
-      {!['check','skip','event','serendipity'].includes(current.id) && <>
+      {!['check','skip','event','serendipity','summary'].includes(current.id) && <>
         <h3>출력 예시</h3>
         {['phone','perception','reactions','thoughts','memories','rumor','interlude'].includes(current.id) ? (
           <ShortcutExample id={current.id} />
