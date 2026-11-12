@@ -94,7 +94,7 @@ function ThoughtsExample() {
     </blockquote>
     <blockquote className="shortcut-example-quote">
       <h4>💬 황보이헌의 속마음</h4>
-      <p>문자고 전화고 며칠 내내 씹어대더니, 남들 눈 피해 구석에서 이러고 풀려 있네. 이러니 내가 안 돌아버려? 입으로는 저리 가라면서 그날 내 손길에 숨도 못 쉬고 떨던 거, 내가 다 기억하는데. 오늘도 그냥 곱게 보내줄 생각 추호도 없으니까 각오해, 설라니. 😏🔥</p>
+      <p>문자고 전화고 며칠 내내 씹어대더니, 남들 눈 피해 구석에서 이러고 풀려 있네. 이러니 내가 안 돌아버려? 입으로는 저리 가라면서 그날 내 손길에 숨도 못 쉬고 떨던 거, 내가 다 기억하는데. 오늘도 그냥 곱게 보내줄 생각 추호도 없으니까 각오해, 설OO. 😏🔥</p>
     </blockquote>
   </div>;
 }
@@ -128,12 +128,82 @@ function MemoryExample() {
   </article>;
 }
 
+
+function ExternalExampleImage({ url, alt }) {
+  const [failed, setFailed] = React.useState(false);
+  return <figure className="shortcut-example-external-image">
+    {failed
+      ? <a href={url} target="_blank" rel="noreferrer">이미지를 불러오지 못함 · 원본 이미지 열기</a>
+      : <img src={url} alt={alt} loading="lazy" decoding="async" onError={() => setFailed(true)} />}
+  </figure>;
+}
+
+function RumorExample() {
+  return <div className="shortcut-example-rumor">
+    <section className="shortcut-example-paper shortcut-example-rumor-item">
+      <div className="shortcut-example-source">대한경제포커스 | 2027.09.22</div>
+      <h4>설가 후계자 설OO 이사, 황보홀딩스 합작 프로젝트 진두지휘… '법조·금융 시너지' 주목</h4>
+      <p>법무법인 설로의 설OO 이사가 황보홀딩스와의 대규모 전략적 제휴 및 투자 법률 자문을 직접 챙기며 차기 후계자로서의 입지를 굳히고 있다. 오늘 오전 진행된 임원 회의에서도 일부 내부 우려를 불식시키며 사업 추진력을 입증했다는 평가다. 재계에서는 오는 23일 여의도에서 열릴 양사 실무 총괄 회의에 이목을 집중하고 있다.</p>
+    </section>
+    <section className="shortcut-example-paper shortcut-example-rumor-item">
+      <div className="shortcut-example-source">블라인드 - 재계/법조계 라운지 | 2027.09.22</div>
+      <h4>오늘 오전 설로 임원회의 분위기 살벌했다며?ㅋㅋㅋㅋ</h4>
+      <p>본문: 설지완 전무가 OO 이사님 담당하는 황보홀딩스 건 물고 늘어졌다가 논리로 개털렸다는 소문 돌던데 사실임? 지완 전무 회의실 나오면서 표정 썩어있었다던데ㅋㅋㅋ</p>
+      <div className="shortcut-example-rumor-comments">
+        <strong>댓글</strong>
+        <p>• [법무법인설로] 어제 회식 있어서 이사님 컨디션도 안 좋아 보였는데 브리핑은 칼같았음ㄷㄷ</p>
+        <p>• [설가자산운용] 우리 전무님 오후 내내 집무실에서 서류 집어던지고 난리 남... 밑에 직원들만 죽어나는 중ㅠㅠ</p>
+        <p>• [황보홀딩스] 헐 내일 오후에 우리 전략투자실장님이랑 회의 잡혀있던데, 황보이헌 실장도 성깔 만만치 않아서 내일 기싸움 볼만하겠네.</p>
+        <p>• [익명] 솔직히 능력만 보면 설진표 회장이 왜 장남 제치고 설OO 후계자로 앉혔는지 알겠음.</p>
+      </div>
+    </section>
+    <section className="shortcut-example-paper shortcut-example-rumor-item">
+      <div className="shortcut-example-source">회랑레터 (사교계 프라이빗 소식지) | 2027.09.22</div>
+      <h4>[풍문] 성북동 안주인의 서늘한 침묵, 그리고 장녀의 생일</h4>
+      <p>9월 22일 오늘, 설가의 차기 후계자 설OO 이사의 생일임에도 성북동 본가는 기이할 정도로 조용하다는 후문. 권태린 여사는 오늘 오전 선우가 주최 다도 모임에 참석해 여느 때처럼 우아한 미소를 보였으나, 누군가 장녀의 생일 축하 인사를 건네자 찻잔을 내려놓으며 싸늘하게 화제를 돌렸다고. 반면 막내딸 설리원 이사의 SNS에는 명품 언박싱 사진만 올라와, 모녀간의 미묘한 기류가 다시금 도마 위에 오르고 있다.</p>
+    </section>
+  </div>;
+}
+
+function InterludeExample() {
+  return <article className="shortcut-example-paper shortcut-example-story shortcut-example-interlude">
+    <div className="shortcut-example-scene-header">[ 014 | 🗓️ 09.18.2027 (토) 23:45 | 🌧️ | 📍 청담동 프라이빗 라운지 바 · 스위트 룸 ]</div>
+    <p className="shortcut-example-state">황보이헌: 😒🥃 | 셔츠 단추 풀림 | 무료함과 짜증</p>
+    <p className="shortcut-example-sfx"><strong>달그락.</strong></p>
+    <p className="shortcut-example-narration">크리스탈 글라스 안에서 둥근 얼음이 부딪히며 맑은 소리를 낸다. 어둑한 조명 아래, 가죽 소파에 길게 다리를 꼬고 앉은 이헌이 위스키 잔을 느릿하게 기울인다.</p>
+    <p className="shortcut-example-narration">그의 옆자리에 앉은 여자가 붉은 입술로 샴페인 잔을 내려놓으며, 이헌의 단단한 허벅지 위로 손끝을 슬쩍 올린다. 오늘 저녁 사교 모임 뒤풀이에서 자연스레 합석한, 차가 쪽 엔터테인먼트 소속의 신인 배우다. 이헌이 손짓 한 번 하자마자 기다렸다는 듯 이 프라이빗 룸까지 따라 들어온 참이었다.</p>
+    <p className="shortcut-example-dialogue"><b>여자</b> | “실장님, 아까부터 계속 휴대폰만 보시네요. 누구 기다리는 사람이라도 있어요?”</p>
+    <p className="shortcut-example-narration">여자가 교태 섞인 목소리로 속삭이며 그의 풀어헤친 셔츠 가슴팍으로 몸을 밀착시킨다. 짙고 달콤한 플로럴 향수 냄새가 훅 끼친다.</p>
+    <p className="shortcut-example-narration">테이블 위, 이헌의 휴대폰 화면은 한참 전부터 까맣게 꺼져 있다. 두 시간 전 식당 앞에서 헤어진 뒤로 던져둔 메시지에는 여전히 답장이 없다. 읽음 표시조차 뜨지 않는 채팅창.</p>
+    <ExternalExampleImage url="https://wrtn-image-ai-character.static.wrtn.ai/situations/images/6ade90524bbeb7fec6b22c67/6af25cbb463b25a4c6dca4a4" alt="황보이헌 · 짜증남" />
+    <p className="shortcut-example-narration">이헌이 눈을 질끈 감았다가 뜬다. 삐딱하게 고개를 기울인 그가, 제 가슴팍을 매만지는 여자의 손목을 턱 잡는다. 그리 세지 않은 악력이었지만 여자의 어깨가 순간 움츠러든다.</p>
+    <p className="shortcut-example-dialogue"><b>황보이헌</b> | “향수 뭐 쓰냐.”</p>
+    <p className="shortcut-example-dialogue"><b>여자</b> | “네? 아, 이거 요즘 유행하는 건데… 실장님, 이 향 별로예요?”</p>
+    <p className="shortcut-example-narration">여자가 눈을 동그랗게 뜨며 그의 눈치를 살핀다. 이헌은 대답 대신 입꼬리만 비스듬히 올려 웃는다. 길고 올라간 눈매에는 웃음기가 전혀 없다.</p>
+    <ExternalExampleImage url="https://wrtn-image-ai-character.static.wrtn.ai/situations/images/6ade90524bbeb7fec6b22c67/6af25cbb463b25a4c6dca4a7" alt="황보이헌 · 비웃음" />
+    <p className="shortcut-example-dialogue"><b>황보이헌</b> | “어. 머리 아파.”</p>
+    <p className="shortcut-example-narration">그가 잡았던 여자의 손목을 툭 놓아버리더니, 남은 위스키를 한 입에 털어 넣는다. 식도를 타고 내려가는 알코올의 열기에도 속이 영 개운하지 않다. 취중에 입을 맞추고 제 손길에 파르르 떨던 어떤 여자의 서늘한 눈매와, 방금 전 식당 앞에서 매몰차게 차 문을 닫고 떠나던 뒷모습이 자꾸만 겹쳐 떠올라 신경을 긁는다.</p>
+    <p className="shortcut-example-narration">이헌이 테이블 위의 담배 갑을 집어 들어 한 개비를 입에 문다.</p>
+    <p className="shortcut-example-sfx"><strong>칙—</strong></p>
+    <p className="shortcut-example-narration">라이터 불꽃이 일렁이며 그의 날카로운 콧대와 눈썹 위의 옅은 흉터를 스친다. 짙은 연기를 길게 내뿜은 그가 자리에서 훌쩍 일어난다. 바닥에 놓여 있던 재킷을 집어 든 그가 여자에게 시선도 주지 않은 채 턱짓한다.</p>
+    <ExternalExampleImage url="https://wrtn-image-ai-character.static.wrtn.ai/situations/images/6ade90524bbeb7fec6b22c67/6af25cfd0eafe4f7fd110e43" alt="황보이헌 · 흡연중" />
+    <p className="shortcut-example-dialogue"><b>황보이헌</b> | “그만 가라. 대리는 밑에 불러놨으니까.”</p>
+    <p className="shortcut-example-dialogue"><b>여자</b> | “네…? 아니, 실장님. 저 오늘 스케줄도 다 비웠는데…”</p>
+    <p className="shortcut-example-narration">당황한 여자가 황급히 따라 일어나 그의 소매를 잡으려 하지만, 이헌은 이미 성큼성큼 걸어 방문 손잡이를 잡은 뒤다. 뒤돌아보지도 않고 문을 여는 그의 목소리는 더없이 건조하고 나른하다.</p>
+    <p className="shortcut-example-dialogue"><b>황보이헌</b> | “내가 갑자기 좀 피곤해져서. 계산은 다 끝났으니까 더 마시고 가든가.”</p>
+    <p className="shortcut-example-sfx"><strong>철컥, 쾅.</strong></p>
+    <p className="shortcut-example-narration">미련 없이 닫힌 문 너머로 짙은 블랙티 향과 담배 연기만이 희미하게 남는다.</p>
+  </article>;
+}
+
 const EXAMPLE_COMPONENTS = {
   perception:PerceptionExample,
   phone:PhoneExample,
   reactions:ReactionsExample,
   thoughts:ThoughtsExample,
   memories:MemoryExample,
+  rumor:RumorExample,
+  interlude:InterludeExample,
 };
 
 export default function ShortcutExample({ id }) {
